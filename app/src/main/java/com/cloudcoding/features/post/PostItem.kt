@@ -10,4 +10,6 @@ class PostItem(v: View) : RecyclerView.ViewHolder(v) {
     val name: TextView = v.name
     val username: TextView = v.username
     val profilePicture: ImageView = v.profile_picture
+    val likeCount: TextView = v.like_count
+    val like: ImageView = v.like
 }
