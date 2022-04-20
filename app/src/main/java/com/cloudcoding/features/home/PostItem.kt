@@ -1,4 +1,4 @@
-package com.cloudcoding.features.post
+package com.cloudcoding.features.home
 
 import android.view.View
 import android.widget.ImageView

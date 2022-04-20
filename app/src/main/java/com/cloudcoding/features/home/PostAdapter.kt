@@ -1,4 +1,4 @@
-package com.cloudcoding.features.post
+package com.cloudcoding.features.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -22,7 +22,8 @@ class PostAdapter : RecyclerView.Adapter<PostItem>() {
             .centerCrop()
             .apply(RequestOptions.bitmapTransform(CircleCrop()))
             .placeholder(R.drawable.ic_user)
-            .into(cell.profilePicture)    }
+            .into(cell.profilePicture)
+    }
 
     override fun getItemCount(): Int {
         return 10

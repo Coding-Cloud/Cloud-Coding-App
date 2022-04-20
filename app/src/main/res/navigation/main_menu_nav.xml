@@ -2,10 +2,22 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_menu_nav"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/projectsFragment">
 
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.cloudcoding.features.home.HomeFragment"
         android:label="HomeFragment" />
+    <fragment
+        android:id="@+id/projectsFragment"
+        android:name="com.cloudcoding.features.projects.ProjectsFragment"
+        android:label="ProjectsFragment">
+        <action
+            android:id="@+id/action_projectsFragment_to_projectDetailsFragment"
+            app:destination="@id/projectDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/projectDetailsFragment"
+        android:name="com.cloudcoding.features.projects.details.ProjectDetailsFragment"
+        android:label="ProjectDetailsFragment" />
 </navigation>
