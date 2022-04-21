@@ -20,4 +20,8 @@
         android:id="@+id/projectDetailsFragment"
         android:name="com.cloudcoding.features.projects.details.ProjectDetailsFragment"
         android:label="ProjectDetailsFragment" />
+    <fragment
+        android:id="@+id/nav_item_conversations"
+        android:name="com.cloudcoding.features.conversations.ConversationsFragment"
+        android:label="ConversationsFragment" />
 </navigation>
