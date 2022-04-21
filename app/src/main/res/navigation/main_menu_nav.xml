@@ -5,7 +5,7 @@
     app:startDestination="@id/projectsFragment">
 
     <fragment
-        android:id="@+id/homeFragment"
+        android:id="@+id/home"
         android:name="com.cloudcoding.features.home.HomeFragment"
         android:label="HomeFragment" />
     <fragment
