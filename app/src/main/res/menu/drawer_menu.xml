@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group>
-        <item android:id="@+id/nav_item_one"
-            android:title="Item 1" />
-        <item android:id="@+id/nav_item_two"
-            android:title="Item 2" />
-        <item android:id="@+id/nav_item_three"
-            android:title="Item 3" />
+        <item android:id="@+id/nav_item_profile"
+            android:title="@string/profile" />
+        <item android:id="@+id/nav_item_friends"
+            android:title="@string/friends" />
+        <item android:id="@+id/nav_item_groups"
+            android:title="@string/groups" />
+        <item android:id="@+id/nav_item_projects"
+            android:title="@string/projects" />
     </group>
 
     <group android:id="@+id/group_menu">
         <item android:id="@+id/nav_item_four"
-            android:title="Item 4" />
+            android:title="@string/settings" />
         <item android:id="@+id/nav_item_five"
-            android:title="Item 5" />
+            android:title="@string/about" />
     </group>
 </menu>

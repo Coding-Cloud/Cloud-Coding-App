@@ -2,14 +2,14 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_menu_nav"
-    app:startDestination="@id/projectsFragment">
+    app:startDestination="@id/nav_item_home">
 
     <fragment
-        android:id="@+id/home"
+        android:id="@+id/nav_item_home"
         android:name="com.cloudcoding.features.home.HomeFragment"
         android:label="HomeFragment" />
     <fragment
-        android:id="@+id/projectsFragment"
+        android:id="@+id/nav_item_projects"
         android:name="com.cloudcoding.features.projects.ProjectsFragment"
         android:label="ProjectsFragment">
         <action

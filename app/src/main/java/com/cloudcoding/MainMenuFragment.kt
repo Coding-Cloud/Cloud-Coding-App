@@ -2,14 +2,19 @@ package com.cloudcoding
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupWithNavController
 import kotlinx.android.synthetic.main.main_menu_nav_host.*
 
 class MainMenuFragment : Fragment() {
+    private lateinit var mDrawerToggle: ActionBarDrawerToggle
     override fun onCreateView(
         inflater: LayoutInflater,
         parent: ViewGroup?,
@@ -19,8 +24,24 @@ class MainMenuFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        mDrawerToggle = ActionBarDrawerToggle(
+            this.activity,
+            drawer_layout,
+            toolbar as Toolbar,
+            R.string.open_drawer,
+            R.string.close_drawer
+        )
+        drawer_layout.addDrawerListener(mDrawerToggle)
         val navHost =
             childFragmentManager.findFragmentById(R.id.main_menu_nav_host) as NavHostFragment
+        nav.setupWithNavController(navHost.navController)
         NavigationUI.setupWithNavController(main_menu_bottom_nav, navHost.navController)
+        mDrawerToggle.syncState()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return if (mDrawerToggle.onOptionsItemSelected(item)) {
+            true
+        } else super.onOptionsItemSelected(item)
     }
 }
