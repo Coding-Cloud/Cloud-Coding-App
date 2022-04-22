@@ -2,6 +2,8 @@ package com.cloudcoding.features.conversations
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.findFragment
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
@@ -17,6 +19,11 @@ class ConversationAdapter : RecyclerView.Adapter<ConversationItem>() {
     }
 
     override fun onBindViewHolder(cell: ConversationItem, position: Int) {
+        cell.itemView.setOnClickListener{
+            cell.itemView
+                .findNavController()
+                .navigate(R.id.action_nav_item_conversations_to_conversationFragment)
+        }
         Glide.with(cell.profilePicture.context)
             .load("")
             .centerCrop()

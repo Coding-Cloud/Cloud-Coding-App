@@ -23,5 +23,15 @@
     <fragment
         android:id="@+id/nav_item_conversations"
         android:name="com.cloudcoding.features.conversations.ConversationsFragment"
-        android:label="ConversationsFragment" />
+        android:label="ConversationsFragment" >
+        <action
+            android:id="@+id/action_nav_item_conversations_to_conversationFragment"
+            app:destination="@id/conversationFragment"
+            app:popUpTo="@+id/conversationFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/conversationFragment"
+        android:name="com.cloudcoding.features.conversations.conversation.ConversationFragment"
+        android:label="ConversationFragment" />
 </navigation>
