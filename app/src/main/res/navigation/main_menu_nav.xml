@@ -34,4 +34,16 @@
         android:id="@+id/conversationFragment"
         android:name="com.cloudcoding.features.conversations.conversation.ConversationFragment"
         android:label="ConversationFragment" />
+    <fragment
+        android:id="@+id/nav_item_groups"
+        android:name="com.cloudcoding.features.groups.GroupsFragment"
+        android:label="GroupsFragment" >
+        <action
+            android:id="@+id/action_groupsFragment_to_groupDetailsFragment"
+            app:destination="@id/groupDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/groupDetailsFragment"
+        android:name="com.cloudcoding.features.groups.group.GroupDetailsFragment"
+        android:label="GroupDetailsFragment" />
 </navigation>
