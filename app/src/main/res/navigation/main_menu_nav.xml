@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/nav_item_home"
-        android:name="com.cloudcoding.features.home.HomeFragment"
+        android:name="com.cloudcoding.features.home.PostsFragment"
         android:label="HomeFragment" />
     <fragment
         android:id="@+id/nav_item_projects"
