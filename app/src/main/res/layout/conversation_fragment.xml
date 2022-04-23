@@ -9,28 +9,39 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/message_text" />
-
+        app:layout_constraintBottom_toTopOf="@id/separator" />
+    <View
+        android:id="@+id/separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="5dp"
+        android:background="@android:color/system_neutral1_300"
+        app:layout_constraintBottom_toTopOf="@+id/message_text"/>
     <EditText
         android:id="@+id/message_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
+        android:background="@drawable/rounded_edit_text"
+        android:backgroundTint="@android:color/system_neutral1_200"
         android:hint="Write a message"
         android:importantForAutofill="no"
         android:inputType="text"
         android:maxLines="6"
+        android:padding="5dip"
+        android:layout_margin="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/send"/>
+        app:layout_constraintEnd_toStartOf="@id/send"/>
     <ImageButton
         android:id="@+id/send"
         android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_height="20dp"
         android:scaleType="fitCenter"
         android:clickable="true"
+        android:background="@android:color/transparent"
         android:src="@drawable/ic_send"
         app:layout_constraintTop_toTopOf="@id/message_text"
         app:layout_constraintBottom_toBottomOf="@id/message_text"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="?attr/colorPrimary" />
 </androidx.constraintlayout.widget.ConstraintLayout>
