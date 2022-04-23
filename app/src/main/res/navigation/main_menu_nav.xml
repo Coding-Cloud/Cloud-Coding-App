@@ -23,12 +23,12 @@
     <fragment
         android:id="@+id/nav_item_conversations"
         android:name="com.cloudcoding.features.conversations.ConversationsFragment"
-        android:label="ConversationsFragment" >
+        android:label="ConversationsFragment">
         <action
             android:id="@+id/action_nav_item_conversations_to_conversationFragment"
             app:destination="@id/conversationFragment"
             app:popUpTo="@+id/conversationFragment"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/conversationFragment"
@@ -37,7 +37,7 @@
     <fragment
         android:id="@+id/nav_item_groups"
         android:name="com.cloudcoding.features.groups.GroupsFragment"
-        android:label="GroupsFragment" >
+        android:label="GroupsFragment">
         <action
             android:id="@+id/action_groupsFragment_to_groupDetailsFragment"
             app:destination="@id/groupDetailsFragment" />

@@ -18,7 +18,7 @@ class PostAdapter : RecyclerView.Adapter<PostItem>() {
 
     override fun onBindViewHolder(cell: PostItem, position: Int) {
         Glide.with(cell.profilePicture.context)
-            .load("")
+            .load("https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg")
             .centerCrop()
             .apply(RequestOptions.bitmapTransform(CircleCrop()))
             .placeholder(R.drawable.ic_user)

@@ -2,12 +2,8 @@ package com.cloudcoding.features.groups
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.fragment.app.findFragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CircleCrop
-import com.bumptech.glide.request.RequestOptions
 import com.cloudcoding.R
 import com.cloudcoding.features.projects.ProjectItem
 

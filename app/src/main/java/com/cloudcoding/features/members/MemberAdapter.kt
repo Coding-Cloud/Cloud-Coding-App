@@ -18,7 +18,7 @@ class MemberAdapter : RecyclerView.Adapter<MemberItem>() {
 
     override fun onBindViewHolder(cell: MemberItem, position: Int) {
         Glide.with(cell.profilePicture.context)
-            .load("")
+            .load("https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg")
             .centerCrop()
             .apply(RequestOptions.bitmapTransform(CircleCrop()))
             .placeholder(R.drawable.ic_user)

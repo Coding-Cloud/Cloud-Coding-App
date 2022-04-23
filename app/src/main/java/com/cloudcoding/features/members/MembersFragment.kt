@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cloudcoding.R
-import kotlinx.android.synthetic.main.home_fragment.*
 import kotlinx.android.synthetic.main.members_fragment.*
 
 class MembersFragment : Fragment() {

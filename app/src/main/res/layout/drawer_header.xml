@@ -9,7 +9,6 @@
         android:id="@+id/profile_picture"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/ic_user"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -17,19 +16,20 @@
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Firstname Lastname"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:text="Firstname Lastname"
         app:layout_constraintBottom_toBottomOf="@id/username"
         app:layout_constraintStart_toStartOf="@id/profile_picture"
         app:layout_constraintTop_toBottomOf="@id/profile_picture" />
+
     <TextView
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="\@username"
         android:textColor="#919191"
         android:textSize="14sp"
-        android:text="\@username"
         app:layout_constraintStart_toStartOf="@id/name"
         app:layout_constraintTop_toBottomOf="@id/name" />
 
@@ -37,19 +37,20 @@
         android:id="@+id/followers_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="20"
         android:textSize="14sp"
         android:textStyle="bold"
-        android:text="20"
         app:layout_constraintStart_toStartOf="@id/username"
         app:layout_constraintTop_toBottomOf="@id/username" />
+
     <TextView
         android:id="@+id/followers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#919191"
         android:layout_marginStart="2dp"
-        android:textSize="14sp"
         android:text="Followers"
+        android:textColor="#919191"
+        android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@id/followers_count"
         app:layout_constraintTop_toTopOf="@id/followers_count" />
 
@@ -58,29 +59,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingHorizontal="2dp"
+        android:text="@string/string_separator"
         android:textSize="14sp"
         android:textStyle="bold"
-        android:text="@string/string_separator"
         app:layout_constraintStart_toEndOf="@id/followers"
-        app:layout_constraintTop_toTopOf="@id/followers"/>
+        app:layout_constraintTop_toTopOf="@id/followers" />
 
     <TextView
         android:id="@+id/followings_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="20"
         android:textSize="14sp"
         android:textStyle="bold"
-        android:text="20"
         app:layout_constraintStart_toEndOf="@id/string_separator"
         app:layout_constraintTop_toTopOf="@id/string_separator" />
+
     <TextView
         android:id="@+id/followings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#919191"
-        android:textSize="14sp"
         android:layout_marginStart="2dp"
         android:text="Followers"
+        android:textColor="#919191"
+        android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@id/followings_count"
         app:layout_constraintTop_toTopOf="@id/followings_count" />
 
