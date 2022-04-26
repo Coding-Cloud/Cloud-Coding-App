@@ -46,4 +46,8 @@
         android:id="@+id/groupDetailsFragment"
         android:name="com.cloudcoding.features.groups.group.GroupDetailsFragment"
         android:label="GroupDetailsFragment" />
+    <fragment
+        android:id="@+id/nav_item_profile"
+        android:name="com.cloudcoding.features.profile.ProfileFragment"
+        android:label="ProfileFragment" />
 </navigation>
