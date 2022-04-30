@@ -17,10 +17,13 @@
 
     <group android:id="@+id/group_menu">
         <item
-            android:id="@+id/nav_item_four"
+            android:id="@+id/nav_item_settings"
             android:title="@string/settings" />
         <item
-            android:id="@+id/nav_item_five"
+            android:id="@+id/nav_item_about"
             android:title="@string/about" />
+        <item
+            android:id="@+id/nav_item_disconnect"
+            android:title="@string/disconnect" />
     </group>
 </menu>

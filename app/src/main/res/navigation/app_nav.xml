@@ -2,10 +2,29 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_menu_nav"
-    app:startDestination="@id/mainMenuFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/mainMenuFragment"
         android:name="com.cloudcoding.MainMenuFragment"
         android:label="MainMenuFragment" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.cloudcoding.features.login.LoginFragment"
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_signupFragment"
+            app:destination="@id/signupFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_mainMenuFragment"
+            app:destination="@id/mainMenuFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signupFragment"
+        android:name="com.cloudcoding.features.signup.SignupFragment"
+        android:label="SignupFragment" >
+        <action
+            android:id="@+id/action_signupFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
 </navigation>
