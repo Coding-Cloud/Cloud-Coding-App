@@ -5,6 +5,7 @@ import com.cloudcoding.api.request.SignupRequest
 import com.cloudcoding.api.response.MessagesResponse
 import com.cloudcoding.api.response.TokenResponse
 import com.cloudcoding.models.Conversation
+import com.cloudcoding.models.User
 import kotlinx.coroutines.Deferred
 import retrofit2.http.*
 
@@ -14,6 +15,9 @@ interface CloudCodingAPI {
 
     @POST("/auth/signup")
     fun signup(signupRequest: SignupRequest): Deferred<Void>
+
+    @POST("/me")
+    fun getMe(@Header("authorization") token: String): Deferred<User>
 
     @GET("/conversations")
     fun getUserConversations(

@@ -5,6 +5,7 @@ import com.cloudcoding.api.request.SignupRequest
 import com.cloudcoding.api.response.MessagesResponse
 import com.cloudcoding.api.response.TokenResponse
 import com.cloudcoding.models.Conversation
+import com.cloudcoding.models.User
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -23,6 +24,10 @@ object CloudCodingNetworkManager {
 
     suspend fun signup(signupRequest: SignupRequest): Void {
         return retrofit.signup(signupRequest).await()
+    }
+
+    suspend fun getMe(token: String): User {
+        return retrofit.getMe(token).await()
     }
 
     suspend fun getUserConversations(token: String): List<Conversation> {
