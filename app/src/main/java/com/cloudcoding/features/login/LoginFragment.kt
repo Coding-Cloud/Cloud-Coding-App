@@ -15,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import retrofit2.HttpException
 
 class LoginFragment : Fragment() {
     override fun onCreateView(
@@ -31,7 +32,7 @@ class LoginFragment : Fragment() {
             Context.MODE_PRIVATE
         )!!
         val savedToken = sharedPref.getString(getString(R.string.token), "")
-        if(savedToken != null && savedToken != "") {
+        if (savedToken != null && savedToken != "") {
             findNavController()
                 .navigate(R.id.action_loginFragment_to_mainMenuFragment)
         }
@@ -40,26 +41,43 @@ class LoginFragment : Fragment() {
                 .navigate(R.id.action_loginFragment_to_signupFragment)
         }
         login_button.setOnClickListener {
+            login_button.isEnabled = false
             val username = username.text.toString()
             val password = password.text.toString()
             GlobalScope.launch(Dispatchers.Default) {
-                val sharedPrefMe = context?.getSharedPreferences(
-                    getString(R.string.me),
-                    Context.MODE_PRIVATE
-                )!!
-                val token =
-                    CloudCodingNetworkManager.login(LoginRequest(username, password)).accessToken
-                with(sharedPrefMe.edit()) {
-                    putString(getString(R.string.me), username)
-                    commit()
+                var loginFailed = false
+                try {
+                    val sharedPrefMe = context?.getSharedPreferences(
+                        getString(R.string.me),
+                        Context.MODE_PRIVATE
+                    )!!
+                    val token =
+                        CloudCodingNetworkManager.login(
+                            LoginRequest(
+                                username,
+                                password
+                            )
+                        ).accessToken
+                    with(sharedPrefMe.edit()) {
+                        putString(getString(R.string.me), username)
+                        commit()
+                    }
+                    with(sharedPref.edit()) {
+                        putString(getString(R.string.token), token)
+                        commit()
+                    }
+                } catch (e: HttpException) {
+                    loginFailed = true
                 }
-                with(sharedPref.edit()) {
-                    putString(getString(R.string.token), token)
-                    commit()
-                }
+
                 withContext(Dispatchers.Main) {
-                    findNavController()
-                        .navigate(R.id.action_loginFragment_to_mainMenuFragment)
+                    if (!loginFailed) {
+                        findNavController()
+                            .navigate(R.id.action_loginFragment_to_mainMenuFragment)
+                    }
+                    login_button.isEnabled = true
+                    error.visibility = View.VISIBLE
+                    return@withContext
                 }
             }
         }
