@@ -1,5 +1,6 @@
 package com.cloudcoding
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -10,6 +11,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
@@ -28,6 +30,27 @@ class MainMenuFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        nav.menu.findItem(R.id.nav_item_disconnect).setOnMenuItemClickListener {
+            val sharedPref = context?.getSharedPreferences(
+                getString(R.string.token),
+                Context.MODE_PRIVATE
+            )!!
+            val sharedPrefMe = context?.getSharedPreferences(
+                getString(R.string.me),
+                Context.MODE_PRIVATE
+            )!!
+            with(sharedPrefMe.edit()) {
+                clear()
+                commit()
+            }
+            with(sharedPref.edit()) {
+                clear()
+                commit()
+            }
+            findNavController()
+                .navigate(R.id.action_to_loginFragment)
+            true
+        }
         mDrawerToggle = ActionBarDrawerToggle(
             this.activity,
             drawer_layout,
