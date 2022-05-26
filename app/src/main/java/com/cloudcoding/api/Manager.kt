@@ -1,10 +1,11 @@
 package com.cloudcoding.api
 
 import com.cloudcoding.api.request.LoginRequest
+import com.cloudcoding.api.request.MessageRequest
 import com.cloudcoding.api.request.SignupRequest
-import com.cloudcoding.api.response.MessagesResponse
 import com.cloudcoding.api.response.TokenResponse
 import com.cloudcoding.models.Conversation
+import com.cloudcoding.models.Message
 import com.cloudcoding.models.User
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import retrofit2.Retrofit
@@ -34,8 +35,12 @@ object CloudCodingNetworkManager {
         return retrofit.getUserConversations(token).await()
     }
 
-    suspend fun getMessages(token: String, conversationId: String): MessagesResponse {
+    suspend fun getMessages(token: String, conversationId: String): MutableList<Message> {
         return retrofit.getMessages(token, conversationId).await()
+    }
+
+    suspend fun addMessage(token: String, conversationId: String, messageRequest: MessageRequest): Void {
+        return retrofit.addMessage(token, conversationId, messageRequest).await()
     }
 
 }

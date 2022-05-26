@@ -26,6 +26,7 @@ class ConversationsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         GlobalScope.launch(Dispatchers.Default) {
 
             val preference = context?.getSharedPreferences(

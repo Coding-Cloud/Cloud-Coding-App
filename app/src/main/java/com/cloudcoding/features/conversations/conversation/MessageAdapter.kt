@@ -4,8 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.cloudcoding.R
+import com.cloudcoding.models.Message
+import java.text.SimpleDateFormat
+import java.util.*
 
-class MessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MessageAdapter(
+    private val messages: MutableList<Message>,
+    private val currentUserId: String
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val SENT = 0
     private val RECEIVED = 1
 
@@ -31,6 +37,13 @@ class MessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     private fun bindMessageSent(holder: MessageSentItem, position: Int) {
+        holder.content.text = messages[position].content
+        holder.name.text = messages[position].userId
+        val date = SimpleDateFormat(
+            holder.itemView.context.getString(R.string.date_format),
+            Locale.FRANCE
+        ).format(messages[position].createdAt)
+        holder.date.text = date
 
     }
 
@@ -39,11 +52,11 @@ class MessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        return 10
+        return messages.size
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (position % 2 == 0) {
+        return if (messages[position].userId == currentUserId) {
             SENT
         } else {
             RECEIVED

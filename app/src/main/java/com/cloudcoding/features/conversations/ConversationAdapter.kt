@@ -1,10 +1,8 @@
 package com.cloudcoding.features.conversations
 
-import android.content.Context.MODE_PRIVATE
-import android.content.SharedPreferences
-import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -14,7 +12,8 @@ import com.cloudcoding.R
 import com.cloudcoding.models.Conversation
 
 
-class ConversationAdapter(val conversations: List<Conversation>) : RecyclerView.Adapter<ConversationItem>() {
+class ConversationAdapter(val conversations: List<Conversation>) :
+    RecyclerView.Adapter<ConversationItem>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConversationItem {
         return ConversationItem(
             LayoutInflater.from(parent.context)
@@ -27,7 +26,10 @@ class ConversationAdapter(val conversations: List<Conversation>) : RecyclerView.
         cell.itemView.setOnClickListener {
             cell.itemView
                 .findNavController()
-                .navigate(R.id.action_nav_item_conversations_to_conversationFragment)
+                .navigate(
+                    R.id.action_nav_item_conversations_to_conversationFragment,
+                    bundleOf("conversationId" to conversations[position].id)
+                )
         }
         cell.name.text = conversations[position].friendshipId
         Glide.with(cell.profilePicture.context)
