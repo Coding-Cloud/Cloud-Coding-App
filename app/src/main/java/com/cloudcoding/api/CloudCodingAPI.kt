@@ -18,21 +18,10 @@ interface CloudCodingAPI {
     fun signup(@Body signupRequest: SignupRequest): Deferred<Void>
 
     @GET("/auth/me")
-    fun getMe(@Header("authorization") token: String): Deferred<User>
-
-    @GET("/conversations")
-    fun getUserConversations(
-        @Header("authorization") token: String
-    ): Deferred<List<Conversation>>
-
-    @GET("/messages/{conversationId}")
-    fun getMessages(
-        @Header("authorization") token: String, @Path("conversationId") conversationId: String
-    ): Deferred<MutableList<Message>>
+    fun getMe(): Deferred<User>
 
     @POST("/messages/{conversationId}")
     fun addMessage(
-        @Header("authorization") token: String,
         @Path("conversationId") conversationId: String,
         @Body messageRequest: MessageRequest
     ): Deferred<Void>

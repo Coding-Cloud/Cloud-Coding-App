@@ -44,11 +44,16 @@ class MessageAdapter(
             Locale.FRANCE
         ).format(messages[position].createdAt)
         holder.date.text = date
-
     }
 
     private fun bindMessageReceived(holder: MessageReceivedItem, position: Int) {
-
+        holder.content.text = messages[position].content
+        holder.name.text = messages[position].userId
+        val date = SimpleDateFormat(
+            holder.itemView.context.getString(R.string.date_format),
+            Locale.FRANCE
+        ).format(messages[position].createdAt)
+        holder.date.text = date
     }
 
     override fun getItemCount(): Int {

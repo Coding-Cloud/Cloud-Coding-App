@@ -1,6 +1,5 @@
 package com.cloudcoding.features.conversations.conversation
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cloudcoding.R
 import com.cloudcoding.api.CloudCodingNetworkManager
+import com.cloudcoding.api.SocketManager
+import com.cloudcoding.api.request.GetMessagesRequest
 import com.cloudcoding.api.request.MessageRequest
+import com.cloudcoding.models.Message
 import kotlinx.android.synthetic.main.conversation_fragment.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -28,24 +30,6 @@ class ConversationFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val conversationId = requireArguments().getString("conversationId")!!
-        loadMessageList(conversationId)
-        send.setOnClickListener {
-            val messageRequest = MessageRequest(message_text.text.toString(), null)
-            message_text.text.clear()
-            GlobalScope.launch(Dispatchers.Default) {
-
-                val preferenceToken = context?.getSharedPreferences(
-                    getString(R.string.token),
-                    Context.MODE_PRIVATE
-                )!!
-                val token = preferenceToken.getString(getString(R.string.token), "")!!
-                CloudCodingNetworkManager.addMessage(token, conversationId, messageRequest)
-                withContext(Dispatchers.Main) {
-                    loadMessageList(conversationId)
-                }
-            }
-        }
         activity?.onBackPressedDispatcher?.addCallback(
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
@@ -53,26 +37,41 @@ class ConversationFragment : Fragment() {
                     findNavController().popBackStack()
                 }
             })
-    }
-
-    private fun loadMessageList(conversationId: String) {
+        var convMessages: MutableList<Message> = mutableListOf()
+        val conversationId = requireArguments().getString("conversationId")!!
         GlobalScope.launch(Dispatchers.Default) {
-
-            val preferenceToken = context?.getSharedPreferences(
-                getString(R.string.token),
-                Context.MODE_PRIVATE
-            )!!
-            val token = preferenceToken.getString(getString(R.string.token), "")!!
-            val messages = CloudCodingNetworkManager.getMessages(token, conversationId)
-            val me = CloudCodingNetworkManager.getMe(token)
+            val me = CloudCodingNetworkManager.getMe()
 
             withContext(Dispatchers.Main) {
-                message_list.run {
-                    layoutManager = LinearLayoutManager(this@ConversationFragment.context)
-                    adapter = MessageAdapter(messages, me.id)
-                    scrollToPosition(9)
+                SocketManager.onMessages { messages ->
+                    convMessages = messages
+                    activity?.runOnUiThread {
+                        message_list.run {
+                            layoutManager = LinearLayoutManager(this@ConversationFragment.context)
+                            adapter = MessageAdapter(messages, me.id)
+                            scrollToPosition(convMessages.size - 1)
+                        }
+                    }
                 }
+                SocketManager.onMessageCreated { message ->
+                    activity?.runOnUiThread {
+                        convMessages.add(message)
+                        message_list.adapter?.notifyItemInserted(convMessages.size - 1)
+                        message_list.scrollToPosition(convMessages.size - 1)
+                    }
+                }
+                SocketManager.getMessages(GetMessagesRequest(conversationId, null, null))
             }
+        }
+        send.setOnClickListener {
+            SocketManager.createMessage(
+                MessageRequest(
+                    conversationId,
+                    message_text.text.toString(),
+                    null
+                )
+            )
+            message_text.text.clear()
         }
     }
 }

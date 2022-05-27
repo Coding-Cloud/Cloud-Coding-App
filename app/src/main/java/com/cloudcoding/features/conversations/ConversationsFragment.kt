@@ -1,6 +1,5 @@
 package com.cloudcoding.features.conversations
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,12 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cloudcoding.R
-import com.cloudcoding.api.CloudCodingNetworkManager
+import com.cloudcoding.api.SocketManager
+import com.cloudcoding.api.request.GetConversationsRequest
 import kotlinx.android.synthetic.main.conversations_fragment.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class ConversationsFragment : Fragment() {
     override fun onCreateView(
@@ -26,17 +22,8 @@ class ConversationsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        GlobalScope.launch(Dispatchers.Default) {
-
-            val preference = context?.getSharedPreferences(
-                getString(R.string.token),
-                Context.MODE_PRIVATE
-            )!!
-            val token = preference.getString(getString(R.string.token), "")!!
-            val conversations = CloudCodingNetworkManager.getUserConversations(token)
-
-            withContext(Dispatchers.Main) {
+        SocketManager.onConversations { conversations ->
+            activity?.runOnUiThread {
                 conversation_list.run {
                     layoutManager = LinearLayoutManager(this@ConversationsFragment.context)
                     adapter = ConversationAdapter(conversations)
@@ -49,5 +36,11 @@ class ConversationsFragment : Fragment() {
                 }
             }
         }
+        SocketManager.getConversations(GetConversationsRequest(null, null, null))
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        SocketManager.clear()
     }
 }
