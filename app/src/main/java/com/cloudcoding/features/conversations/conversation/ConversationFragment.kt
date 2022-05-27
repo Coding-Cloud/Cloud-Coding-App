@@ -60,6 +60,14 @@ class ConversationFragment : Fragment() {
                         message_list.scrollToPosition(convMessages.size - 1)
                     }
                 }
+                SocketManager.onMessageDeleted { messageId ->
+                    activity?.runOnUiThread {
+                        val index = convMessages.indexOfFirst { it.id == messageId }
+                        convMessages.removeAt(index)
+                        message_list.adapter?.notifyItemRangeRemoved(index, convMessages.size)
+                        message_list.scrollToPosition(convMessages.size - 1)
+                    }
+                }
                 SocketManager.getMessages(GetMessagesRequest(conversationId, null, null))
             }
         }

@@ -13,4 +13,6 @@
     <string name="token">token</string>
     <string name="me">me</string>
     <string name="date_format">yyyy/MM/dd HH:mm</string>
+    <string name="copy">copy</string>
+    <string name="delete">delete</string>
 </resources>

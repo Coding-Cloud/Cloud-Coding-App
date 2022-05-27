@@ -1,9 +1,12 @@
 package com.cloudcoding.features.conversations.conversation
 
+import android.view.ContextMenu
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.cloudcoding.R
+import com.cloudcoding.api.SocketManager
 import com.cloudcoding.models.Message
 import java.text.SimpleDateFormat
 import java.util.*
@@ -37,6 +40,12 @@ class MessageAdapter(
     }
 
     private fun bindMessageSent(holder: MessageSentItem, position: Int) {
+        holder.itemView.setOnCreateContextMenuListener { menu: ContextMenu, _: View, _: ContextMenu.ContextMenuInfo? ->
+            menu.add("delete").setOnMenuItemClickListener {
+                SocketManager.deleteMessage(messages[position].id)
+                true
+            }
+        }
         holder.content.text = messages[position].content
         holder.name.text = messages[position].userId
         val date = SimpleDateFormat(

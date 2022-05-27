@@ -32,8 +32,8 @@ object SocketManager {
         return socket
     }
 
-    fun onMessageDeleted(a: () -> Unit) {
-        connection.on("messageDeleted") { a() }
+    fun onMessageDeleted(a: (messageId: String) -> Unit) {
+        connection.on("messageDeleted") { args -> a(args[0].toString()) }
     }
 
     fun onMessageCreated(a: (Message) -> Unit) {
@@ -66,7 +66,7 @@ object SocketManager {
     }
 
     fun getConversations(getConversationsRequest: GetConversationsRequest) {
-        connection.emit("getConversations",  JSONObject(gson.toJson(getConversationsRequest)))
+        connection.emit("getConversations", JSONObject(gson.toJson(getConversationsRequest)))
     }
 
     fun getMessages(getMessagesRequest: GetMessagesRequest) {
@@ -75,5 +75,9 @@ object SocketManager {
 
     fun createMessage(createMessage: MessageRequest) {
         connection.emit("sendMessage", JSONObject(gson.toJson(createMessage)))
+    }
+
+    fun deleteMessage(messageId: String) {
+        connection.emit("deleteMessage", messageId)
     }
 }
