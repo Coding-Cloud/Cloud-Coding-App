@@ -1,4 +1,4 @@
-package com.cloudcoding.features.groups.group
+package com.cloudcoding.features.projects
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,18 +7,18 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.cloudcoding.R
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.android.synthetic.main.group_details_fragment.*
+import kotlinx.android.synthetic.main.projects_fragment.*
 
-class GroupDetailsFragment : Fragment() {
+class MyProjectsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         parent: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.group_details_fragment, parent, false)
+        return inflater.inflate(R.layout.my_projects_fragment, parent, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -29,13 +29,10 @@ class GroupDetailsFragment : Fragment() {
                     findNavController().popBackStack()
                 }
             })
-        viewpager.adapter = GroupDetailsAdapter(this)
-        TabLayoutMediator(tabLayout, viewpager) { tab: TabLayout.Tab, i: Int ->
-            println(i)
-            when (i) {
-                0 -> tab.text = "Projects"
-                else -> tab.text = "Members"
-            }
-        }.attach()
+        project_list.run {
+            layoutManager = LinearLayoutManager(this@MyProjectsFragment.context)
+            adapter = ProjectAdapter()
+            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        }
     }
 }

@@ -33,7 +33,6 @@ class ProfileFragment : Fragment() {
         TabLayoutMediator(tabLayout, viewpager) { tab: TabLayout.Tab, i: Int ->
             println(i)
             when (i) {
-                0 -> tab.text = "Posts"
                 else -> tab.text = "Groups"
             }
         }.attach()
