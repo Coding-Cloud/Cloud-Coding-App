@@ -7,10 +7,14 @@
     <fragment
         android:id="@+id/nav_item_my_projects"
         android:name="com.cloudcoding.features.projects.MyProjectsFragment"
-        android:label="MyProjectsFragment" >
+        android:label="MyProjectsFragment">
         <action
             android:id="@+id/action_myProjectsFragment_to_projectDetailsFragment"
-            app:destination="@id/projectDetailsFragment" />
+            app:destination="@id/projectDetailsFragment">
+            <argument
+                android:name="projectId"
+                app:argType="string" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/nav_item_projects"
@@ -18,7 +22,11 @@
         android:label="ProjectsFragment">
         <action
             android:id="@+id/action_projectsFragment_to_projectDetailsFragment"
-            app:destination="@id/projectDetailsFragment" />
+            app:destination="@id/projectDetailsFragment">
+            <argument
+                android:name="projectId"
+                app:argType="string" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/projectDetailsFragment"
@@ -32,7 +40,7 @@
             android:id="@+id/action_nav_item_conversations_to_conversationFragment"
             app:destination="@id/conversationFragment"
             app:popUpTo="@+id/conversationFragment"
-            app:popUpToInclusive="true" >
+            app:popUpToInclusive="true">
             <argument
                 android:name="conversationId"
                 app:argType="string" />

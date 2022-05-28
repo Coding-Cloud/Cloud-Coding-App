@@ -60,7 +60,8 @@ class MessageAdapter(
         GlobalScope.launch(Dispatchers.Default) {
             val user = CloudCodingNetworkManager.getUserById(messages[position].userId)
             withContext(Dispatchers.Main) {
-                holder.name.text = holder.itemView.context.getString(R.string.name, user.firstname, user.lastname)
+                holder.name.text =
+                    holder.itemView.context.getString(R.string.name, user.firstname, user.lastname)
             }
         }
     }
@@ -75,7 +76,8 @@ class MessageAdapter(
         GlobalScope.launch(Dispatchers.Default) {
             val user = CloudCodingNetworkManager.getUserById(messages[position].userId)
             withContext(Dispatchers.Main) {
-                holder.name.text = holder.itemView.context.getString(R.string.name, user.firstname, user.lastname)
+                holder.name.text =
+                    holder.itemView.context.getString(R.string.name, user.firstname, user.lastname)
             }
         }
     }

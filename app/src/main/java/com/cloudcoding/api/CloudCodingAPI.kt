@@ -1,11 +1,10 @@
 package com.cloudcoding.api
 
 import com.cloudcoding.api.request.LoginRequest
-import com.cloudcoding.api.request.MessageRequest
 import com.cloudcoding.api.request.SignupRequest
+import com.cloudcoding.api.response.CommentsResponse
 import com.cloudcoding.api.response.TokenResponse
-import com.cloudcoding.models.Conversation
-import com.cloudcoding.models.Message
+import com.cloudcoding.models.Comment
 import com.cloudcoding.models.Project
 import com.cloudcoding.models.User
 import kotlinx.coroutines.Deferred
@@ -30,4 +29,13 @@ interface CloudCodingAPI {
 
     @GET("/users/{userId}")
     fun getUserById(@Path("userId") userId: String): Deferred<User>
+
+    @DELETE("/comments/{commentId}")
+    fun deleteComment(@Path("commentId") commentId: String): Deferred<Response<Void>>
+
+    @GET("/projects/{projectId}")
+    fun getProjectById(@Path("projectId") projectId: String): Deferred<Project>
+
+    @GET("/comments/project/{projectId}")
+    fun getProjectComments(@Path("projectId") projectId: String): Deferred<CommentsResponse>
 }

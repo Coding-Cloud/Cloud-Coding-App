@@ -3,9 +3,10 @@ package com.cloudcoding.api
 import android.content.Context
 import com.cloudcoding.MainActivity
 import com.cloudcoding.api.request.LoginRequest
-import com.cloudcoding.api.request.MessageRequest
 import com.cloudcoding.api.request.SignupRequest
+import com.cloudcoding.api.response.CommentsResponse
 import com.cloudcoding.api.response.TokenResponse
+import com.cloudcoding.models.Comment
 import com.cloudcoding.models.Project
 import com.cloudcoding.models.User
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
@@ -58,7 +59,20 @@ object CloudCodingNetworkManager {
     suspend fun deleteProject(projectId: String): Response<Void> {
         return retrofit.deleteProject(projectId).await()
     }
+
     suspend fun getUserById(userId: String): User {
         return retrofit.getUserById(userId).await()
+    }
+
+    suspend fun deleteComment(commentId: String): Response<Void> {
+        return retrofit.deleteComment(commentId).await()
+    }
+
+    suspend fun getProjectById(projectId: String): Project {
+        return retrofit.getProjectById(projectId).await()
+    }
+
+    suspend fun getProjectComments(projectId: String): CommentsResponse {
+        return retrofit.getProjectComments(projectId).await()
     }
 }

@@ -5,6 +5,7 @@ import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,7 +35,7 @@ class ProjectAdapter(val projects: MutableList<Project>, private val action: Int
         cell.itemView.setOnClickListener {
             cell.itemView
                 .findNavController()
-                .navigate(action)
+                .navigate(action, bundleOf("projectId" to projects[position].id))
         }
 
         val preference = MainActivity.getContext().getSharedPreferences(

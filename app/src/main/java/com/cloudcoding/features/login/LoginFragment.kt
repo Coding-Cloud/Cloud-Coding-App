@@ -68,6 +68,7 @@ class LoginFragment : Fragment() {
                         commit()
                     }
                 } catch (e: HttpException) {
+                    e.printStackTrace()
                     loginFailed = true
                 }
 
