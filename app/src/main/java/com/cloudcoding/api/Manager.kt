@@ -58,4 +58,7 @@ object CloudCodingNetworkManager {
     suspend fun deleteProject(projectId: String): Response<Void> {
         return retrofit.deleteProject(projectId).await()
     }
+    suspend fun getUserById(userId: String): User {
+        return retrofit.getUserById(userId).await()
+    }
 }

@@ -6,8 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.cloudcoding.R
+import com.cloudcoding.api.CloudCodingNetworkManager
 import com.cloudcoding.api.SocketManager
 import com.cloudcoding.models.Message
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -47,22 +52,32 @@ class MessageAdapter(
             }
         }
         holder.content.text = messages[position].content
-        holder.name.text = messages[position].userId
         val date = SimpleDateFormat(
             holder.itemView.context.getString(R.string.date_format),
             Locale.FRANCE
         ).format(messages[position].createdAt)
         holder.date.text = date
+        GlobalScope.launch(Dispatchers.Default) {
+            val user = CloudCodingNetworkManager.getUserById(messages[position].userId)
+            withContext(Dispatchers.Main) {
+                holder.name.text = holder.itemView.context.getString(R.string.name, user.firstname, user.lastname)
+            }
+        }
     }
 
     private fun bindMessageReceived(holder: MessageReceivedItem, position: Int) {
         holder.content.text = messages[position].content
-        holder.name.text = messages[position].userId
         val date = SimpleDateFormat(
             holder.itemView.context.getString(R.string.date_format),
             Locale.FRANCE
         ).format(messages[position].createdAt)
         holder.date.text = date
+        GlobalScope.launch(Dispatchers.Default) {
+            val user = CloudCodingNetworkManager.getUserById(messages[position].userId)
+            withContext(Dispatchers.Main) {
+                holder.name.text = holder.itemView.context.getString(R.string.name, user.firstname, user.lastname)
+            }
+        }
     }
 
     override fun getItemCount(): Int {

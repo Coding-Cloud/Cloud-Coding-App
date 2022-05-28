@@ -27,4 +27,7 @@ interface CloudCodingAPI {
 
     @DELETE("/projects/{projectId}")
     fun deleteProject(@Path("projectId") projectId: String): Deferred<Response<Void>>
+
+    @GET("/users/{userId}")
+    fun getUserById(@Path("userId") userId: String): Deferred<User>
 }
