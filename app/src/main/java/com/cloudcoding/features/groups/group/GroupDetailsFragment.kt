@@ -31,7 +31,6 @@ class GroupDetailsFragment : Fragment() {
             })
         viewpager.adapter = GroupDetailsAdapter(this)
         TabLayoutMediator(tabLayout, viewpager) { tab: TabLayout.Tab, i: Int ->
-            println(i)
             when (i) {
                 0 -> tab.text = "Projects"
                 else -> tab.text = "Members"

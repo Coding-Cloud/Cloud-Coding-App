@@ -31,7 +31,6 @@ class ProfileFragment : Fragment() {
             })
         viewpager.adapter = ProfileAdapter(this)
         TabLayoutMediator(tabLayout, viewpager) { tab: TabLayout.Tab, i: Int ->
-            println(i)
             when (i) {
                 else -> tab.text = "Groups"
             }

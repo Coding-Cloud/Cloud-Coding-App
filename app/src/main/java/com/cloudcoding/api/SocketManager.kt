@@ -27,7 +27,7 @@ object SocketManager {
         val token = preference.getString("token", "")!!
         val opts = IO.Options()
         opts.extraHeaders = hashMapOf<String, List<String>>("authorization" to listOf(token))
-        val socket = IO.socket("http://10.0.2.2:3000/messaging", opts)
+        val socket = IO.socket("http://10.0.2.2:3000/social-network", opts)
         socket.connect()
         return socket
     }
@@ -38,7 +38,6 @@ object SocketManager {
 
     fun onMessageCreated(a: (Message) -> Unit) {
         connection.on("messageCreated") { args ->
-            println(args[0].toString())
             val type: Type = object : TypeToken<Message>() {}.type
             val message: Message = gson.fromJson(args[0].toString(), type)
             a(message)
