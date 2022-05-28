@@ -7,7 +7,11 @@
     <fragment
         android:id="@+id/nav_item_my_projects"
         android:name="com.cloudcoding.features.projects.MyProjectsFragment"
-        android:label="MyProjectsFragment" />
+        android:label="MyProjectsFragment" >
+        <action
+            android:id="@+id/action_myProjectsFragment_to_projectDetailsFragment"
+            app:destination="@id/projectDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/nav_item_projects"
         android:name="com.cloudcoding.features.projects.ProjectsFragment"

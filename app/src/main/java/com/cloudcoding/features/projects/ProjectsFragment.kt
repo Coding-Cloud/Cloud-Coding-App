@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.cloudcoding.R
 import kotlinx.android.synthetic.main.projects_fragment.*
 
-class ProjectsFragment : Fragment() {
+class ProjectsFragment() : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         parent: ViewGroup?,
@@ -31,7 +31,7 @@ class ProjectsFragment : Fragment() {
             })
         project_list.run {
             layoutManager = LinearLayoutManager(this@ProjectsFragment.context)
-            adapter = ProjectAdapter()
+            adapter = ProjectAdapter(mutableListOf(), R.id.action_projectsFragment_to_projectDetailsFragment)
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
     }

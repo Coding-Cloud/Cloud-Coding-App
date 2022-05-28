@@ -58,12 +58,13 @@ class LoginFragment : Fragment() {
                                 password
                             )
                         ).accessToken
-                    with(sharedPrefMe.edit()) {
-                        putString(getString(R.string.me), username)
-                        commit()
-                    }
                     with(sharedPref.edit()) {
                         putString(getString(R.string.token), token)
+                        commit()
+                    }
+                    val userId = CloudCodingNetworkManager.getMe().id
+                    with(sharedPrefMe.edit()) {
+                        putString(getString(R.string.me), userId)
                         commit()
                     }
                 } catch (e: HttpException) {

@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -17,7 +18,12 @@ import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
+import com.cloudcoding.api.CloudCodingNetworkManager
 import kotlinx.android.synthetic.main.main_menu_nav_host.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainMenuFragment : Fragment() {
     private lateinit var mDrawerToggle: ActionBarDrawerToggle
@@ -58,6 +64,15 @@ class MainMenuFragment : Fragment() {
             R.string.open_drawer,
             R.string.close_drawer
         )
+        GlobalScope.launch(Dispatchers.Default) {
+            val user = CloudCodingNetworkManager.getMe()
+            withContext(Dispatchers.Main) {
+                nav.getHeaderView(0).findViewById<TextView>(R.id.name).text =
+                    getString(R.string.name, user.firstname, user.lastname)
+                nav.getHeaderView(0).findViewById<TextView>(R.id.username).text =
+                    getString(R.string.username, user.username)
+            }
+        }
         val x = nav.getHeaderView(0).findViewById<ImageView>(R.id.profile_picture)
         Glide.with(x)
             .load("https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg")

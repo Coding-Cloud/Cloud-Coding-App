@@ -6,8 +6,10 @@ import com.cloudcoding.api.request.SignupRequest
 import com.cloudcoding.api.response.TokenResponse
 import com.cloudcoding.models.Conversation
 import com.cloudcoding.models.Message
+import com.cloudcoding.models.Project
 import com.cloudcoding.models.User
 import kotlinx.coroutines.Deferred
+import retrofit2.Response
 import retrofit2.http.*
 
 interface CloudCodingAPI {
@@ -20,9 +22,9 @@ interface CloudCodingAPI {
     @GET("/auth/me")
     fun getMe(): Deferred<User>
 
-    @POST("/messages/{conversationId}")
-    fun addMessage(
-        @Path("conversationId") conversationId: String,
-        @Body messageRequest: MessageRequest
-    ): Deferred<Void>
+    @GET("/projects/owned")
+    fun getOwnedProjects(): Deferred<MutableList<Project>>
+
+    @DELETE("/projects/{projectId}")
+    fun deleteProject(@Path("projectId") projectId: String): Deferred<Response<Void>>
 }

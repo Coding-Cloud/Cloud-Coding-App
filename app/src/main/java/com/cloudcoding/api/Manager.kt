@@ -6,10 +6,12 @@ import com.cloudcoding.api.request.LoginRequest
 import com.cloudcoding.api.request.MessageRequest
 import com.cloudcoding.api.request.SignupRequest
 import com.cloudcoding.api.response.TokenResponse
+import com.cloudcoding.models.Project
 import com.cloudcoding.models.User
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -49,11 +51,11 @@ object CloudCodingNetworkManager {
         return retrofit.getMe().await()
     }
 
-    suspend fun addMessage(
-        conversationId: String,
-        messageRequest: MessageRequest
-    ): Void {
-        return retrofit.addMessage(conversationId, messageRequest).await()
+    suspend fun getOwnedProjects(): MutableList<Project> {
+        return retrofit.getOwnedProjects().await()
     }
 
+    suspend fun deleteProject(projectId: String): Response<Void> {
+        return retrofit.deleteProject(projectId).await()
+    }
 }
