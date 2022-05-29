@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="languageItems">
+        <item>ANGULAR</item>
+        <item>REACT</item>
+        <item>QUARKUS</item>
+    </string-array>
+</resources>

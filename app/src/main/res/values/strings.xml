@@ -16,5 +16,8 @@
     <string name="copy">copy</string>
     <string name="delete">delete</string>
     <string name="name" translatable="false">%1$s %2$s</string>
-    <string name="username" translatable="false">@%1$s</string>
+    <string name="username" translatable="false">\@%1$s</string>
+    <string name="create_project">Create project</string>
+    <string name="visibility">Visibility</string>
+    <string name="language">Language</string>
 </resources>
