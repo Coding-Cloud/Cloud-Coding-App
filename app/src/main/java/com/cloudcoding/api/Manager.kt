@@ -2,6 +2,8 @@ package com.cloudcoding.api
 
 import android.content.Context
 import com.cloudcoding.MainActivity
+import com.cloudcoding.R
+import com.cloudcoding.api.request.CreateProjectRequest
 import com.cloudcoding.api.request.LoginRequest
 import com.cloudcoding.api.request.SignupRequest
 import com.cloudcoding.api.response.CommentsResponse
@@ -22,14 +24,30 @@ object CloudCodingNetworkManager {
 
     private fun retrofit(): CloudCodingAPI {
         val preference = MainActivity.getContext().getSharedPreferences(
-            "token",
+            MainActivity.getContext().getString(R.string.token),
             Context.MODE_PRIVATE
         )!!
-        val token = preference.getString("token", "")!!
+        val sharedPrefMe = MainActivity.getContext().getSharedPreferences(
+            MainActivity.getContext().getString(R.string.me),
+            Context.MODE_PRIVATE
+        )!!
         val httpClient = OkHttpClient.Builder().addInterceptor { chain ->
+            val token = preference.getString("token", "")!!
             val requestBuilder: Request.Builder = chain.request().newBuilder()
             requestBuilder.header("authorization", token)
-            chain.proceed(requestBuilder.build())
+            val response = chain.proceed(requestBuilder.build())
+            if (response.code() == 403)
+            {
+                with(sharedPrefMe.edit()) {
+                    clear()
+                    commit()
+                }
+                with(preference.edit()) {
+                    clear()
+                    commit()
+                }
+            }
+            response
         }.build()
         return Retrofit.Builder()
             .baseUrl("http://10.0.2.2:3000/")
@@ -74,5 +92,9 @@ object CloudCodingNetworkManager {
 
     suspend fun getProjectComments(projectId: String): CommentsResponse {
         return retrofit.getProjectComments(projectId).await()
+    }
+
+    suspend fun createProject(createProjectRequest: CreateProjectRequest): Project {
+        return retrofit.createProject(createProjectRequest).await()
     }
 }

@@ -47,10 +47,6 @@ class LoginFragment : Fragment() {
             GlobalScope.launch(Dispatchers.Default) {
                 var loginFailed = false
                 try {
-                    val sharedPrefMe = context?.getSharedPreferences(
-                        getString(R.string.me),
-                        Context.MODE_PRIVATE
-                    )!!
                     val token =
                         CloudCodingNetworkManager.login(
                             LoginRequest(
@@ -62,11 +58,6 @@ class LoginFragment : Fragment() {
                         putString(getString(R.string.token), token)
                         commit()
                     }
-                    val userId = CloudCodingNetworkManager.getMe().id
-                    with(sharedPrefMe.edit()) {
-                        putString(getString(R.string.me), userId)
-                        commit()
-                    }
                 } catch (e: HttpException) {
                     e.printStackTrace()
                     loginFailed = true
@@ -74,6 +65,15 @@ class LoginFragment : Fragment() {
 
                 withContext(Dispatchers.Main) {
                     if (!loginFailed) {
+                        val sharedPrefMe = context?.getSharedPreferences(
+                            getString(R.string.me),
+                            Context.MODE_PRIVATE
+                        )!!
+                        val userId = CloudCodingNetworkManager.getMe().id
+                        with(sharedPrefMe.edit()) {
+                            putString(getString(R.string.me), userId)
+                            commit()
+                        }
                         findNavController()
                             .navigate(R.id.action_loginFragment_to_mainMenuFragment)
                     }
