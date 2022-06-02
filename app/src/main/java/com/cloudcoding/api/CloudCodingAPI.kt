@@ -6,9 +6,7 @@ import com.cloudcoding.api.request.LoginRequest
 import com.cloudcoding.api.request.SignupRequest
 import com.cloudcoding.api.response.CommentsResponse
 import com.cloudcoding.api.response.TokenResponse
-import com.cloudcoding.models.Comment
-import com.cloudcoding.models.Project
-import com.cloudcoding.models.User
+import com.cloudcoding.models.*
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.http.*
@@ -49,4 +47,10 @@ interface CloudCodingAPI {
 
     @GET("/comments/{id}")
     fun getCommentById(@Path("id") id: String): Deferred<Comment>
+
+    @GET("/groups/{groupId}")
+    fun getGroupById(@Path("groupId") groupId: String): Deferred<Group>
+
+    @GET("/friendships/{friendshipId}")
+    fun getFriendshipById(@Path("friendshipId") friendshipId: String): Deferred<Friendship>
 }

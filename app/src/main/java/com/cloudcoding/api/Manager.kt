@@ -9,9 +9,7 @@ import com.cloudcoding.api.request.LoginRequest
 import com.cloudcoding.api.request.SignupRequest
 import com.cloudcoding.api.response.CommentsResponse
 import com.cloudcoding.api.response.TokenResponse
-import com.cloudcoding.models.Comment
-import com.cloudcoding.models.Project
-import com.cloudcoding.models.User
+import com.cloudcoding.models.*
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -105,5 +103,13 @@ object CloudCodingNetworkManager {
     }
     suspend fun getCommentById(id: String): Comment {
         return retrofit.getCommentById(id).await()
+    }
+
+    suspend fun getGroupById(groupId: String): Group {
+        return retrofit.getGroupById(groupId).await()
+    }
+
+    suspend fun getFriendshipById(friendshipId: String): Friendship {
+        return retrofit.getFriendshipById(friendshipId).await()
     }
 }
