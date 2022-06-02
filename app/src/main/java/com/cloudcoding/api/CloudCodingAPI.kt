@@ -1,10 +1,12 @@
 package com.cloudcoding.api
 
+import com.cloudcoding.api.request.CreateCommentRequest
 import com.cloudcoding.api.request.CreateProjectRequest
 import com.cloudcoding.api.request.LoginRequest
 import com.cloudcoding.api.request.SignupRequest
 import com.cloudcoding.api.response.CommentsResponse
 import com.cloudcoding.api.response.TokenResponse
+import com.cloudcoding.models.Comment
 import com.cloudcoding.models.Project
 import com.cloudcoding.models.User
 import kotlinx.coroutines.Deferred
@@ -40,5 +42,11 @@ interface CloudCodingAPI {
     fun getProjectComments(@Path("projectId") projectId: String): Deferred<CommentsResponse>
 
     @POST("/projects")
-    fun createProject(createProjectRequest: CreateProjectRequest): Deferred<Project>
+    fun createProject(@Body createProjectRequest: CreateProjectRequest): Deferred<Project>
+
+    @POST("/comments")
+    fun createComment(@Body createCommentRequest: CreateCommentRequest): Deferred<Response<String>>
+
+    @GET("/comments/{id}")
+    fun getCommentById(@Path("id") id: String): Deferred<Comment>
 }

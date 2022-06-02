@@ -20,4 +20,5 @@
     <string name="create_project">Create project</string>
     <string name="visibility">Visibility</string>
     <string name="language">Language</string>
+    <string name="comment_html"><![CDATA[<p>%1$s</p>]]></string>
 </resources>

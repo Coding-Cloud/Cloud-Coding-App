@@ -3,6 +3,7 @@ package com.cloudcoding.api
 import android.content.Context
 import com.cloudcoding.MainActivity
 import com.cloudcoding.R
+import com.cloudcoding.api.request.CreateCommentRequest
 import com.cloudcoding.api.request.CreateProjectRequest
 import com.cloudcoding.api.request.LoginRequest
 import com.cloudcoding.api.request.SignupRequest
@@ -17,6 +18,7 @@ import okhttp3.Request
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 
 
 object CloudCodingNetworkManager {
@@ -52,6 +54,7 @@ object CloudCodingNetworkManager {
         return Retrofit.Builder()
             .baseUrl("http://10.0.2.2:3000/")
             .client(httpClient)
+            .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .build()
@@ -96,5 +99,11 @@ object CloudCodingNetworkManager {
 
     suspend fun createProject(createProjectRequest: CreateProjectRequest): Project {
         return retrofit.createProject(createProjectRequest).await()
+    }
+    suspend fun createComment(createCommentRequest: CreateCommentRequest): Response<String> {
+        return retrofit.createComment(createCommentRequest).await()
+    }
+    suspend fun getCommentById(id: String): Comment {
+        return retrofit.getCommentById(id).await()
     }
 }
