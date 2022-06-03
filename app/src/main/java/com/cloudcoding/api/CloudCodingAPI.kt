@@ -53,4 +53,14 @@ interface CloudCodingAPI {
 
     @GET("/friendships/{friendshipId}")
     fun getFriendshipById(@Path("friendshipId") friendshipId: String): Deferred<Friendship>
+
+    @GET("/comments/me")
+    fun getCurrentUserComments(
+        @Query("search")
+        search: String?,
+        @Query("limit")
+        limit: Number?,
+        @Query("offset")
+        offset: Number?
+    ): Deferred<CommentsResponse>
 }

@@ -3,10 +3,7 @@ package com.cloudcoding.api
 import android.content.Context
 import com.cloudcoding.MainActivity
 import com.cloudcoding.R
-import com.cloudcoding.api.request.CreateCommentRequest
-import com.cloudcoding.api.request.CreateProjectRequest
-import com.cloudcoding.api.request.LoginRequest
-import com.cloudcoding.api.request.SignupRequest
+import com.cloudcoding.api.request.*
 import com.cloudcoding.api.response.CommentsResponse
 import com.cloudcoding.api.response.TokenResponse
 import com.cloudcoding.models.*
@@ -36,8 +33,7 @@ object CloudCodingNetworkManager {
             val requestBuilder: Request.Builder = chain.request().newBuilder()
             requestBuilder.header("authorization", token)
             val response = chain.proceed(requestBuilder.build())
-            if (response.code() == 403)
-            {
+            if (response.code() == 403) {
                 with(sharedPrefMe.edit()) {
                     clear()
                     commit()
@@ -98,9 +94,11 @@ object CloudCodingNetworkManager {
     suspend fun createProject(createProjectRequest: CreateProjectRequest): Project {
         return retrofit.createProject(createProjectRequest).await()
     }
+
     suspend fun createComment(createCommentRequest: CreateCommentRequest): Response<String> {
         return retrofit.createComment(createCommentRequest).await()
     }
+
     suspend fun getCommentById(id: String): Comment {
         return retrofit.getCommentById(id).await()
     }
@@ -111,5 +109,13 @@ object CloudCodingNetworkManager {
 
     suspend fun getFriendshipById(friendshipId: String): Friendship {
         return retrofit.getFriendshipById(friendshipId).await()
+    }
+
+    suspend fun getCurrentUserComments(getCommentsRequest: GetCommentsRequest): CommentsResponse {
+        return retrofit.getCurrentUserComments(
+            getCommentsRequest.search,
+            getCommentsRequest.limit,
+            getCommentsRequest.offset
+        ).await()
     }
 }
