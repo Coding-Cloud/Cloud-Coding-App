@@ -8,9 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cloudcoding.R
+import com.cloudcoding.models.GroupMembership
 import kotlinx.android.synthetic.main.members_fragment.*
 
-class MembersFragment : Fragment() {
+class MembersFragment(val members: MutableList<GroupMembership>) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         parent: ViewGroup?,
@@ -22,7 +23,7 @@ class MembersFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         member_list.run {
             layoutManager = LinearLayoutManager(this@MembersFragment.context)
-            adapter = MemberAdapter()
+            adapter = MemberAdapter(members)
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
     }

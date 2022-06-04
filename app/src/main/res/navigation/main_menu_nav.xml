@@ -15,6 +15,12 @@
                 android:name="projectId"
                 app:argType="string" />
         </action>
+        <action
+            android:id="@+id/action_nav_item_my_projects_to_groupDetailsFragment"
+            app:destination="@id/groupDetailsFragment">
+            <argument
+                android:name="groupId"
+                app:argType="string" /></action>
     </fragment>
     <fragment
         android:id="@+id/projectDetailsFragment"
@@ -43,25 +49,33 @@
         android:name="com.cloudcoding.features.groups.MyGroupsFragment"
         android:label="MyGroupsFragment">
         <action
-            android:id="@+id/action_groupsFragment_to_groupDetailsFragment"
-            app:destination="@id/groupDetailsFragment" />
+            android:id="@+id/action_nav_item_groups_to_groupDetailsFragment"
+            app:destination="@id/groupDetailsFragment" >
+            <argument
+                android:name="groupId"
+                app:argType="string" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/groupDetailsFragment"
-        android:name="com.cloudcoding.features.groups.group.GroupDetailsFragment"
+        android:name="com.cloudcoding.features.groups.details.GroupDetailsFragment"
         android:label="GroupDetailsFragment" />
     <fragment
         android:id="@+id/nav_item_profile"
         android:name="com.cloudcoding.features.profile.MyProfileFragment"
         android:label="ProfileFragment">
         <action
-            android:id="@+id/action_nav_item_profile_to_groupDetailsFragment"
-            app:destination="@id/groupDetailsFragment" />
-        <action
             android:id="@+id/action_nav_item_profile_to_projectDetailsFragment"
             app:destination="@id/projectDetailsFragment">
             <argument
                 android:name="projectId"
+                app:argType="string" />
+        </action>
+        <action
+            android:id="@+id/action_nav_item_profile_to_groupDetailsFragment"
+            app:destination="@id/groupDetailsFragment">
+            <argument
+                android:name="groupId"
                 app:argType="string" />
         </action>
 

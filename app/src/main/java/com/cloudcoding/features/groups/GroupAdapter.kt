@@ -2,6 +2,7 @@ package com.cloudcoding.features.groups
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -11,7 +12,7 @@ import com.cloudcoding.R
 import com.cloudcoding.features.TitleItem
 import com.cloudcoding.models.Group
 
-class GroupAdapter(val groups: MutableList<Any>) :
+class GroupAdapter(val groups: MutableList<Any>, val action: Int) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val TITLE = 0
     private val GROUP = 1
@@ -39,9 +40,9 @@ class GroupAdapter(val groups: MutableList<Any>) :
     private fun bindGroup(holder: GroupItem, position: Int) {
         holder.itemView.setOnClickListener {
             holder.itemView
-            .findNavController()
-            .navigate(R.id.action_nav_item_profile_to_groupDetailsFragment)
-    }
+                .findNavController()
+                .navigate(action, bundleOf("groupId" to (groups[position] as Group).id))
+        }
         val group = groups[position] as Group
         holder.title.text = group.name
         Glide.with(holder.languageThumbnail.context)

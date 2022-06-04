@@ -49,7 +49,7 @@ class MyGroupsFragment : Fragment() {
             withContext(Dispatchers.Main) {
                 group_list.run {
                     layoutManager = LinearLayoutManager(this@MyGroupsFragment.context)
-                    adapter = GroupAdapter(groups)
+                    adapter = GroupAdapter(groups, R.id.action_nav_item_groups_to_groupDetailsFragment)
                     addItemDecoration(
                         DividerItemDecoration(
                             context,
