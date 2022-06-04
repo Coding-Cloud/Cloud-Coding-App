@@ -35,14 +35,15 @@ class MyProjectsFragment : Fragment() {
                     findNavController().popBackStack()
                 }
             })
+        add.setOnClickListener {
+            CreateProjectDialogFragment().show(
+                childFragmentManager, CreateProjectDialogFragment.TAG
+            )
+        }
 
 
         GlobalScope.launch(Dispatchers.Default) {
             val projects = CloudCodingNetworkManager.getOwnedProjects()
-            add.setOnClickListener {
-                CreateProjectDialogFragment().show(
-                    childFragmentManager, CreateProjectDialogFragment.TAG,)
-            }
             withContext(Dispatchers.Main) {
                 project_list.run {
                     layoutManager = LinearLayoutManager(this@MyProjectsFragment.context)

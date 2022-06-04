@@ -3,7 +3,7 @@ package com.cloudcoding.features.groups.group
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.cloudcoding.features.members.MembersFragment
-import com.cloudcoding.features.projects.ProjectsFragment
+import com.cloudcoding.features.projects.MyProfileProjectsFragment
 
 class GroupDetailsAdapter(fa: Fragment) : FragmentStateAdapter(fa) {
     override fun getItemCount(): Int {
@@ -12,7 +12,7 @@ class GroupDetailsAdapter(fa: Fragment) : FragmentStateAdapter(fa) {
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> ProjectsFragment()
+            0 -> MyProfileProjectsFragment()
             else -> MembersFragment()
         }
     }

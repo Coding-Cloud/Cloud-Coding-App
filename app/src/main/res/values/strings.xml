@@ -21,4 +21,6 @@
     <string name="visibility">Visibility</string>
     <string name="language">Language</string>
     <string name="comment_html"><![CDATA[<p>%1$s</p>]]></string>
+    <string name="joined_groups">Joined Groups</string>
+    <string name="owned_groups">Owned Groups</string>
 </resources>

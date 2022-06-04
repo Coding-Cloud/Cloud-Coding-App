@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cloudcoding.R
+import com.cloudcoding.api.CloudCodingNetworkManager
 import com.cloudcoding.api.request.GetCommentsRequest
 import com.cloudcoding.api.response.CommentsResponse
 import com.cloudcoding.utils.PaginationScrollListener
@@ -19,7 +20,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class CommentsFragment(private val getComments: suspend (GetCommentsRequest) -> CommentsResponse) :
+class MyCommentsFragment :
     Fragment() {
     private var loading = false
     override fun onCreateView(
@@ -40,7 +41,7 @@ class CommentsFragment(private val getComments: suspend (GetCommentsRequest) -> 
             })
         var comments:CommentsResponse
         GlobalScope.launch(Dispatchers.Default) {
-            comments = getComments(
+            comments = CloudCodingNetworkManager.getCurrentUserComments(
                 GetCommentsRequest(
                     null,
                     null,
@@ -50,7 +51,7 @@ class CommentsFragment(private val getComments: suspend (GetCommentsRequest) -> 
             )
             withContext(Dispatchers.Main) {
                 comment_list.run {
-                    layoutManager = LinearLayoutManager(this@CommentsFragment.context)
+                    layoutManager = LinearLayoutManager(this@MyCommentsFragment.context)
                     adapter = CommentAdapter(comments.comments)
                     addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
                 }
@@ -68,7 +69,7 @@ class CommentsFragment(private val getComments: suspend (GetCommentsRequest) -> 
                 override fun loadMoreItems() {
                     loading = true
                     GlobalScope.launch(Dispatchers.Default) {
-                        val commentsResponse = getComments(
+                        val commentsResponse = CloudCodingNetworkManager.getCurrentUserComments(
                             GetCommentsRequest(
                                 null,
                                 null,

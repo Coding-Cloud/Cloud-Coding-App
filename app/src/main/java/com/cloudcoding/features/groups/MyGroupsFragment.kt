@@ -17,7 +17,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class GroupsFragment : Fragment() {
+class MyGroupsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         parent: ViewGroup?,
@@ -38,11 +38,17 @@ class GroupsFragment : Fragment() {
             val ownedGroups = CloudCodingNetworkManager.getOwnedGroups()
             val joinedGroups = CloudCodingNetworkManager.getJoinedGroups()
             val groups = mutableListOf<Any>()
-            groups.addAll(ownedGroups)
-            groups.addAll(joinedGroups)
+            if (ownedGroups.size > 0) {
+                groups.add(getString(R.string.owned_groups))
+                groups.addAll(ownedGroups)
+            }
+            if (joinedGroups.size > 0) {
+                groups.add(getString(R.string.joined_groups))
+                groups.addAll(joinedGroups)
+            }
             withContext(Dispatchers.Main) {
                 group_list.run {
-                    layoutManager = LinearLayoutManager(this@GroupsFragment.context)
+                    layoutManager = LinearLayoutManager(this@MyGroupsFragment.context)
                     adapter = GroupAdapter(groups)
                     addItemDecoration(
                         DividerItemDecoration(

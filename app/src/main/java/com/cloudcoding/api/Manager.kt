@@ -8,12 +8,14 @@ import com.cloudcoding.api.response.CommentsResponse
 import com.cloudcoding.api.response.TokenResponse
 import com.cloudcoding.models.*
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import retrofit2.http.GET
 
 
 object CloudCodingNetworkManager {
@@ -117,5 +119,11 @@ object CloudCodingNetworkManager {
             getCommentsRequest.limit,
             getCommentsRequest.offset
         ).await()
+    }
+    suspend fun getJoinedGroups(): MutableList<Group> {
+        return retrofit.getMemberGroups().await()
+    }
+    suspend fun getOwnedGroups(): MutableList<Group> {
+        return retrofit.getOwnedGroups().await()
     }
 }

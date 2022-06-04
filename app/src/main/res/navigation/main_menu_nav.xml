@@ -17,18 +17,6 @@
         </action>
     </fragment>
     <fragment
-        android:id="@+id/nav_item_projects"
-        android:name="com.cloudcoding.features.projects.ProjectsFragment"
-        android:label="ProjectsFragment">
-        <action
-            android:id="@+id/action_projectsFragment_to_projectDetailsFragment"
-            app:destination="@id/projectDetailsFragment">
-            <argument
-                android:name="projectId"
-                app:argType="string" />
-        </action>
-    </fragment>
-    <fragment
         android:id="@+id/projectDetailsFragment"
         android:name="com.cloudcoding.features.projects.details.ProjectDetailsFragment"
         android:label="ProjectDetailsFragment" />
@@ -52,8 +40,8 @@
         android:label="ConversationFragment" />
     <fragment
         android:id="@+id/nav_item_groups"
-        android:name="com.cloudcoding.features.groups.GroupsFragment"
-        android:label="GroupsFragment">
+        android:name="com.cloudcoding.features.groups.MyGroupsFragment"
+        android:label="MyGroupsFragment">
         <action
             android:id="@+id/action_groupsFragment_to_groupDetailsFragment"
             app:destination="@id/groupDetailsFragment" />
@@ -64,6 +52,18 @@
         android:label="GroupDetailsFragment" />
     <fragment
         android:id="@+id/nav_item_profile"
-        android:name="com.cloudcoding.features.profile.ProfileFragment"
-        android:label="ProfileFragment" />
+        android:name="com.cloudcoding.features.profile.MyProfileFragment"
+        android:label="ProfileFragment">
+        <action
+            android:id="@+id/action_nav_item_profile_to_groupDetailsFragment"
+            app:destination="@id/groupDetailsFragment" />
+        <action
+            android:id="@+id/action_nav_item_profile_to_projectDetailsFragment"
+            app:destination="@id/projectDetailsFragment">
+            <argument
+                android:name="projectId"
+                app:argType="string" />
+        </action>
+
+    </fragment>
 </navigation>

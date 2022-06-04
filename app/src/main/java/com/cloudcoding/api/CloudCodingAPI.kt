@@ -63,4 +63,10 @@ interface CloudCodingAPI {
         @Query("offset")
         offset: Number?
     ): Deferred<CommentsResponse>
+
+    @GET("/groups/member")
+    fun getMemberGroups(): Deferred<MutableList<Group>>
+
+    @GET("/groups/owned")
+    fun getOwnedGroups(): Deferred<MutableList<Group>>
 }

@@ -10,9 +10,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cloudcoding.R
+import com.cloudcoding.api.CloudCodingNetworkManager
 import kotlinx.android.synthetic.main.projects_fragment.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class ProjectsFragment() : Fragment() {
+class MyProfileProjectsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         parent: ViewGroup?,
@@ -29,10 +34,24 @@ class ProjectsFragment() : Fragment() {
                     findNavController().popBackStack()
                 }
             })
-        project_list.run {
-            layoutManager = LinearLayoutManager(this@ProjectsFragment.context)
-            adapter = ProjectAdapter(mutableListOf(), R.id.action_projectsFragment_to_projectDetailsFragment)
-            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+
+        GlobalScope.launch(Dispatchers.Default) {
+            val projects = CloudCodingNetworkManager.getOwnedProjects()
+            withContext(Dispatchers.Main) {
+                project_list.run {
+                    layoutManager = LinearLayoutManager(this@MyProfileProjectsFragment.context)
+                    adapter = ProjectAdapter(
+                        projects,
+                        R.id.action_nav_item_profile_to_projectDetailsFragment
+                    )
+                    addItemDecoration(
+                        DividerItemDecoration(
+                            context,
+                            DividerItemDecoration.VERTICAL
+                        )
+                    )
+                }
+            }
         }
     }
 }
