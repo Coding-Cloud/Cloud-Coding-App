@@ -39,7 +39,7 @@ class MyCommentsFragment :
                     findNavController().popBackStack()
                 }
             })
-        var comments:CommentsResponse
+        var comments: CommentsResponse
         GlobalScope.launch(Dispatchers.Default) {
             comments = CloudCodingNetworkManager.getCurrentUserComments(
                 GetCommentsRequest(
@@ -53,7 +53,12 @@ class MyCommentsFragment :
                 comment_list.run {
                     layoutManager = LinearLayoutManager(this@MyCommentsFragment.context)
                     adapter = CommentAdapter(comments.comments)
-                    addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+                    addItemDecoration(
+                        DividerItemDecoration(
+                            context,
+                            DividerItemDecoration.VERTICAL
+                        )
+                    )
                 }
             }
             comment_list.addOnScrollListener(object :
@@ -88,6 +93,11 @@ class MyCommentsFragment :
                             loading = false
                         }
                     }
+                }
+
+
+                override fun isReversed(): Boolean {
+                    return false
                 }
 
                 override fun getTotalPageCount(): Int {

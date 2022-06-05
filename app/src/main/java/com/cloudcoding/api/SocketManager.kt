@@ -5,6 +5,7 @@ import com.cloudcoding.MainActivity
 import com.cloudcoding.api.request.GetConversationsRequest
 import com.cloudcoding.api.request.GetMessagesRequest
 import com.cloudcoding.api.request.MessageRequest
+import com.cloudcoding.api.response.MessagesResponse
 import com.cloudcoding.models.Conversation
 import com.cloudcoding.models.Message
 import com.google.gson.Gson
@@ -52,10 +53,10 @@ object SocketManager {
         }
     }
 
-    fun onMessages(a: (MutableList<Message>) -> Unit) {
+    fun onMessages(a: (MessagesResponse) -> Unit) {
         connection.on("messages") { args ->
-            val listType: Type = object : TypeToken<MutableList<Message>?>() {}.type
-            val messages: MutableList<Message> = gson.fromJson(args[0].toString(), listType)
+            val listType: Type = object : TypeToken<MessagesResponse?>() {}.type
+            val messages: MessagesResponse = gson.fromJson(args[0].toString(), listType)
             a(messages)
         }
     }

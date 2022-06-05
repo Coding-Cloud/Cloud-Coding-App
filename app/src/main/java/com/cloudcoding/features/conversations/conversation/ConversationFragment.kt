@@ -14,7 +14,9 @@ import com.cloudcoding.R
 import com.cloudcoding.api.SocketManager
 import com.cloudcoding.api.request.GetMessagesRequest
 import com.cloudcoding.api.request.MessageRequest
-import com.cloudcoding.models.Message
+import com.cloudcoding.api.response.MessagesResponse
+import com.cloudcoding.utils.PaginationScrollListener
+import kotlinx.android.synthetic.main.comments_fragment.*
 import kotlinx.android.synthetic.main.conversation_fragment.*
 
 class ConversationFragment : Fragment() {
@@ -34,39 +36,78 @@ class ConversationFragment : Fragment() {
                     findNavController().popBackStack()
                 }
             })
-        var convMessages: MutableList<Message> = mutableListOf()
+        var loading = true
+        val convMessages = MessagesResponse(mutableListOf(), 0)
         val conversationId = requireArguments().getString("conversationId")!!
         val preference = MainActivity.getContext().getSharedPreferences(
             getString(R.string.me),
             Context.MODE_PRIVATE
         )!!
         val userId = preference.getString(getString(R.string.me), "")!!
+        message_list.run {
+            layoutManager = LinearLayoutManager(this@ConversationFragment.context)
+            adapter = MessageAdapter(convMessages.messages, userId)
+            scrollToPosition(convMessages.messages.size - 1)
+        }
+
+        message_list.addOnScrollListener(object :
+            PaginationScrollListener(message_list.layoutManager as LinearLayoutManager) {
+            override fun isLastPage(): Boolean {
+                return convMessages.totalResults == convMessages.messages.size
+            }
+
+            override fun isLoading(): Boolean {
+                return loading
+            }
+
+            override fun loadMoreItems() {
+                SocketManager.getMessages(
+                    GetMessagesRequest(
+                        conversationId,
+                        25,
+                        convMessages.messages.size
+                    )
+                )
+            }
+
+            override fun getTotalPageCount(): Int {
+                return 0
+            }
+
+            override fun isReversed(): Boolean {
+                return true
+            }
+        })
         SocketManager.onMessages { messages ->
-            convMessages = messages
+            loading = false
             activity?.runOnUiThread {
-                message_list.run {
-                    layoutManager = LinearLayoutManager(this@ConversationFragment.context)
-                    adapter = MessageAdapter(messages, userId)
-                    scrollToPosition(convMessages.size - 1)
+                println("aaaaaaaaaaaaaaaaaaaaaaaaaa")
+                convMessages.totalResults = messages.totalResults
+                val size = convMessages.messages.size
+                convMessages.messages.addAll(0,messages.messages.reversed())
+                message_list.adapter?.notifyItemRangeInserted(0,messages.messages.size)
+                if(size == 0){
+                    message_list.scrollToPosition(convMessages.messages.size - 1)
                 }
             }
         }
         SocketManager.onMessageCreated { message ->
             activity?.runOnUiThread {
-                convMessages.add(message)
-                message_list.adapter?.notifyItemInserted(convMessages.size - 1)
-                message_list.scrollToPosition(convMessages.size - 1)
+                convMessages.messages.add(message)
+                convMessages.totalResults += 1
+                message_list.adapter?.notifyItemInserted(convMessages.messages.size - 1)
+                message_list.scrollToPosition(convMessages.messages.size - 1)
             }
         }
         SocketManager.onMessageDeleted { messageId ->
             activity?.runOnUiThread {
-                val index = convMessages.indexOfFirst { it.id == messageId }
-                convMessages.removeAt(index)
-                message_list.adapter?.notifyItemRangeRemoved(index, convMessages.size)
-                message_list.scrollToPosition(convMessages.size - 1)
+                val index = convMessages.messages.indexOfFirst { it.id == messageId }
+                convMessages.messages.removeAt(index)
+                convMessages.totalResults -= 1
+                message_list.adapter?.notifyItemRangeRemoved(index, convMessages.messages.size)
+                message_list.scrollToPosition(convMessages.messages.size - 1)
             }
         }
-        SocketManager.getMessages(GetMessagesRequest(conversationId, null, null))
 
         send.setOnClickListener {
             SocketManager.createMessage(
@@ -78,5 +119,6 @@ class ConversationFragment : Fragment() {
             )
             message_text.text.clear()
         }
+        SocketManager.getMessages(GetMessagesRequest(conversationId, 25, 0))
     }
 }
