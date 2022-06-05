@@ -16,7 +16,7 @@ class MyProfileAdapter(val groups: MutableList<Any>, fa: Fragment) : FragmentSta
         return when (position) {
             0 -> MyCommentsFragment()
             1 -> MyProfileProjectsFragment()
-            else -> GroupsFragment(groups, R.id.action_myProjectsFragment_to_projectDetailsFragment)
+            else -> GroupsFragment(groups, R.id.action_nav_item_my_profile_to_groupDetailsFragment)
         }
     }
 }

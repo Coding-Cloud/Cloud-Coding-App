@@ -77,5 +77,5 @@ interface CloudCodingAPI {
     fun getGroupMembers(@Path("groupId") groupId: String): Deferred<MutableList<GroupMembership>>
 
     @GET("/group-memberships/user/{userId}")
-    fun getUserGroups(userId: String): Deferred<MutableList<GroupMembership>>
+    fun getUserGroups(@Path("userId")userId: String): Deferred<MutableList<GroupMembership>>
 }

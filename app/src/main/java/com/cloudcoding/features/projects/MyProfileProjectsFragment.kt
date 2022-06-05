@@ -42,7 +42,7 @@ class MyProfileProjectsFragment : Fragment() {
                     layoutManager = LinearLayoutManager(this@MyProfileProjectsFragment.context)
                     adapter = ProjectAdapter(
                         projects,
-                        R.id.action_nav_item_profile_to_projectDetailsFragment
+                        R.id.action_nav_item_my_profile_to_projectDetailsFragment
                     )
                     addItemDecoration(
                         DividerItemDecoration(

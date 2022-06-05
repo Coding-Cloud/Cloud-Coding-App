@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group>
         <item
-            android:id="@+id/nav_item_profile"
+            android:id="@+id/nav_item_my_profile"
             android:title="@string/profile" />
         <item
             android:id="@+id/nav_item_friends"

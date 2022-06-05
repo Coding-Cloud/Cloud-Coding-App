@@ -2,6 +2,8 @@ package com.cloudcoding.features.members
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
@@ -14,7 +16,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MemberAdapter(val members: MutableList<GroupMembership>) : RecyclerView.Adapter<MemberItem>() {
+class MemberAdapter(val members: MutableList<GroupMembership>, val action: Int) :
+    RecyclerView.Adapter<MemberItem>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MemberItem {
         return MemberItem(
             LayoutInflater.from(parent.context)
@@ -23,10 +26,19 @@ class MemberAdapter(val members: MutableList<GroupMembership>) : RecyclerView.Ad
     }
 
     override fun onBindViewHolder(cell: MemberItem, position: Int) {
+        cell.itemView.setOnClickListener {
+            cell.itemView
+                .findNavController()
+                .navigate(action, bundleOf("userId" to members[position].userId))
+
+        }
         GlobalScope.launch(Dispatchers.Default) {
-            val user = CloudCodingNetworkManager.getUserById(members[position].userid)
+            val user = CloudCodingNetworkManager.getUserById(members[position].userId)
             withContext(Dispatchers.Main) {
-                cell.name
+                cell.name.text =
+                    cell.itemView.context.getString(R.string.name, user.firstname, user.lastname)
+                cell.username.text =
+                    cell.itemView.context.getString(R.string.username, user.username)
             }
         }
         Glide.with(cell.profilePicture.context)

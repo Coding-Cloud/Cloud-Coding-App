@@ -35,12 +35,14 @@ class ProfileFragment : Fragment() {
                 }
             })
         val userId = requireArguments().getString("userId")!!
-        name.text = ""
         GlobalScope.launch(Dispatchers.Default) {
+            val user = CloudCodingNetworkManager.getUserById(userId)
             val groups = mutableListOf<Any>()
-            val groupMemberships = CloudCodingNetworkManager.getUserGroups(userId)
-            groups.addAll(groupMemberships.map { CloudCodingNetworkManager.getGroupById(it.groupId) })
+//            val groupMemberships = CloudCodingNetworkManager.getUserGroups(userId)
+//            groups.addAll(groupMemberships.map { CloudCodingNetworkManager.getGroupById(it.groupId) })
             withContext(Dispatchers.Main) {
+                name.text = getString(R.string.name, user.firstname, user.lastname)
+                username.text = getString(R.string.username, user.username)
                 viewpager.adapter = MyProfileAdapter(groups, this@ProfileFragment)
                 TabLayoutMediator(tabLayout, viewpager) { tab: TabLayout.Tab, i: Int ->
                     when (i) {
