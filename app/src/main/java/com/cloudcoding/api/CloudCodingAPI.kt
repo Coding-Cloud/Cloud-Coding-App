@@ -5,6 +5,7 @@ import com.cloudcoding.api.request.CreateProjectRequest
 import com.cloudcoding.api.request.LoginRequest
 import com.cloudcoding.api.request.SignupRequest
 import com.cloudcoding.api.response.CommentsResponse
+import com.cloudcoding.api.response.FollowersResponse
 import com.cloudcoding.api.response.TokenResponse
 import com.cloudcoding.models.*
 import kotlinx.coroutines.Deferred
@@ -77,5 +78,11 @@ interface CloudCodingAPI {
     fun getGroupMembers(@Path("groupId") groupId: String): Deferred<MutableList<GroupMembership>>
 
     @GET("/group-memberships/user/{userId}")
-    fun getUserGroups(@Path("userId")userId: String): Deferred<MutableList<GroupMembership>>
+    fun getUserGroups(@Path("userId") userId: String): Deferred<MutableList<GroupMembership>>
+
+    @GET("/followers/{userId}/followers")
+    abstract fun getFollowings(@Path("userId") userId: String): Deferred<FollowersResponse>
+
+    @GET("/followers/{userId}/followings")
+    abstract fun getFollowers(@Path("userId") userId: String): Deferred<FollowersResponse>
 }

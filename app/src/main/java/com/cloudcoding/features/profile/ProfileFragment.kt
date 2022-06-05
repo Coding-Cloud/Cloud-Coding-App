@@ -11,7 +11,16 @@ import com.cloudcoding.R
 import com.cloudcoding.api.CloudCodingNetworkManager
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.android.synthetic.main.my_profile_fragment.*
 import kotlinx.android.synthetic.main.profile_fragment.*
+import kotlinx.android.synthetic.main.profile_fragment.followers
+import kotlinx.android.synthetic.main.profile_fragment.followers_count
+import kotlinx.android.synthetic.main.profile_fragment.followings
+import kotlinx.android.synthetic.main.profile_fragment.followings_count
+import kotlinx.android.synthetic.main.profile_fragment.name
+import kotlinx.android.synthetic.main.profile_fragment.tabLayout
+import kotlinx.android.synthetic.main.profile_fragment.username
+import kotlinx.android.synthetic.main.profile_fragment.viewpager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -23,7 +32,7 @@ class ProfileFragment : Fragment() {
         parent: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.my_profile_fragment, parent, false)
+        return inflater.inflate(R.layout.profile_fragment, parent, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -37,12 +46,16 @@ class ProfileFragment : Fragment() {
         val userId = requireArguments().getString("userId")!!
         GlobalScope.launch(Dispatchers.Default) {
             val user = CloudCodingNetworkManager.getUserById(userId)
+            val followers = CloudCodingNetworkManager.getFollowers(userId)
+            val followings = CloudCodingNetworkManager.getFollowings(userId)
             val groups = mutableListOf<Any>()
 //            val groupMemberships = CloudCodingNetworkManager.getUserGroups(userId)
 //            groups.addAll(groupMemberships.map { CloudCodingNetworkManager.getGroupById(it.groupId) })
             withContext(Dispatchers.Main) {
                 name.text = getString(R.string.name, user.firstname, user.lastname)
                 username.text = getString(R.string.username, user.username)
+                followers_count.text = followers.totalResults.toString()
+                followings_count.text = followings.totalResults.toString()
                 viewpager.adapter = MyProfileAdapter(groups, this@ProfileFragment)
                 TabLayoutMediator(tabLayout, viewpager) { tab: TabLayout.Tab, i: Int ->
                     when (i) {

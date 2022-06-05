@@ -12,7 +12,6 @@ import com.cloudcoding.api.CloudCodingNetworkManager
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.my_profile_fragment.*
-import kotlinx.android.synthetic.main.my_profile_fragment.name
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -37,9 +36,13 @@ class MyProfileFragment : Fragment() {
             })
         GlobalScope.launch(Dispatchers.Default) {
             val me = CloudCodingNetworkManager.getMe()
+            val followers = CloudCodingNetworkManager.getFollowers(me.id)
+            val followings = CloudCodingNetworkManager.getFollowings(me.id)
             withContext(Dispatchers.Main) {
                 name.text = getString(R.string.name, me.firstname, me.lastname)
-                username.text = me.username
+                username.text = getString(R.string.username, me.username)
+                followers_count.text = followers.totalResults.toString()
+                followings_count.text = followings.totalResults.toString()
             }
         }
         GlobalScope.launch(Dispatchers.Default) {

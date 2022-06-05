@@ -5,6 +5,7 @@ import com.cloudcoding.MainActivity
 import com.cloudcoding.R
 import com.cloudcoding.api.request.*
 import com.cloudcoding.api.response.CommentsResponse
+import com.cloudcoding.api.response.FollowersResponse
 import com.cloudcoding.api.response.TokenResponse
 import com.cloudcoding.models.*
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
@@ -134,5 +135,11 @@ object CloudCodingNetworkManager {
     }
     suspend fun getUserGroups(userId: String): MutableList<GroupMembership>{
         return retrofit.getUserGroups(userId).await()
+    }
+    suspend fun getFollowings(userId: String): FollowersResponse {
+        return retrofit.getFollowings(userId).await()
+    }
+    suspend fun getFollowers(userId: String): FollowersResponse {
+        return retrofit.getFollowers(userId).await()
     }
 }

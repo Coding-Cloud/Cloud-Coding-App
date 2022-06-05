@@ -20,6 +20,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import com.cloudcoding.api.CloudCodingNetworkManager
 import kotlinx.android.synthetic.main.main_menu_nav_host.*
+import kotlinx.android.synthetic.main.my_profile_fragment.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -66,7 +67,11 @@ class MainMenuFragment : Fragment() {
         )
         GlobalScope.launch(Dispatchers.Default) {
             val user = CloudCodingNetworkManager.getMe()
+            val followers = CloudCodingNetworkManager.getFollowers(user.id)
+            val followings = CloudCodingNetworkManager.getFollowings(user.id)
             withContext(Dispatchers.Main) {
+                nav.getHeaderView(0).findViewById<TextView>(R.id.followers_count).text = followers.totalResults.toString()
+                nav.getHeaderView(0).findViewById<TextView>(R.id.followings_count).text = followings.totalResults.toString()
                 nav.getHeaderView(0).findViewById<TextView>(R.id.name).text =
                     getString(R.string.name, user.firstname, user.lastname)
                 nav.getHeaderView(0).findViewById<TextView>(R.id.username).text =
