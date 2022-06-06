@@ -26,7 +26,10 @@ class FollowingAdapter(val followings: MutableList<Follower>) :
         cell.itemView.setOnClickListener {
             cell.itemView
                 .findNavController()
-                .navigate(R.id.action_viewFollowerFragment_to_profileFragment2, bundleOf("userId" to followings[position].followedId))
+                .navigate(
+                    R.id.action_viewFollowerFragment_to_profileFragment2,
+                    bundleOf("userId" to followings[position].followedId)
+                )
 
         }
         GlobalScope.launch(Dispatchers.Default) {

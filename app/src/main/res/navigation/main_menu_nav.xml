@@ -61,6 +61,13 @@
                 android:name="userId"
                 app:argType="string" />
         </action>
+        <action
+            android:id="@+id/action_groupDetailsFragment_to_projectDetailsFragment"
+            app:destination="@id/projectDetailsFragment">
+            <argument
+                android:name="projectId"
+                app:argType="string" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/nav_item_my_profile"

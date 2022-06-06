@@ -80,20 +80,20 @@ interface CloudCodingAPI {
     @GET("/group-memberships/user/{userId}")
     fun getUserGroups(@Path("userId") userId: String): Deferred<MutableList<GroupMembership>>
 
-    @GET("/followers/{userId}/followers")
-    abstract fun getFollowings(
+    @GET("/followers/{userId}/followings")
+    fun getFollowings(
         @Path("userId") userId: String,
         @Query("limit") limit: Number?,
         @Query("offset") offset: Number?
     ): Deferred<FollowersResponse>
 
-    @GET("/followers/{userId}/followings")
-    abstract fun getFollowers(
+    @GET("/followers/{userId}/followers")
+    fun getFollowers(
         @Path("userId") userId: String,
         @Query("limit") limit: Number?,
         @Query("offset") offset: Number?
     ): Deferred<FollowersResponse>
 
     @GET("/followers/{userId}/is-following")
-    abstract fun isFollowing(@Path("userId") userId: String): Deferred<Response<Boolean>>
+    fun isFollowing(@Path("userId") userId: String): Deferred<Response<Boolean>>
 }

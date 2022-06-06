@@ -30,10 +30,10 @@ class FollowingsFragment(val userId: String) : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         var loading = true
-        var followers = FollowersResponse(mutableListOf(), 0)
+        val followings = FollowersResponse(mutableListOf(), 0)
         follower_list.run {
             layoutManager = LinearLayoutManager(this@FollowingsFragment.context)
-            adapter = FollowingAdapter(followers.followers)
+            adapter = FollowingAdapter(followings.followers)
             addItemDecoration(
                 DividerItemDecoration(
                     context,
@@ -44,7 +44,7 @@ class FollowingsFragment(val userId: String) : Fragment() {
         follower_list.addOnScrollListener(object :
             PaginationScrollListener(follower_list.layoutManager as LinearLayoutManager) {
             override fun isLastPage(): Boolean {
-                return followers.totalResults == followers.followers.size
+                return followings.totalResults == followings.followers.size
             }
 
             override fun isLoading(): Boolean {
@@ -54,7 +54,7 @@ class FollowingsFragment(val userId: String) : Fragment() {
             override fun loadMoreItems() {
                 loading = true
                 GlobalScope.launch(Dispatchers.Default) {
-                    val size = followers.followers.size
+                    val size = followings.followers.size
                     val followersResponse = CloudCodingNetworkManager.getFollowers(
                         GetFollowersRequest(
                             userId,
@@ -62,8 +62,8 @@ class FollowingsFragment(val userId: String) : Fragment() {
                             0
                         )
                     )
-                    followers.followers.addAll(followersResponse.followers)
-                    followers.totalResults = followersResponse.totalResults
+                    followings.followers.addAll(followersResponse.followers)
+                    followings.totalResults = followersResponse.totalResults
                     withContext(Dispatchers.Main) {
                         loading = false
                         follower_list.adapter?.notifyItemRangeInserted(
@@ -83,9 +83,11 @@ class FollowingsFragment(val userId: String) : Fragment() {
             }
         })
         GlobalScope.launch(Dispatchers.Default) {
-            followers = CloudCodingNetworkManager.getFollowings(GetFollowersRequest(userId, 25, 0))
+            val followingsResponse = CloudCodingNetworkManager.getFollowings(GetFollowersRequest(userId, 25, 0))
+            followings.followers.addAll(followingsResponse.followers)
+            followings.totalResults = followingsResponse.totalResults
             withContext(Dispatchers.Main) {
-                follower_list.adapter?.notifyItemRangeInserted(0, followers.followers.size)
+                follower_list.adapter?.notifyItemRangeInserted(0, followings.followers.size)
             }
         }
     }

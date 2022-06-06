@@ -14,7 +14,7 @@ import com.cloudcoding.models.Project
 import kotlinx.android.synthetic.main.my_projects_fragment.*
 import kotlinx.android.synthetic.main.projects_fragment.project_list
 
-class ProjectsFragment(val projects: MutableList<Project>) : Fragment() {
+class ProjectsFragment(val projects: MutableList<Project>, val action: Int) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         parent: ViewGroup?,
@@ -40,7 +40,7 @@ class ProjectsFragment(val projects: MutableList<Project>) : Fragment() {
             layoutManager = LinearLayoutManager(this@ProjectsFragment.context)
             adapter = ProjectAdapter(
                 projects,
-                R.id.action_myProjectsFragment_to_projectDetailsFragment
+                action
             )
             addItemDecoration(
                 DividerItemDecoration(
