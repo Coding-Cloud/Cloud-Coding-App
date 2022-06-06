@@ -1,4 +1,4 @@
-package com.cloudcoding.features.followers
+package com.cloudcoding.features.follow.follower
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,28 +7,29 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.cloudcoding.R
 import com.cloudcoding.api.CloudCodingNetworkManager
+import com.cloudcoding.features.follow.FollowItem
 import com.cloudcoding.models.Follower
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class FollowerAdapter(val followers: MutableList<Follower>) : RecyclerView.Adapter<FollowerItem>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FollowerItem {
-        return FollowerItem(
+class FollowerAdapter(val followers: MutableList<Follower>) : RecyclerView.Adapter<FollowItem>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FollowItem {
+        return FollowItem(
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.follower_item, parent, false)
         )
     }
 
-    override fun onBindViewHolder(cell: FollowerItem, position: Int) {
+    override fun onBindViewHolder(cell: FollowItem, position: Int) {
         val userId = followers[position].followerId
         cell.itemView.setOnClickListener {
             cell.itemView
                 .findNavController()
                 .navigate(
-                    R.id.action_viewFollowerFragment_to_profileFragment2,
-                    bundleOf("userId" to followers[position].followerId)
+                    R.id.action_followFragment_to_profileFragment2,
+                    bundleOf("userId" to userId)
                 )
 
         }

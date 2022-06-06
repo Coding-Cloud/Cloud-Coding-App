@@ -1,4 +1,4 @@
-package com.cloudcoding.features.followers
+package com.cloudcoding.features.follow
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,18 +10,18 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.my_profile_fragment.*
 
-class ViewFollowerFragment : Fragment() {
+class FollowFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         parent: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.view_follower_fragment, parent, false)
+        return inflater.inflate(R.layout.follow_fragment, parent, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val userId = requireArguments().getString("userId")!!
-        viewpager.adapter = ViewFollowerAdapter(userId, this@ViewFollowerFragment)
+        viewpager.adapter = FollowAdapter(userId, this@FollowFragment)
         TabLayoutMediator(tabLayout, viewpager) { tab: TabLayout.Tab, i: Int ->
             when (i) {
                 0 -> tab.text = "Followers"

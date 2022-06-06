@@ -1,4 +1,4 @@
-package com.cloudcoding.features.followers
+package com.cloudcoding.features.follow.follower
 
 import android.os.Bundle
 import android.view.LayoutInflater

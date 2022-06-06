@@ -40,14 +40,14 @@ class ProfileFragment : Fragment() {
         followers.setOnClickListener {
             findNavController()
                 .navigate(
-                    R.id.action_profileFragment_to_viewFollowerFragment,
+                    R.id.action_profileFragment_to_followFragment,
                     bundleOf("userId" to userId)
                 )
         }
         followings.setOnClickListener {
             findNavController()
                 .navigate(
-                    R.id.action_profileFragment_to_viewFollowerFragment,
+                    R.id.action_profileFragment_to_followFragment,
                     bundleOf("userId" to userId)
                 )
         }
