@@ -85,5 +85,25 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.cloudcoding.features.profile.ProfileFragment"
-        android:label="ProfileFragment" />
+        android:label="ProfileFragment">
+        <action
+            android:id="@+id/action_profileFragment_to_viewFollowerFragment"
+            app:destination="@id/viewFollowerFragment">
+            <argument
+                android:name="userId"
+                app:argType="string" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/viewFollowerFragment"
+        android:name="com.cloudcoding.features.followers.ViewFollowerFragment"
+        android:label="ViewFollowerFragment">
+        <action
+            android:id="@+id/action_viewFollowerFragment_to_profileFragment2"
+            app:destination="@id/profileFragment">
+            <argument
+                android:name="userId"
+                app:argType="string" />
+        </action>
+    </fragment>
 </navigation>

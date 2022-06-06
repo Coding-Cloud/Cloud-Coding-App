@@ -5,22 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.cloudcoding.R
 import com.cloudcoding.api.CloudCodingNetworkManager
+import com.cloudcoding.api.request.GetFollowersRequest
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.android.synthetic.main.my_profile_fragment.*
 import kotlinx.android.synthetic.main.profile_fragment.*
-import kotlinx.android.synthetic.main.profile_fragment.followers
-import kotlinx.android.synthetic.main.profile_fragment.followers_count
-import kotlinx.android.synthetic.main.profile_fragment.followings
-import kotlinx.android.synthetic.main.profile_fragment.followings_count
-import kotlinx.android.synthetic.main.profile_fragment.name
-import kotlinx.android.synthetic.main.profile_fragment.tabLayout
-import kotlinx.android.synthetic.main.profile_fragment.username
-import kotlinx.android.synthetic.main.profile_fragment.viewpager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -44,13 +37,28 @@ class ProfileFragment : Fragment() {
                 }
             })
         val userId = requireArguments().getString("userId")!!
+        followers.setOnClickListener {
+            findNavController()
+                .navigate(
+                    R.id.action_profileFragment_to_viewFollowerFragment,
+                    bundleOf("userId" to userId)
+                )
+        }
+        followings.setOnClickListener {
+            findNavController()
+                .navigate(
+                    R.id.action_profileFragment_to_viewFollowerFragment,
+                    bundleOf("userId" to userId)
+                )
+        }
         GlobalScope.launch(Dispatchers.Default) {
             val user = CloudCodingNetworkManager.getUserById(userId)
-            val followers = CloudCodingNetworkManager.getFollowers(userId)
-            val followings = CloudCodingNetworkManager.getFollowings(userId)
+            val followerRequest = GetFollowersRequest(user.id, null, null)
+            val followers = CloudCodingNetworkManager.getFollowers(followerRequest)
+            val followings = CloudCodingNetworkManager.getFollowings(followerRequest)
             val groups = mutableListOf<Any>()
-//            val groupMemberships = CloudCodingNetworkManager.getUserGroups(userId)
-//            groups.addAll(groupMemberships.map { CloudCodingNetworkManager.getGroupById(it.groupId) })
+            val groupMemberships = CloudCodingNetworkManager.getUserGroups(userId)
+            groups.addAll(groupMemberships.map { CloudCodingNetworkManager.getGroupById(it.groupId) })
             withContext(Dispatchers.Main) {
                 name.text = getString(R.string.name, user.firstname, user.lastname)
                 username.text = getString(R.string.username, user.username)

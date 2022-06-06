@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -19,8 +20,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import com.cloudcoding.api.CloudCodingNetworkManager
+import com.cloudcoding.api.request.GetFollowersRequest
 import kotlinx.android.synthetic.main.main_menu_nav_host.*
-import kotlinx.android.synthetic.main.my_profile_fragment.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -67,11 +68,14 @@ class MainMenuFragment : Fragment() {
         )
         GlobalScope.launch(Dispatchers.Default) {
             val user = CloudCodingNetworkManager.getMe()
-            val followers = CloudCodingNetworkManager.getFollowers(user.id)
-            val followings = CloudCodingNetworkManager.getFollowings(user.id)
+            val followerRequest = GetFollowersRequest(user.id, null, null)
+            val followers = CloudCodingNetworkManager.getFollowers(followerRequest)
+            val followings = CloudCodingNetworkManager.getFollowings(followerRequest)
             withContext(Dispatchers.Main) {
-                nav.getHeaderView(0).findViewById<TextView>(R.id.followers_count).text = followers.totalResults.toString()
-                nav.getHeaderView(0).findViewById<TextView>(R.id.followings_count).text = followings.totalResults.toString()
+                nav.getHeaderView(0).findViewById<TextView>(R.id.followers_count).text =
+                    followers.totalResults.toString()
+                nav.getHeaderView(0).findViewById<TextView>(R.id.followings_count).text =
+                    followings.totalResults.toString()
                 nav.getHeaderView(0).findViewById<TextView>(R.id.name).text =
                     getString(R.string.name, user.firstname, user.lastname)
                 nav.getHeaderView(0).findViewById<TextView>(R.id.username).text =

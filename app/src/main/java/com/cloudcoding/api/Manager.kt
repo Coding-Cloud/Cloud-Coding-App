@@ -119,9 +119,11 @@ object CloudCodingNetworkManager {
             getCommentsRequest.offset
         ).await()
     }
+
     suspend fun getJoinedGroups(): MutableList<Group> {
         return retrofit.getJoinedGroups().await()
     }
+
     suspend fun getOwnedGroups(): MutableList<Group> {
         return retrofit.getOwnedGroups().await()
     }
@@ -133,13 +135,20 @@ object CloudCodingNetworkManager {
     suspend fun getGroupMembers(groupId: String): MutableList<GroupMembership> {
         return retrofit.getGroupMembers(groupId).await()
     }
-    suspend fun getUserGroups(userId: String): MutableList<GroupMembership>{
+
+    suspend fun getUserGroups(userId: String): MutableList<GroupMembership> {
         return retrofit.getUserGroups(userId).await()
     }
-    suspend fun getFollowings(userId: String): FollowersResponse {
-        return retrofit.getFollowings(userId).await()
+
+    suspend fun getFollowings(getFollowersRequest: GetFollowersRequest): FollowersResponse {
+        return retrofit.getFollowings(getFollowersRequest.userId, getFollowersRequest.limit, getFollowersRequest.offset).await()
     }
-    suspend fun getFollowers(userId: String): FollowersResponse {
-        return retrofit.getFollowers(userId).await()
+
+    suspend fun getFollowers(getFollowersRequest: GetFollowersRequest): FollowersResponse {
+        return retrofit.getFollowers(getFollowersRequest.userId, getFollowersRequest.limit, getFollowersRequest.offset).await()
+    }
+
+    suspend fun isFollowing(userId: String): Boolean {
+        return retrofit.isFollowing(userId).await().body()!!
     }
 }

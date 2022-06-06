@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.cloudcoding.R
 import com.cloudcoding.api.CloudCodingNetworkManager
+import com.cloudcoding.api.request.GetFollowersRequest
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.my_profile_fragment.*
@@ -36,8 +37,9 @@ class MyProfileFragment : Fragment() {
             })
         GlobalScope.launch(Dispatchers.Default) {
             val me = CloudCodingNetworkManager.getMe()
-            val followers = CloudCodingNetworkManager.getFollowers(me.id)
-            val followings = CloudCodingNetworkManager.getFollowings(me.id)
+            val followerRequest = GetFollowersRequest(me.id, null, null)
+            val followers = CloudCodingNetworkManager.getFollowers(followerRequest)
+            val followings = CloudCodingNetworkManager.getFollowings(followerRequest)
             withContext(Dispatchers.Main) {
                 name.text = getString(R.string.name, me.firstname, me.lastname)
                 username.text = getString(R.string.username, me.username)
