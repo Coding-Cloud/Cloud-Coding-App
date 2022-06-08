@@ -169,11 +169,11 @@ object CloudCodingNetworkManager {
         return retrofit.isFollowing(userId).await().body()!!
     }
 
-    suspend fun follow(userId: String): Void {
+    suspend fun follow(userId: String): Response<Void> {
         return retrofit.follow(userId).await()
     }
 
-    suspend fun unfollow(userId: String): Void {
+    suspend fun unfollow(userId: String): Response<Void> {
         return retrofit.unfollow(userId).await()
     }
 }

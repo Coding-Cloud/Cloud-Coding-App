@@ -33,6 +33,22 @@ class FollowerAdapter(val followers: MutableList<Follower>) : RecyclerView.Adapt
                 )
 
         }
+        var isFollowed = false
+        cell.follow.setOnClickListener {
+            isFollowed = !isFollowed
+            if (isFollowed) {
+                cell.follow.text = "Unfollow"
+            } else {
+                cell.follow.text = "Follow"
+            }
+            GlobalScope.launch(Dispatchers.Default) {
+                if (isFollowed) {
+                    CloudCodingNetworkManager.follow(userId)
+                } else {
+                    CloudCodingNetworkManager.unfollow(userId)
+                }
+            }
+        }
         GlobalScope.launch(Dispatchers.Default) {
             val user = CloudCodingNetworkManager.getUserById(userId)
             val isFollowed = CloudCodingNetworkManager.isFollowing(userId)
@@ -41,8 +57,10 @@ class FollowerAdapter(val followers: MutableList<Follower>) : RecyclerView.Adapt
                     cell.itemView.context.getString(R.string.name, user.firstname, user.lastname)
                 cell.username.text =
                     cell.itemView.context.getString(R.string.username, user.username)
-                if(isFollowed){
-                    cell.follow.text= "Unfollow"
+                if (isFollowed) {
+                    cell.follow.text = "Unfollow"
+                } else {
+                    cell.follow.text = "Follow"
                 }
             }
         }

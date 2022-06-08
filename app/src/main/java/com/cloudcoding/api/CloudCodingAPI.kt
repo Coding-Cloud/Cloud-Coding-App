@@ -114,8 +114,8 @@ interface CloudCodingAPI {
     fun isFollowing(@Path("userId") userId: String): Deferred<Response<Boolean>>
 
     @POST("/followers/{userId}")
-    fun follow(@Path("userId") userId: String): Deferred<Void>
+    fun follow(@Path("userId") userId: String): Deferred<Response<Void>>
 
     @DELETE("/followers/{userId}")
-    fun unfollow(@Path("userId") userId: String): Deferred<Void>
+    fun unfollow(@Path("userId") userId: String): Deferred<Response<Void>>
 }
