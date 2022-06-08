@@ -23,7 +23,7 @@ class MembersFragment(val members: MutableList<GroupMembership>) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         member_list.run {
             layoutManager = LinearLayoutManager(this@MembersFragment.context)
-            adapter = MemberAdapter(members, R.id.action_groupDetailsFragment_to_profileFragment)
+            adapter = MemberAdapter(members, R.id.action_groupDetailsFragment_to_nav_item_profile)
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
     }

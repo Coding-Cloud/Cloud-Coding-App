@@ -120,6 +120,15 @@ object CloudCodingNetworkManager {
         ).await()
     }
 
+    suspend fun getUserComments(getCommentsRequest: GetCommentsRequest): CommentsResponse {
+        return retrofit.getUserComments(
+            getCommentsRequest.userId!!,
+            getCommentsRequest.search,
+            getCommentsRequest.limit,
+            getCommentsRequest.offset
+        ).await()
+    }
+
     suspend fun getJoinedGroups(): MutableList<Group> {
         return retrofit.getJoinedGroups().await()
     }
@@ -138,6 +147,11 @@ object CloudCodingNetworkManager {
 
     suspend fun getUserGroups(userId: String): MutableList<GroupMembership> {
         return retrofit.getUserGroups(userId).await()
+    }
+
+
+    suspend fun getUserProjects(userId: String): MutableList<Project> {
+        return retrofit.getUserProjects(userId).await()
     }
 
     suspend fun getFollowings(getFollowersRequest: GetFollowersRequest): FollowersResponse {

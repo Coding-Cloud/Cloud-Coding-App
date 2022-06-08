@@ -28,7 +28,7 @@ class FollowerAdapter(val followers: MutableList<Follower>) : RecyclerView.Adapt
             cell.itemView
                 .findNavController()
                 .navigate(
-                    R.id.action_followFragment_to_profileFragment2,
+                    R.id.action_followFragment_to_nav_item_profile,
                     bundleOf("userId" to userId)
                 )
 

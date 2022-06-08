@@ -55,8 +55,8 @@
         android:name="com.cloudcoding.features.groups.details.GroupDetailsFragment"
         android:label="GroupDetailsFragment">
         <action
-            android:id="@+id/action_groupDetailsFragment_to_profileFragment"
-            app:destination="@id/profileFragment">
+            android:id="@+id/action_groupDetailsFragment_to_nav_item_profile"
+            app:destination="@id/nav_item_profile">
             <argument
                 android:name="userId"
                 app:argType="string" />
@@ -70,31 +70,25 @@
         </action>
     </fragment>
     <fragment
-        android:id="@+id/nav_item_my_profile"
-        android:name="com.cloudcoding.features.profile.MyProfileFragment"
+        android:id="@+id/nav_item_profile"
+        android:name="com.cloudcoding.features.profile.ProfileFragment"
         android:label="MyProfileFragment">
         <action
-            android:id="@+id/action_nav_item_my_profile_to_projectDetailsFragment"
+            android:id="@+id/action_nav_item_profile_to_projectDetailsFragment"
             app:destination="@id/projectDetailsFragment">
             <argument
                 android:name="projectId"
                 app:argType="string" />
         </action>
         <action
-            android:id="@+id/action_nav_item_my_profile_to_groupDetailsFragment"
+            android:id="@+id/action_nav_item_profile_to_groupDetailsFragment"
             app:destination="@id/groupDetailsFragment">
             <argument
                 android:name="groupId"
                 app:argType="string" />
         </action>
-
-    </fragment>
-    <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.cloudcoding.features.profile.ProfileFragment"
-        android:label="ProfileFragment">
         <action
-            android:id="@+id/action_profileFragment_to_followFragment"
+            android:id="@+id/action_nav_item_profile_to_followFragment"
             app:destination="@id/followFragment">
             <argument
                 android:name="userId"
@@ -106,8 +100,8 @@
         android:name="com.cloudcoding.features.follow.FollowFragment"
         android:label="ViewFollowerFragment">
         <action
-            android:id="@+id/action_followFragment_to_profileFragment2"
-            app:destination="@id/profileFragment">
+            android:id="@+id/action_followFragment_to_nav_item_profile"
+            app:destination="@id/nav_item_profile">
             <argument
                 android:name="userId"
                 app:argType="string" />

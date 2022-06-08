@@ -1,5 +1,6 @@
 package com.cloudcoding.features.profile
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.cloudcoding.MainActivity
 import com.cloudcoding.R
 import com.cloudcoding.api.CloudCodingNetworkManager
 import com.cloudcoding.api.request.GetFollowersRequest
@@ -36,18 +38,23 @@ class ProfileFragment : Fragment() {
                     findNavController().popBackStack()
                 }
             })
-        val userId = requireArguments().getString("userId")!!
+        val preference = MainActivity.getContext().getSharedPreferences(
+            getString(R.string.me),
+            Context.MODE_PRIVATE
+        )!!
+        val currentUserId = preference.getString(getString(R.string.me), "")!!
+        val userId = arguments?.getString("userId") ?: currentUserId
         followers.setOnClickListener {
             findNavController()
                 .navigate(
-                    R.id.action_profileFragment_to_followFragment,
+                    R.id.action_nav_item_profile_to_followFragment,
                     bundleOf("userId" to userId)
                 )
         }
         followings.setOnClickListener {
             findNavController()
                 .navigate(
-                    R.id.action_profileFragment_to_followFragment,
+                    R.id.action_nav_item_profile_to_followFragment,
                     bundleOf("userId" to userId)
                 )
         }
@@ -56,15 +63,28 @@ class ProfileFragment : Fragment() {
             val followerRequest = GetFollowersRequest(user.id, null, null)
             val followers = CloudCodingNetworkManager.getFollowers(followerRequest)
             val followings = CloudCodingNetworkManager.getFollowings(followerRequest)
+            val projects = CloudCodingNetworkManager.getUserProjects(userId)
             val groups = mutableListOf<Any>()
             val groupMemberships = CloudCodingNetworkManager.getUserGroups(userId)
-            groups.addAll(groupMemberships.map { CloudCodingNetworkManager.getGroupById(it.groupId) })
+            if (userId == currentUserId) {
+                val ownedGroups = CloudCodingNetworkManager.getOwnedGroups()
+                val joinedGroups = CloudCodingNetworkManager.getJoinedGroups()
+                groups.addAll(ownedGroups)
+                groups.addAll(joinedGroups)
+            } else {
+                groups.addAll(groupMemberships.map { CloudCodingNetworkManager.getGroupById(it.groupId) })
+            }
             withContext(Dispatchers.Main) {
                 name.text = getString(R.string.name, user.firstname, user.lastname)
                 username.text = getString(R.string.username, user.username)
                 followers_count.text = followers.totalResults.toString()
                 followings_count.text = followings.totalResults.toString()
-                viewpager.adapter = MyProfileAdapter(groups, this@ProfileFragment)
+                if (userId == currentUserId) {
+                    viewpager.adapter = MyProfileAdapter(groups, this@ProfileFragment)
+                } else {
+                    viewpager.adapter =
+                        ProfileAdapter(userId, projects, groups, this@ProfileFragment)
+                }
                 TabLayoutMediator(tabLayout, viewpager) { tab: TabLayout.Tab, i: Int ->
                     when (i) {
                         0 -> tab.text = "Comments"

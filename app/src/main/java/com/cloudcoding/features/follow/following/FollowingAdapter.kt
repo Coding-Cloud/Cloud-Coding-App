@@ -29,7 +29,7 @@ class FollowingAdapter(val followings: MutableList<Follower>) :
             cell.itemView
                 .findNavController()
                 .navigate(
-                    R.id.action_followFragment_to_profileFragment2,
+                    R.id.action_followFragment_to_nav_item_profile,
                     bundleOf("userId" to userId)
                 )
 

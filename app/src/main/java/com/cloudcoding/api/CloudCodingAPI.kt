@@ -65,6 +65,19 @@ interface CloudCodingAPI {
         offset: Number?
     ): Deferred<CommentsResponse>
 
+    @GET("/user/{userId}")
+    fun getUserComments(
+        @Path("userId")
+        userId: String,
+        @Query("search")
+        search: String?,
+        @Query("limit")
+        limit: Number?,
+        @Query("offset")
+        offset: Number?
+    ): Deferred<CommentsResponse>
+
+
     @GET("/groups/member")
     fun getJoinedGroups(): Deferred<MutableList<Group>>
 
@@ -79,6 +92,9 @@ interface CloudCodingAPI {
 
     @GET("/group-memberships/user/{userId}")
     fun getUserGroups(@Path("userId") userId: String): Deferred<MutableList<GroupMembership>>
+
+    @GET("/projects/{userId}/projects")
+    fun getUserProjects(@Path("userId") userId: String): Deferred<MutableList<Project>>
 
     @GET("/followers/{userId}/followings")
     fun getFollowings(

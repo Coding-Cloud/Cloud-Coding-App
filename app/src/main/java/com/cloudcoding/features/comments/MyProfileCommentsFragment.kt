@@ -20,7 +20,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MyCommentsFragment :
+class MyProfileCommentsFragment :
     Fragment() {
     private var loading = false
     override fun onCreateView(
@@ -51,7 +51,7 @@ class MyCommentsFragment :
             )
             withContext(Dispatchers.Main) {
                 comment_list.run {
-                    layoutManager = LinearLayoutManager(this@MyCommentsFragment.context)
+                    layoutManager = LinearLayoutManager(this@MyProfileCommentsFragment.context)
                     adapter = CommentAdapter(comments.comments)
                     addItemDecoration(
                         DividerItemDecoration(
