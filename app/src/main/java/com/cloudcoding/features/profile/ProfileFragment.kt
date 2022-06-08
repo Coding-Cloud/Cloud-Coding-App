@@ -44,6 +44,10 @@ class ProfileFragment : Fragment() {
         )!!
         val currentUserId = preference.getString(getString(R.string.me), "")!!
         val userId = arguments?.getString("userId") ?: currentUserId
+        if (userId == currentUserId) {
+            follow_button.visibility = View.GONE
+            friend_button.visibility = View.GONE
+        }
         followers.setOnClickListener {
             findNavController()
                 .navigate(
@@ -65,13 +69,13 @@ class ProfileFragment : Fragment() {
             val followings = CloudCodingNetworkManager.getFollowings(followerRequest)
             val projects = CloudCodingNetworkManager.getUserProjects(userId)
             val groups = mutableListOf<Any>()
-            val groupMemberships = CloudCodingNetworkManager.getUserGroups(userId)
             if (userId == currentUserId) {
                 val ownedGroups = CloudCodingNetworkManager.getOwnedGroups()
                 val joinedGroups = CloudCodingNetworkManager.getJoinedGroups()
                 groups.addAll(ownedGroups)
                 groups.addAll(joinedGroups)
             } else {
+                val groupMemberships = CloudCodingNetworkManager.getUserGroups(userId)
                 groups.addAll(groupMemberships.map { CloudCodingNetworkManager.getGroupById(it.groupId) })
             }
             withContext(Dispatchers.Main) {
@@ -84,6 +88,7 @@ class ProfileFragment : Fragment() {
                 } else {
                     viewpager.adapter =
                         ProfileAdapter(userId, projects, groups, this@ProfileFragment)
+                    followerButton(userId)
                 }
                 TabLayoutMediator(tabLayout, viewpager) { tab: TabLayout.Tab, i: Int ->
                     when (i) {
@@ -92,6 +97,36 @@ class ProfileFragment : Fragment() {
                         else -> tab.text = "Groups"
                     }
                 }.attach()
+            }
+        }
+    }
+
+    private fun followerButton(userId: String) {
+        GlobalScope.launch(Dispatchers.Default) {
+            CloudCodingNetworkManager.isFollowing(userId)
+            println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+            val isFollowed = CloudCodingNetworkManager.isFollowing(userId)
+            println("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
+            withContext(Dispatchers.Main) {
+                if (isFollowed) {
+                    follow_button.text = "Unfollow"
+                } else {
+                    follow_button.text = "Follow"
+                }
+                follow_button.setOnClickListener {
+                    GlobalScope.launch(Dispatchers.Default) {
+                        if (isFollowed) {
+                            println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+                            CloudCodingNetworkManager.unfollow(userId)
+                        } else {
+                            println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+                            CloudCodingNetworkManager.follow(userId)
+                        }
+                        withContext(Dispatchers.Main) {
+                            followerButton(userId)
+                        }
+                    }
+                }
             }
         }
     }

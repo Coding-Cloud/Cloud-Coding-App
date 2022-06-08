@@ -1,6 +1,7 @@
 package com.cloudcoding.api
 
 import android.content.Context
+import android.util.Log
 import com.cloudcoding.MainActivity
 import com.cloudcoding.R
 import com.cloudcoding.api.request.*
@@ -15,6 +16,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import kotlin.math.log
 
 
 object CloudCodingNetworkManager {
@@ -33,6 +35,7 @@ object CloudCodingNetworkManager {
             val token = preference.getString("token", "")!!
             val requestBuilder: Request.Builder = chain.request().newBuilder()
             requestBuilder.header("authorization", token)
+            Log.i("Request",chain.request().toString())
             val response = chain.proceed(requestBuilder.build())
             if (response.code() == 403) {
                 with(sharedPrefMe.edit()) {
@@ -164,5 +167,13 @@ object CloudCodingNetworkManager {
 
     suspend fun isFollowing(userId: String): Boolean {
         return retrofit.isFollowing(userId).await().body()!!
+    }
+
+    suspend fun follow(userId: String): Void {
+        return retrofit.follow(userId).await()
+    }
+
+    suspend fun unfollow(userId: String): Void {
+        return retrofit.unfollow(userId).await()
     }
 }

@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import com.cloudcoding.R
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.android.synthetic.main.my_profile_fragment.*
+import kotlinx.android.synthetic.main.follow_fragment.*
 
 class FollowFragment : Fragment() {
     override fun onCreateView(

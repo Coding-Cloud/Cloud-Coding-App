@@ -65,7 +65,7 @@ interface CloudCodingAPI {
         offset: Number?
     ): Deferred<CommentsResponse>
 
-    @GET("/user/{userId}")
+    @GET("/comments/user/{userId}")
     fun getUserComments(
         @Path("userId")
         userId: String,
@@ -112,4 +112,10 @@ interface CloudCodingAPI {
 
     @GET("/followers/{userId}/is-following")
     fun isFollowing(@Path("userId") userId: String): Deferred<Response<Boolean>>
+
+    @POST("/followers/{userId}")
+    fun follow(@Path("userId") userId: String): Deferred<Void>
+
+    @DELETE("/followers/{userId}")
+    fun unfollow(@Path("userId") userId: String): Deferred<Void>
 }
