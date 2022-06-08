@@ -51,7 +51,7 @@ class FollowerAdapter(val followers: MutableList<Follower>) : RecyclerView.Adapt
         }
         GlobalScope.launch(Dispatchers.Default) {
             val user = CloudCodingNetworkManager.getUserById(userId)
-            val isFollowed = CloudCodingNetworkManager.isFollowing(userId)
+            isFollowed = CloudCodingNetworkManager.isFollowing(userId)
             withContext(Dispatchers.Main) {
                 cell.name.text =
                     cell.itemView.context.getString(R.string.name, user.firstname, user.lastname)
