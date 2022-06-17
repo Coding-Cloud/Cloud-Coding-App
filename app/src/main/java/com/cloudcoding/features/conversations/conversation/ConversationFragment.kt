@@ -81,7 +81,6 @@ class ConversationFragment : Fragment() {
         SocketManager.onMessages { messages ->
             loading = false
             activity?.runOnUiThread {
-                println("aaaaaaaaaaaaaaaaaaaaaaaaaa")
                 convMessages.totalResults = messages.totalResults
                 val size = convMessages.messages.size
                 convMessages.messages.addAll(0,messages.messages.reversed())
@@ -105,7 +104,14 @@ class ConversationFragment : Fragment() {
                 convMessages.messages.removeAt(index)
                 convMessages.totalResults -= 1
                 message_list.adapter?.notifyItemRangeRemoved(index, convMessages.messages.size)
-                message_list.scrollToPosition(convMessages.messages.size - 1)
+            }
+        }
+        SocketManager.onMessageUpdated { message ->
+            activity?.runOnUiThread {
+                val index = convMessages.messages.indexOfFirst { it.id == message.messageId }
+                convMessages.messages[index].assetId = message.assetId
+                convMessages.messages[index].content = message.content
+                message_list.adapter?.notifyItemChanged(index)
             }
         }
 

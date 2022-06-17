@@ -5,6 +5,7 @@ import com.cloudcoding.MainActivity
 import com.cloudcoding.api.request.GetConversationsRequest
 import com.cloudcoding.api.request.GetMessagesRequest
 import com.cloudcoding.api.request.MessageRequest
+import com.cloudcoding.api.response.MessageUpdatedResponse
 import com.cloudcoding.api.response.MessagesResponse
 import com.cloudcoding.models.Conversation
 import com.cloudcoding.models.Message
@@ -35,6 +36,14 @@ object SocketManager {
 
     fun onMessageDeleted(a: (messageId: String) -> Unit) {
         connection.on("messageDeleted") { args -> a(args[0].toString()) }
+    }
+
+    fun onMessageUpdated(a: (MessageUpdatedResponse) -> Unit) {
+        connection.on("messageUpdated") { args ->
+            val type: Type = object : TypeToken<MessageUpdatedResponse>() {}.type
+            val message: MessageUpdatedResponse = gson.fromJson(args[0].toString(), type)
+            a(message)
+        }
     }
 
     fun onMessageCreated(a: (Message) -> Unit) {
