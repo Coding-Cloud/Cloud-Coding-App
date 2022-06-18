@@ -86,15 +86,8 @@ class ProfileFragment : Fragment() {
             val followings = CloudCodingNetworkManager.getFollowings(followerRequest)
             val projects = CloudCodingNetworkManager.getUserProjects(userId)
             val groups = mutableListOf<Any>()
-            if (userId == currentUserId) {
-                val ownedGroups = CloudCodingNetworkManager.getOwnedGroups()
-                val joinedGroups = CloudCodingNetworkManager.getJoinedGroups()
-                groups.addAll(ownedGroups)
-                groups.addAll(joinedGroups)
-            } else {
-                val groupMemberships = CloudCodingNetworkManager.getUserGroups(userId)
-                groups.addAll(groupMemberships.map { CloudCodingNetworkManager.getGroupById(it.groupId) })
-            }
+            val groupMemberships = CloudCodingNetworkManager.getUserGroups(userId)
+            groups.addAll(groupMemberships.map { CloudCodingNetworkManager.getGroupById(it.groupId) })
             isFollowed = CloudCodingNetworkManager.isFollowing(userId)
             withContext(Dispatchers.Main) {
                 name.text = getString(R.string.name, user.firstname, user.lastname)
@@ -102,7 +95,7 @@ class ProfileFragment : Fragment() {
                 followers_count.text = followers.totalResults.toString()
                 followings_count.text = followings.totalResults.toString()
                 if (userId == currentUserId) {
-                    viewpager.adapter = MyProfileAdapter(groups, this@ProfileFragment)
+                    viewpager.adapter = MyProfileAdapter(this@ProfileFragment)
                 } else {
                     viewpager.adapter =
                         ProfileAdapter(userId, projects, groups, this@ProfileFragment)
