@@ -180,6 +180,9 @@ object CloudCodingNetworkManager {
     suspend fun getUserFriends(): MutableList<Friendship> {
         return retrofit.getUserFriends().await()
     }
+    suspend fun removeFriend(friendshipId:String): Response<Void> {
+        return retrofit.removeFriend(friendshipId).await()
+    }
 
     suspend fun getSentFriendRequests(): MutableList<FriendRequest> {
         return retrofit.getSentFriendRequests().await()
@@ -187,5 +190,21 @@ object CloudCodingNetworkManager {
 
     suspend fun getReceivedFriendRequests(): MutableList<FriendRequest> {
         return retrofit.getReceivedFriendRequests().await()
+    }
+
+    suspend fun sendFriendRequest(userId: String): Response<Void> {
+        return retrofit.sendFriendRequest(userId).await()
+    }
+
+    suspend fun cancelFriendRequest(userId: String): Response<Void> {
+        return retrofit.cancelFriendRequest(userId).await()
+    }
+
+    suspend fun acceptFriendRequest(userId: String): Response<String> {
+        return retrofit.acceptFriendRequest(userId).await()
+    }
+
+    suspend fun rejectFriendRequest(userId: String): Response<Void> {
+        return retrofit.rejectFriendRequest(userId).await()
     }
 }

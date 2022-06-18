@@ -11,5 +11,5 @@ class FriendItem(v: View) : RecyclerView.ViewHolder(v) {
     val profilePicture: ImageView = v.profile_picture
     val name: TextView = v.name
     val username: TextView = v.username
-    val follow: Button = v.remove_friend
+    val remove: Button = v.remove_friend
 }
