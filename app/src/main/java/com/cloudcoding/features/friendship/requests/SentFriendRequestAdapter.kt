@@ -4,18 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import com.cloudcoding.R
 import com.cloudcoding.api.CloudCodingNetworkManager
-import com.cloudcoding.features.friendship.friends.FriendsAdapter
 import com.cloudcoding.models.FriendRequest
-import com.cloudcoding.models.Friendship
-import kotlinx.android.synthetic.main.friends_fragment.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -53,8 +48,10 @@ class SentFriendRequestAdapter(private val friendRequests: MutableList<FriendReq
         GlobalScope.launch(Dispatchers.Default) {
             val user = CloudCodingNetworkManager.getUserById(userId)
             withContext(Dispatchers.Main) {
-                cell.username.text = cell.itemView.context.getString(R.string.username, user.username)
-                cell.name.text = cell.itemView.context.getString(R.string.name, user.firstname, user.lastname)
+                cell.username.text =
+                    cell.itemView.context.getString(R.string.username, user.username)
+                cell.name.text =
+                    cell.itemView.context.getString(R.string.name, user.firstname, user.lastname)
                 Glide.with(cell.profilePicture.context)
                     .load("https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg")
                     .centerCrop()

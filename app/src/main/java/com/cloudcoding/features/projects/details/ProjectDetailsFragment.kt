@@ -23,8 +23,6 @@ import kotlinx.coroutines.withContext
 import org.json.JSONObject
 
 
-
-
 class ProjectDetailsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -69,7 +67,10 @@ class ProjectDetailsFragment : Fragment() {
                     GlobalScope.launch(Dispatchers.Default) {
 
                         val json = JSONObject()
-                        json.put("html", getString(R.string.comment_html, comment_text.text.toString()))
+                        json.put(
+                            "html",
+                            getString(R.string.comment_html, comment_text.text.toString())
+                        )
                         val commentId = CloudCodingNetworkManager.createComment(
                             CreateCommentRequest(
                                 json.toString(),

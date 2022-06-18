@@ -57,8 +57,10 @@ class FriendsAdapter(private val friendships: MutableList<Friendship>) :
         GlobalScope.launch(Dispatchers.Default) {
             val user = CloudCodingNetworkManager.getUserById(userId)
             withContext(Dispatchers.Main) {
-                cell.username.text = cell.itemView.context.getString(R.string.username, user.username)
-                cell.name.text = cell.itemView.context.getString(R.string.name, user.firstname, user.lastname)
+                cell.username.text =
+                    cell.itemView.context.getString(R.string.username, user.username)
+                cell.name.text =
+                    cell.itemView.context.getString(R.string.name, user.firstname, user.lastname)
                 Glide.with(cell.profilePicture.context)
                     .load("https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg")
                     .centerCrop()

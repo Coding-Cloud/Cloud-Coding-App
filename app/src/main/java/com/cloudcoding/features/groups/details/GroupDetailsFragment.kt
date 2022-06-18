@@ -39,7 +39,8 @@ class GroupDetailsFragment : Fragment() {
             val projects = CloudCodingNetworkManager.getGroupProjects(groupId)
             val members = CloudCodingNetworkManager.getGroupMembers(groupId)
             withContext(Dispatchers.Main) {
-                viewpager.adapter = GroupDetailsAdapter(projects, members, this@GroupDetailsFragment)
+                viewpager.adapter =
+                    GroupDetailsAdapter(projects, members, this@GroupDetailsFragment)
                 TabLayoutMediator(tabLayout, viewpager) { tab: TabLayout.Tab, i: Int ->
                     when (i) {
                         0 -> tab.text = "Projects"

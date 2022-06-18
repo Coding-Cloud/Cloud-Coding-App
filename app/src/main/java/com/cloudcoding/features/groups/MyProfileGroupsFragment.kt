@@ -36,7 +36,7 @@ class MyProfileGroupsFragment : Fragment() {
             })
 
         GlobalScope.launch(Dispatchers.Default) {
-            val groups = mutableListOf<Any>();
+            val groups = mutableListOf<Any>()
             val ownedGroups = CloudCodingNetworkManager.getOwnedGroups()
             val joinedGroups = CloudCodingNetworkManager.getJoinedGroups()
             groups.addAll(ownedGroups)

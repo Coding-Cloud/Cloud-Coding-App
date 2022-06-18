@@ -7,16 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cloudcoding.MainActivity
 import com.cloudcoding.R
 import com.cloudcoding.api.CloudCodingNetworkManager
-import com.cloudcoding.api.SocketManager
 import com.cloudcoding.models.Project
 import com.cloudcoding.models.ProjectLanguage
-import kotlinx.android.synthetic.main.projects_fragment.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -49,7 +45,7 @@ class ProjectAdapter(val projects: MutableList<Project>, private val action: Int
             ProjectLanguage.QUARKUS -> cell.languageThumbnail.setImageResource(R.drawable.ic_java)
             else -> cell.languageThumbnail.setImageResource(R.drawable.ic_react)
         }
-        if(projects[position].creatorId == userId) {
+        if (projects[position].creatorId == userId) {
             cell.itemView.setOnCreateContextMenuListener { menu: ContextMenu, _: View, _: ContextMenu.ContextMenuInfo? ->
                 menu.add("delete").setOnMenuItemClickListener {
                     GlobalScope.launch(Dispatchers.Default) {

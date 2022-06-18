@@ -2,9 +2,7 @@ package com.cloudcoding.features.profile
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.cloudcoding.R
 import com.cloudcoding.features.comments.MyProfileCommentsFragment
-import com.cloudcoding.features.groups.GroupsFragment
 import com.cloudcoding.features.groups.MyProfileGroupsFragment
 import com.cloudcoding.features.projects.MyProfileProjectsFragment
 

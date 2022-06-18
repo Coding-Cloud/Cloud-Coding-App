@@ -83,7 +83,8 @@ class FollowingsFragment(val userId: String) : Fragment() {
             }
         })
         GlobalScope.launch(Dispatchers.Default) {
-            val followingsResponse = CloudCodingNetworkManager.getFollowings(GetFollowersRequest(userId, 25, 0))
+            val followingsResponse =
+                CloudCodingNetworkManager.getFollowings(GetFollowersRequest(userId, 25, 0))
             followings.followers.addAll(followingsResponse.followers)
             followings.totalResults = followingsResponse.totalResults
             withContext(Dispatchers.Main) {

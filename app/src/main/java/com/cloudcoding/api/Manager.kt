@@ -16,7 +16,6 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
-import kotlin.math.log
 
 
 object CloudCodingNetworkManager {
@@ -35,7 +34,7 @@ object CloudCodingNetworkManager {
             val token = preference.getString("token", "")!!
             val requestBuilder: Request.Builder = chain.request().newBuilder()
             requestBuilder.header("authorization", token)
-            Log.i("Request",chain.request().toString())
+            Log.i("Request", chain.request().toString())
             val response = chain.proceed(requestBuilder.build())
             if (response.code() == 403) {
                 with(sharedPrefMe.edit()) {
@@ -158,11 +157,19 @@ object CloudCodingNetworkManager {
     }
 
     suspend fun getFollowings(getFollowersRequest: GetFollowersRequest): FollowersResponse {
-        return retrofit.getFollowings(getFollowersRequest.userId, getFollowersRequest.limit, getFollowersRequest.offset).await()
+        return retrofit.getFollowings(
+            getFollowersRequest.userId,
+            getFollowersRequest.limit,
+            getFollowersRequest.offset
+        ).await()
     }
 
     suspend fun getFollowers(getFollowersRequest: GetFollowersRequest): FollowersResponse {
-        return retrofit.getFollowers(getFollowersRequest.userId, getFollowersRequest.limit, getFollowersRequest.offset).await()
+        return retrofit.getFollowers(
+            getFollowersRequest.userId,
+            getFollowersRequest.limit,
+            getFollowersRequest.offset
+        ).await()
     }
 
     suspend fun isFollowing(userId: String): Boolean {
@@ -180,7 +187,8 @@ object CloudCodingNetworkManager {
     suspend fun getUserFriends(): MutableList<Friendship> {
         return retrofit.getUserFriends().await()
     }
-    suspend fun removeFriend(friendshipId:String): Response<Void> {
+
+    suspend fun removeFriend(friendshipId: String): Response<Void> {
         return retrofit.removeFriend(friendshipId).await()
     }
 

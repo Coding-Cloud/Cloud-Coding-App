@@ -11,17 +11,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cloudcoding.MainActivity
 import com.cloudcoding.R
-import com.cloudcoding.api.CloudCodingNetworkManager
 import com.cloudcoding.api.SocketManager
-import com.cloudcoding.api.request.CreateCommentRequest
 import com.cloudcoding.api.request.GetMessagesRequest
 import com.cloudcoding.api.request.MessageRequest
 import com.cloudcoding.api.response.MessagesResponse
 import com.cloudcoding.utils.PaginationScrollListener
-import kotlinx.android.synthetic.main.comments_fragment.*
 import kotlinx.android.synthetic.main.conversation_fragment.*
-import kotlinx.android.synthetic.main.conversation_fragment.send
-import kotlinx.android.synthetic.main.project_details_fragment.*
 import org.json.JSONObject
 
 class ConversationFragment : Fragment() {
@@ -88,9 +83,9 @@ class ConversationFragment : Fragment() {
             activity?.runOnUiThread {
                 convMessages.totalResults = messages.totalResults
                 val size = convMessages.messages.size
-                convMessages.messages.addAll(0,messages.messages.reversed())
-                message_list.adapter?.notifyItemRangeInserted(0,messages.messages.size)
-                if(size == 0){
+                convMessages.messages.addAll(0, messages.messages.reversed())
+                message_list.adapter?.notifyItemRangeInserted(0, messages.messages.size)
+                if (size == 0) {
                     message_list.scrollToPosition(convMessages.messages.size - 1)
                 }
             }

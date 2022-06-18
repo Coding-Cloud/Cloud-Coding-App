@@ -1,6 +1,5 @@
 package com.cloudcoding.features.friendship.requests
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +9,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cloudcoding.R
 import com.cloudcoding.api.CloudCodingNetworkManager
-import com.cloudcoding.api.request.GetFollowersRequest
 import kotlinx.android.synthetic.main.friend_requests_fragment.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

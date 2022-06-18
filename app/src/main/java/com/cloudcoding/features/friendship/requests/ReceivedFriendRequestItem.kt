@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.friend_request_received_item.view.*
 
-class ReceivedFriendRequestItem (v: View) : RecyclerView.ViewHolder(v) {
+class ReceivedFriendRequestItem(v: View) : RecyclerView.ViewHolder(v) {
     val profilePicture: ImageView = v.profile_picture
     val name: TextView = v.name
     val username: TextView = v.username
