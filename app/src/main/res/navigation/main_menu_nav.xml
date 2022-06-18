@@ -107,4 +107,8 @@
                 app:argType="string" />
         </action>
     </fragment>
+    <fragment
+        android:id="@+id/nav_item_friends"
+        android:name="com.cloudcoding.features.friendship.FriendshipFragment"
+        android:label="FriendshipFragment" />
 </navigation>

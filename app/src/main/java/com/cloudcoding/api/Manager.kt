@@ -176,4 +176,16 @@ object CloudCodingNetworkManager {
     suspend fun unfollow(userId: String): Response<Void> {
         return retrofit.unfollow(userId).await()
     }
+
+    suspend fun getUserFriends(): MutableList<Friendship> {
+        return retrofit.getUserFriends().await()
+    }
+
+    suspend fun getSentFriendRequests(): MutableList<FriendRequest> {
+        return retrofit.getSentFriendRequests().await()
+    }
+
+    suspend fun getReceivedFriendRequests(): MutableList<FriendRequest> {
+        return retrofit.getReceivedFriendRequests().await()
+    }
 }

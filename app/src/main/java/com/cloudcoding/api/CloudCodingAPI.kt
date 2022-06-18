@@ -118,4 +118,13 @@ interface CloudCodingAPI {
 
     @DELETE("/followers/{userId}")
     fun unfollow(@Path("userId") userId: String): Deferred<Response<Void>>
+
+    @GET("/friendships")
+    fun getUserFriends(): Deferred<MutableList<Friendship>>
+
+    @GET("/friend-requests/sent")
+    fun getSentFriendRequests(): Deferred<MutableList<FriendRequest>>
+
+    @GET("/friend-requests/received")
+    fun getReceivedFriendRequests(): Deferred<MutableList<FriendRequest>>
 }
