@@ -11,13 +11,18 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cloudcoding.MainActivity
 import com.cloudcoding.R
+import com.cloudcoding.api.CloudCodingNetworkManager
 import com.cloudcoding.api.SocketManager
+import com.cloudcoding.api.request.CreateCommentRequest
 import com.cloudcoding.api.request.GetMessagesRequest
 import com.cloudcoding.api.request.MessageRequest
 import com.cloudcoding.api.response.MessagesResponse
 import com.cloudcoding.utils.PaginationScrollListener
 import kotlinx.android.synthetic.main.comments_fragment.*
 import kotlinx.android.synthetic.main.conversation_fragment.*
+import kotlinx.android.synthetic.main.conversation_fragment.send
+import kotlinx.android.synthetic.main.project_details_fragment.*
+import org.json.JSONObject
 
 class ConversationFragment : Fragment() {
     override fun onCreateView(
@@ -116,10 +121,12 @@ class ConversationFragment : Fragment() {
         }
 
         send.setOnClickListener {
+            val json = JSONObject()
+            json.put("html", getString(R.string.comment_html, message_text.text.toString()))
             SocketManager.createMessage(
                 MessageRequest(
                     conversationId,
-                    message_text.text.toString(),
+                    json.toString(),
                     null
                 )
             )

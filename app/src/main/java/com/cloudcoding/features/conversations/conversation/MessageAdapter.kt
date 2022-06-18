@@ -1,5 +1,6 @@
 package com.cloudcoding.features.conversations.conversation
 
+import android.text.Html
 import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.View
@@ -9,10 +10,12 @@ import com.cloudcoding.R
 import com.cloudcoding.api.CloudCodingNetworkManager
 import com.cloudcoding.api.SocketManager
 import com.cloudcoding.models.Message
+import com.cloudcoding.models.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -20,6 +23,7 @@ class MessageAdapter(
     private val messages: MutableList<Message>,
     private val currentUserId: String
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private val users = mutableMapOf<String, User>()
     private val SENT = 0
     private val RECEIVED = 1
 
@@ -51,14 +55,21 @@ class MessageAdapter(
                 true
             }
         }
-        holder.content.text = messages[position].content
+        val content = JSONObject(messages[position].content).getString("html")
+        holder.content.text = Html.fromHtml(content, Html.FROM_HTML_MODE_COMPACT)
         val date = SimpleDateFormat(
             holder.itemView.context.getString(R.string.date_format),
             Locale.FRANCE
         ).format(messages[position].createdAt)
         holder.date.text = date
         GlobalScope.launch(Dispatchers.Default) {
-            val user = CloudCodingNetworkManager.getUserById(messages[position].userId)
+            val user = if (users.containsKey(messages[position].userId)) {
+                users[messages[position].userId]
+            } else {
+                val user = CloudCodingNetworkManager.getUserById(messages[position].userId)
+                users[user.id] = user
+                user
+            }!!
             withContext(Dispatchers.Main) {
                 holder.name.text =
                     holder.itemView.context.getString(R.string.name, user.firstname, user.lastname)
@@ -67,14 +78,21 @@ class MessageAdapter(
     }
 
     private fun bindMessageReceived(holder: MessageReceivedItem, position: Int) {
-        holder.content.text = messages[position].content
+        val content = JSONObject(messages[position].content).getString("html")
+        holder.content.text = Html.fromHtml(content, Html.FROM_HTML_MODE_COMPACT)
         val date = SimpleDateFormat(
             holder.itemView.context.getString(R.string.date_format),
             Locale.FRANCE
         ).format(messages[position].createdAt)
         holder.date.text = date
         GlobalScope.launch(Dispatchers.Default) {
-            val user = CloudCodingNetworkManager.getUserById(messages[position].userId)
+            val user = if (users.containsKey(messages[position].userId)) {
+                users[messages[position].userId]
+            } else {
+                val user = CloudCodingNetworkManager.getUserById(messages[position].userId)
+                users[user.id] = user
+                user
+            }!!
             withContext(Dispatchers.Main) {
                 holder.name.text =
                     holder.itemView.context.getString(R.string.name, user.firstname, user.lastname)

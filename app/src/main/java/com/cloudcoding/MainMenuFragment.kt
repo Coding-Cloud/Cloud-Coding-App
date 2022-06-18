@@ -1,7 +1,10 @@
 package com.cloudcoding
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -10,7 +13,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -27,6 +29,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+
 class MainMenuFragment : Fragment() {
     private lateinit var mDrawerToggle: ActionBarDrawerToggle
     override fun onCreateView(
@@ -38,6 +41,15 @@ class MainMenuFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val spanString = SpannableString(nav.menu.findItem(R.id.nav_item_disconnect).title)
+        spanString.setSpan(
+            ForegroundColorSpan(Color.RED),
+            0,
+            spanString.length,
+            0
+        )
+        nav.menu.findItem(R.id.nav_item_disconnect).title = spanString
+
         nav.menu.findItem(R.id.nav_item_disconnect).setOnMenuItemClickListener {
             val sharedPref = context?.getSharedPreferences(
                 getString(R.string.token),
