@@ -35,11 +35,6 @@ class MyProjectsFragment : Fragment() {
                     findNavController().popBackStack()
                 }
             })
-        add.setOnClickListener {
-            CreateProjectDialogFragment().show(
-                childFragmentManager, CreateProjectDialogFragment.TAG
-            )
-        }
 
 
         GlobalScope.launch(Dispatchers.Default) {
@@ -56,6 +51,15 @@ class MyProjectsFragment : Fragment() {
                             context,
                             DividerItemDecoration.VERTICAL
                         )
+                    )
+                }
+                add.setOnClickListener {
+                    val dialog = CreateProjectDialogFragment { project ->
+                        projects.add(project)
+                        project_list.adapter!!.notifyItemInserted(projects.size - 1)
+                    }
+                    dialog.show(
+                        childFragmentManager, CreateProjectDialogFragment.TAG
                     )
                 }
             }

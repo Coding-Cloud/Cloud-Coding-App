@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cloudcoding.R
 import com.cloudcoding.models.Project
-import kotlinx.android.synthetic.main.my_projects_fragment.*
 import kotlinx.android.synthetic.main.projects_fragment.project_list
 
 class ProjectsFragment(val projects: MutableList<Project>, val action: Int) : Fragment() {
@@ -31,11 +30,6 @@ class ProjectsFragment(val projects: MutableList<Project>, val action: Int) : Fr
                     findNavController().popBackStack()
                 }
             })
-        add.setOnClickListener {
-            CreateProjectDialogFragment().show(
-                childFragmentManager, CreateProjectDialogFragment.TAG
-            )
-        }
         project_list.run {
             layoutManager = LinearLayoutManager(this@ProjectsFragment.context)
             adapter = ProjectAdapter(

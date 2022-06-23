@@ -94,7 +94,7 @@ object CloudCodingNetworkManager {
         return retrofit.getProjectComments(projectId).await()
     }
 
-    suspend fun createProject(createProjectRequest: CreateProjectRequest): Project {
+    suspend fun createProject(createProjectRequest: CreateProjectRequest): Response<String> {
         return retrofit.createProject(createProjectRequest).await()
     }
 

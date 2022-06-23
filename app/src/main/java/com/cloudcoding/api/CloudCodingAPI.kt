@@ -41,7 +41,7 @@ interface CloudCodingAPI {
     fun getProjectComments(@Path("projectId") projectId: String): Deferred<CommentsResponse>
 
     @POST("/projects")
-    fun createProject(@Body createProjectRequest: CreateProjectRequest): Deferred<Project>
+    fun createProject(@Body createProjectRequest: CreateProjectRequest): Deferred<Response<String>>
 
     @POST("/comments")
     fun createComment(@Body createCommentRequest: CreateCommentRequest): Deferred<Response<String>>

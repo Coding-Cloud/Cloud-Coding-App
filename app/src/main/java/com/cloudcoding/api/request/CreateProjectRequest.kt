@@ -6,5 +6,5 @@ import com.cloudcoding.models.ProjectVisibility
 data class CreateProjectRequest(
     val name: String,
     val language: ProjectLanguage,
-    val globalVisibility: ProjectVisibility
+    val globalVisibility: Int
 )
