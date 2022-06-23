@@ -11,10 +11,7 @@ import com.cloudcoding.R
 import com.cloudcoding.api.CloudCodingNetworkManager
 import com.cloudcoding.api.request.LoginRequest
 import kotlinx.android.synthetic.main.login_fragment.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import retrofit2.HttpException
 
 class LoginFragment : Fragment() {
@@ -24,6 +21,15 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.login_fragment, parent, false)
+    }
+
+    private var jobs: MutableList<Job> = mutableListOf()
+
+    override fun onDestroy() {
+        super.onDestroy()
+        jobs.forEach { job ->
+            job.cancel()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,7 +50,7 @@ class LoginFragment : Fragment() {
             login_button.isEnabled = false
             val username = username.text.toString()
             val password = password.text.toString()
-            GlobalScope.launch(Dispatchers.Default) {
+            jobs.add(GlobalScope.launch(Dispatchers.Default) {
                 var loginFailed = false
                 try {
                     val token =
@@ -81,7 +87,7 @@ class LoginFragment : Fragment() {
                     error.visibility = View.VISIBLE
                     return@withContext
                 }
-            }
+            })
         }
     }
 }

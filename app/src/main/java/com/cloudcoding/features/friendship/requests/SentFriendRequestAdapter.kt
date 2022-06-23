@@ -11,10 +11,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.cloudcoding.R
 import com.cloudcoding.api.CloudCodingNetworkManager
 import com.cloudcoding.models.FriendRequest
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class SentFriendRequestAdapter(private val friendRequests: MutableList<FriendRequest>) :
     RecyclerView.Adapter<SentFriendRequestItem>() {
@@ -23,6 +20,15 @@ class SentFriendRequestAdapter(private val friendRequests: MutableList<FriendReq
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.friend_request_sent_item, parent, false)
         )
+    }
+
+    private var jobs: MutableList<Job> = mutableListOf()
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        jobs.forEach { job ->
+            job.cancel()
+        }
     }
 
     override fun onBindViewHolder(cell: SentFriendRequestItem, position: Int) {
@@ -36,16 +42,16 @@ class SentFriendRequestAdapter(private val friendRequests: MutableList<FriendReq
                 )
         }
         cell.cancel.setOnClickListener {
-            GlobalScope.launch(Dispatchers.Default) {
+            jobs.add(GlobalScope.launch(Dispatchers.Default) {
                 CloudCodingNetworkManager.cancelFriendRequest(userId)
                 withContext(Dispatchers.Main) {
                     val index = friendRequests.indexOfFirst { it.requestedUserId == userId }
                     friendRequests.removeAt(index)
                     notifyItemRemoved(index)
                 }
-            }
+            })
         }
-        GlobalScope.launch(Dispatchers.Default) {
+        jobs.add(GlobalScope.launch(Dispatchers.Default) {
             val user = CloudCodingNetworkManager.getUserById(userId)
             withContext(Dispatchers.Main) {
                 cell.username.text =
@@ -59,7 +65,7 @@ class SentFriendRequestAdapter(private val friendRequests: MutableList<FriendReq
                     .placeholder(R.drawable.ic_user)
                     .into(cell.profilePicture)
             }
-        }
+        })
     }
 
     override fun getItemCount(): Int {

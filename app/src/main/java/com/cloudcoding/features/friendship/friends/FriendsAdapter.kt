@@ -12,10 +12,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.cloudcoding.R
 import com.cloudcoding.api.CloudCodingNetworkManager
 import com.cloudcoding.models.Friendship
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class FriendsAdapter(private val friendships: MutableList<Friendship>) :
     RecyclerView.Adapter<FriendItem>() {
@@ -24,6 +21,15 @@ class FriendsAdapter(private val friendships: MutableList<Friendship>) :
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.friend_item, parent, false)
         )
+    }
+
+    private var jobs: MutableList<Job> = mutableListOf()
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        jobs.forEach { job ->
+            job.cancel()
+        }
     }
 
     override fun onBindViewHolder(cell: FriendItem, position: Int) {
@@ -44,7 +50,7 @@ class FriendsAdapter(private val friendships: MutableList<Friendship>) :
                 )
         }
         cell.remove.setOnClickListener {
-            GlobalScope.launch(Dispatchers.Default) {
+            jobs.add(GlobalScope.launch(Dispatchers.Default) {
                 CloudCodingNetworkManager.removeFriend(friendships[position].id)
                 withContext(Dispatchers.Main) {
                     val index =
@@ -52,9 +58,9 @@ class FriendsAdapter(private val friendships: MutableList<Friendship>) :
                     friendships.removeAt(index)
                     notifyItemRemoved(index)
                 }
-            }
+            })
         }
-        GlobalScope.launch(Dispatchers.Default) {
+        jobs.add(GlobalScope.launch(Dispatchers.Default) {
             val user = CloudCodingNetworkManager.getUserById(userId)
             withContext(Dispatchers.Main) {
                 cell.username.text =
@@ -68,7 +74,7 @@ class FriendsAdapter(private val friendships: MutableList<Friendship>) :
                     .placeholder(R.drawable.ic_user)
                     .into(cell.profilePicture)
             }
-        }
+        })
     }
 
     override fun getItemCount(): Int {

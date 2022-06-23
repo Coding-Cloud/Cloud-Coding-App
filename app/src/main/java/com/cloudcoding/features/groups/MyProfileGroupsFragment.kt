@@ -12,10 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.cloudcoding.R
 import com.cloudcoding.api.CloudCodingNetworkManager
 import kotlinx.android.synthetic.main.groups_fragment.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class MyProfileGroupsFragment : Fragment() {
     override fun onCreateView(
@@ -24,6 +21,15 @@ class MyProfileGroupsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.groups_fragment, parent, false)
+    }
+
+    private var jobs: MutableList<Job> = mutableListOf()
+
+    override fun onDestroy() {
+        super.onDestroy()
+        jobs.forEach { job ->
+            job.cancel()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -35,7 +41,7 @@ class MyProfileGroupsFragment : Fragment() {
                 }
             })
 
-        GlobalScope.launch(Dispatchers.Default) {
+        jobs.add(GlobalScope.launch(Dispatchers.Default) {
             val groups = mutableListOf<Any>()
             val ownedGroups = CloudCodingNetworkManager.getOwnedGroups()
             val joinedGroups = CloudCodingNetworkManager.getJoinedGroups()
@@ -54,6 +60,6 @@ class MyProfileGroupsFragment : Fragment() {
                     )
                 }
             }
-        }
+        })
     }
 }

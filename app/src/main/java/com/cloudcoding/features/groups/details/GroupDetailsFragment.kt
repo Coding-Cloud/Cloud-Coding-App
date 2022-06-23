@@ -12,10 +12,7 @@ import com.cloudcoding.api.CloudCodingNetworkManager
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.group_details_fragment.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class GroupDetailsFragment : Fragment() {
     override fun onCreateView(
@@ -24,6 +21,15 @@ class GroupDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.group_details_fragment, parent, false)
+    }
+
+    private var jobs: MutableList<Job> = mutableListOf()
+
+    override fun onDestroy() {
+        super.onDestroy()
+        jobs.forEach { job ->
+            job.cancel()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -35,7 +41,7 @@ class GroupDetailsFragment : Fragment() {
                 }
             })
         val groupId = requireArguments().getString("groupId")!!
-        GlobalScope.launch(Dispatchers.Default) {
+        jobs.add(GlobalScope.launch(Dispatchers.Default) {
             val projects = CloudCodingNetworkManager.getGroupProjects(groupId)
             val members = CloudCodingNetworkManager.getGroupMembers(groupId)
             withContext(Dispatchers.Main) {
@@ -48,6 +54,6 @@ class GroupDetailsFragment : Fragment() {
                     }
                 }.attach()
             }
-        }
+        })
     }
 }

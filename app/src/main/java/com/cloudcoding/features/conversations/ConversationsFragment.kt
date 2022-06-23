@@ -41,6 +41,6 @@ class ConversationsFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        SocketManager.clear()
+        SocketManager.clearEventListeners()
     }
 }

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cloudcoding.R
 import com.cloudcoding.models.Project
-import kotlinx.android.synthetic.main.projects_fragment.project_list
+import kotlinx.android.synthetic.main.projects_fragment.*
 
 class ProjectsFragment(val projects: MutableList<Project>, val action: Int) : Fragment() {
     override fun onCreateView(

@@ -11,10 +11,7 @@ import com.cloudcoding.api.CloudCodingNetworkManager
 import com.cloudcoding.api.SocketManager
 import com.cloudcoding.models.Message
 import com.cloudcoding.models.User
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
@@ -26,6 +23,15 @@ class MessageAdapter(
     private val users = mutableMapOf<String, User>()
     private val SENT = 0
     private val RECEIVED = 1
+
+    private var jobs: MutableList<Job> = mutableListOf()
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        jobs.forEach { job ->
+            job.cancel()
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -62,7 +68,7 @@ class MessageAdapter(
             Locale.FRANCE
         ).format(messages[position].createdAt)
         holder.date.text = date
-        GlobalScope.launch(Dispatchers.Default) {
+        jobs.add(GlobalScope.launch(Dispatchers.Default) {
             val user = if (users.containsKey(messages[position].userId)) {
                 users[messages[position].userId]
             } else {
@@ -74,7 +80,7 @@ class MessageAdapter(
                 holder.name.text =
                     holder.itemView.context.getString(R.string.name, user.firstname, user.lastname)
             }
-        }
+        })
     }
 
     private fun bindMessageReceived(holder: MessageReceivedItem, position: Int) {
@@ -85,7 +91,7 @@ class MessageAdapter(
             Locale.FRANCE
         ).format(messages[position].createdAt)
         holder.date.text = date
-        GlobalScope.launch(Dispatchers.Default) {
+        jobs.add(GlobalScope.launch(Dispatchers.Default) {
             val user = if (users.containsKey(messages[position].userId)) {
                 users[messages[position].userId]
             } else {
@@ -97,7 +103,7 @@ class MessageAdapter(
                 holder.name.text =
                     holder.itemView.context.getString(R.string.name, user.firstname, user.lastname)
             }
-        }
+        })
     }
 
     override fun getItemCount(): Int {

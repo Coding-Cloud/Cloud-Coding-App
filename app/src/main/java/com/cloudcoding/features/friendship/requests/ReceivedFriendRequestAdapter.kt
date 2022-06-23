@@ -11,10 +11,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.cloudcoding.R
 import com.cloudcoding.api.CloudCodingNetworkManager
 import com.cloudcoding.models.FriendRequest
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class ReceivedFriendRequestAdapter(private val friendRequests: MutableList<FriendRequest>) :
     RecyclerView.Adapter<ReceivedFriendRequestItem>() {
@@ -23,6 +20,15 @@ class ReceivedFriendRequestAdapter(private val friendRequests: MutableList<Frien
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.friend_request_received_item, parent, false)
         )
+    }
+
+    private var jobs: MutableList<Job> = mutableListOf()
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        jobs.forEach { job ->
+            job.cancel()
+        }
     }
 
     override fun onBindViewHolder(cell: ReceivedFriendRequestItem, position: Int) {
@@ -36,26 +42,26 @@ class ReceivedFriendRequestAdapter(private val friendRequests: MutableList<Frien
                 )
         }
         cell.accept.setOnClickListener {
-            GlobalScope.launch(Dispatchers.Default) {
+            jobs.add(GlobalScope.launch(Dispatchers.Default) {
                 CloudCodingNetworkManager.acceptFriendRequest(userId)
                 withContext(Dispatchers.Main) {
                     val index = friendRequests.indexOfFirst { it.requesterUserId == userId }
                     friendRequests.removeAt(index)
                     notifyItemRemoved(index)
                 }
-            }
+            })
         }
         cell.reject.setOnClickListener {
-            GlobalScope.launch(Dispatchers.Default) {
+            jobs.add(GlobalScope.launch(Dispatchers.Default) {
                 CloudCodingNetworkManager.rejectFriendRequest(userId)
                 withContext(Dispatchers.Main) {
                     val index = friendRequests.indexOfFirst { it.requesterUserId == userId }
                     friendRequests.removeAt(index)
                     notifyItemRemoved(index)
                 }
-            }
+            })
         }
-        GlobalScope.launch(Dispatchers.Default) {
+        jobs.add(GlobalScope.launch(Dispatchers.Default) {
             val user = CloudCodingNetworkManager.getUserById(userId)
             withContext(Dispatchers.Main) {
                 cell.username.text =
@@ -69,7 +75,7 @@ class ReceivedFriendRequestAdapter(private val friendRequests: MutableList<Frien
                     .placeholder(R.drawable.ic_user)
                     .into(cell.profilePicture)
             }
-        }
+        })
     }
 
     override fun getItemCount(): Int {

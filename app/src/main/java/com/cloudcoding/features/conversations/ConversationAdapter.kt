@@ -12,10 +12,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.cloudcoding.R
 import com.cloudcoding.api.CloudCodingNetworkManager
 import com.cloudcoding.models.Conversation
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 
 class ConversationAdapter(val conversations: List<Conversation>) :
@@ -27,13 +24,22 @@ class ConversationAdapter(val conversations: List<Conversation>) :
         )
     }
 
+    private var jobs: MutableList<Job> = mutableListOf()
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        jobs.forEach { job ->
+            job.cancel()
+        }
+    }
+
     override fun onBindViewHolder(cell: ConversationItem, position: Int) {
         val preference = cell.itemView.context.getSharedPreferences(
             cell.itemView.context.getString(R.string.me),
             Context.MODE_PRIVATE
         )!!
         val userId = preference.getString(cell.itemView.context.getString(R.string.me), "")!!
-        GlobalScope.launch(Dispatchers.Default) {
+        jobs.add(GlobalScope.launch(Dispatchers.Default) {
             val groupId = conversations[position].groupId
             val friendshipId = conversations[position].friendshipId
             val name = when {
@@ -61,7 +67,7 @@ class ConversationAdapter(val conversations: List<Conversation>) :
             withContext(Dispatchers.Main) {
                 cell.name.text = name
             }
-        }
+        })
         cell.itemView.setOnClickListener {
             cell.itemView
                 .findNavController()

@@ -10,10 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.cloudcoding.R
 import com.cloudcoding.api.CloudCodingNetworkManager
 import kotlinx.android.synthetic.main.friend_requests_fragment.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class FriendRequestsFragment : Fragment() {
     override fun onCreateView(
@@ -24,9 +21,17 @@ class FriendRequestsFragment : Fragment() {
         return inflater.inflate(R.layout.friend_requests_fragment, parent, false)
     }
 
+    private var jobs: MutableList<Job> = mutableListOf()
+
+    override fun onDestroy() {
+        super.onDestroy()
+        jobs.forEach { job ->
+            job.cancel()
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        GlobalScope.launch(Dispatchers.Default) {
+        jobs.add(GlobalScope.launch(Dispatchers.Default) {
             val sentFriendRequests = CloudCodingNetworkManager.getSentFriendRequests()
             val receivedFriendRequests = CloudCodingNetworkManager.getReceivedFriendRequests()
 
@@ -52,6 +57,6 @@ class FriendRequestsFragment : Fragment() {
                     )
                 }
             }
-        }
+        })
     }
 }

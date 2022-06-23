@@ -70,7 +70,7 @@ object SocketManager {
         }
     }
 
-    fun clear() {
+    fun clearEventListeners() {
         connection.off()
     }
 

@@ -13,10 +13,7 @@ import com.cloudcoding.api.request.GetFollowersRequest
 import com.cloudcoding.api.response.FollowersResponse
 import com.cloudcoding.utils.PaginationScrollListener
 import kotlinx.android.synthetic.main.followers_fragment.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class FollowingsFragment(val userId: String) : Fragment() {
     override fun onCreateView(
@@ -27,6 +24,14 @@ class FollowingsFragment(val userId: String) : Fragment() {
         return inflater.inflate(R.layout.followers_fragment, parent, false)
     }
 
+    private var jobs: MutableList<Job> = mutableListOf()
+
+    override fun onDestroy() {
+        super.onDestroy()
+        jobs.forEach { job ->
+            job.cancel()
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         var loading = true
@@ -53,7 +58,7 @@ class FollowingsFragment(val userId: String) : Fragment() {
 
             override fun loadMoreItems() {
                 loading = true
-                GlobalScope.launch(Dispatchers.Default) {
+                jobs.add(GlobalScope.launch(Dispatchers.Default) {
                     val size = followings.followers.size
                     val followersResponse = CloudCodingNetworkManager.getFollowers(
                         GetFollowersRequest(
@@ -71,7 +76,7 @@ class FollowingsFragment(val userId: String) : Fragment() {
                             followersResponse.followers.size
                         )
                     }
-                }
+                })
             }
 
             override fun isReversed(): Boolean {
@@ -82,7 +87,7 @@ class FollowingsFragment(val userId: String) : Fragment() {
                 return 0
             }
         })
-        GlobalScope.launch(Dispatchers.Default) {
+        jobs.add(GlobalScope.launch(Dispatchers.Default) {
             val followingsResponse =
                 CloudCodingNetworkManager.getFollowings(GetFollowersRequest(userId, 25, 0))
             followings.followers.addAll(followingsResponse.followers)
@@ -90,6 +95,6 @@ class FollowingsFragment(val userId: String) : Fragment() {
             withContext(Dispatchers.Main) {
                 follower_list.adapter?.notifyItemRangeInserted(0, followings.followers.size)
             }
-        }
+        })
     }
 }

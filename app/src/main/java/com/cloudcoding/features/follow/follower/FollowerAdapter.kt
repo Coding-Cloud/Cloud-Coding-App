@@ -9,10 +9,7 @@ import com.cloudcoding.R
 import com.cloudcoding.api.CloudCodingNetworkManager
 import com.cloudcoding.features.follow.FollowItem
 import com.cloudcoding.models.Follower
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class FollowerAdapter(val followers: MutableList<Follower>) : RecyclerView.Adapter<FollowItem>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FollowItem {
@@ -20,6 +17,15 @@ class FollowerAdapter(val followers: MutableList<Follower>) : RecyclerView.Adapt
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.follower_item, parent, false)
         )
+    }
+
+    private var jobs: MutableList<Job> = mutableListOf()
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        jobs.forEach { job ->
+            job.cancel()
+        }
     }
 
     override fun onBindViewHolder(cell: FollowItem, position: Int) {
@@ -41,15 +47,15 @@ class FollowerAdapter(val followers: MutableList<Follower>) : RecyclerView.Adapt
             } else {
                 cell.follow.text = "Follow"
             }
-            GlobalScope.launch(Dispatchers.Default) {
+            jobs.add(GlobalScope.launch(Dispatchers.Default) {
                 if (isFollowed) {
                     CloudCodingNetworkManager.follow(userId)
                 } else {
                     CloudCodingNetworkManager.unfollow(userId)
                 }
-            }
+            })
         }
-        GlobalScope.launch(Dispatchers.Default) {
+        jobs.add(GlobalScope.launch(Dispatchers.Default) {
             val user = CloudCodingNetworkManager.getUserById(userId)
             isFollowed = CloudCodingNetworkManager.isFollowing(userId)
             withContext(Dispatchers.Main) {
@@ -63,7 +69,7 @@ class FollowerAdapter(val followers: MutableList<Follower>) : RecyclerView.Adapt
                     cell.follow.text = "Follow"
                 }
             }
-        }
+        })
     }
 
     override fun getItemCount(): Int {

@@ -16,10 +16,7 @@ import com.cloudcoding.api.request.GetFollowersRequest
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.profile_fragment.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class ProfileFragment : Fragment() {
     override fun onCreateView(
@@ -28,6 +25,15 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.profile_fragment, parent, false)
+    }
+
+    private var jobs: MutableList<Job> = mutableListOf()
+
+    override fun onDestroy() {
+        super.onDestroy()
+        jobs.forEach { job ->
+            job.cancel()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,13 +62,13 @@ class ProfileFragment : Fragment() {
                 } else {
                     follow_button.text = "Follow"
                 }
-                GlobalScope.launch(Dispatchers.Default) {
+                jobs.add(GlobalScope.launch(Dispatchers.Default) {
                     if (isFollowed) {
                         CloudCodingNetworkManager.follow(userId)
                     } else {
                         CloudCodingNetworkManager.unfollow(userId)
                     }
-                }
+                })
             }
         }
         followers.setOnClickListener {
@@ -79,7 +85,7 @@ class ProfileFragment : Fragment() {
                     bundleOf("userId" to userId)
                 )
         }
-        GlobalScope.launch(Dispatchers.Default) {
+        jobs.add(GlobalScope.launch(Dispatchers.Default) {
             val user = CloudCodingNetworkManager.getUserById(userId)
             val followerRequest = GetFollowersRequest(user.id, null, null)
             val followers = CloudCodingNetworkManager.getFollowers(followerRequest)
@@ -113,6 +119,6 @@ class ProfileFragment : Fragment() {
                     }
                 }.attach()
             }
-        }
+        })
     }
 }

@@ -28,6 +28,15 @@ class CreateProjectDialogFragment(val onProjectCreated: (Project) -> Unit) : Dia
         const val TAG = "CreateProjectDialog"
     }
 
+    private var jobs: MutableList<Job> = mutableListOf()
+
+    override fun onDestroy() {
+        super.onDestroy()
+        jobs.forEach { job ->
+            job.cancel()
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -35,7 +44,7 @@ class CreateProjectDialogFragment(val onProjectCreated: (Project) -> Unit) : Dia
             dismiss()
         }
         create.setOnClickListener {
-            GlobalScope.launch(Dispatchers.Default) {
+            jobs.add(GlobalScope.launch(Dispatchers.Default) {
                 val projectId = CloudCodingNetworkManager.createProject(
                     CreateProjectRequest(
                         name_text.text.toString(),
@@ -48,7 +57,7 @@ class CreateProjectDialogFragment(val onProjectCreated: (Project) -> Unit) : Dia
                     dismiss()
                     onProjectCreated(project)
                 }
-            }
+            })
         }
     }
 }

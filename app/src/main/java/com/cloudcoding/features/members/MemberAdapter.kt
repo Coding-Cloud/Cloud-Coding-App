@@ -11,10 +11,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.cloudcoding.R
 import com.cloudcoding.api.CloudCodingNetworkManager
 import com.cloudcoding.models.GroupMembership
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class MemberAdapter(val members: MutableList<GroupMembership>, val action: Int) :
     RecyclerView.Adapter<MemberItem>() {
@@ -25,6 +22,15 @@ class MemberAdapter(val members: MutableList<GroupMembership>, val action: Int) 
         )
     }
 
+    private var jobs: MutableList<Job> = mutableListOf()
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        jobs.forEach { job ->
+            job.cancel()
+        }
+    }
+
     override fun onBindViewHolder(cell: MemberItem, position: Int) {
         cell.itemView.setOnClickListener {
             cell.itemView
@@ -32,7 +38,7 @@ class MemberAdapter(val members: MutableList<GroupMembership>, val action: Int) 
                 .navigate(action, bundleOf("userId" to members[position].userId))
 
         }
-        GlobalScope.launch(Dispatchers.Default) {
+        jobs.add(GlobalScope.launch(Dispatchers.Default) {
             val user = CloudCodingNetworkManager.getUserById(members[position].userId)
             withContext(Dispatchers.Main) {
                 cell.name.text =
@@ -40,7 +46,7 @@ class MemberAdapter(val members: MutableList<GroupMembership>, val action: Int) 
                 cell.username.text =
                     cell.itemView.context.getString(R.string.username, user.username)
             }
-        }
+        })
         Glide.with(cell.profilePicture.context)
             .load("https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg")
             .centerCrop()

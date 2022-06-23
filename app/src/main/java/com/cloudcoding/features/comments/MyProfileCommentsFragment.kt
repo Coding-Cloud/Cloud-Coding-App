@@ -15,10 +15,7 @@ import com.cloudcoding.api.request.GetCommentsRequest
 import com.cloudcoding.api.response.CommentsResponse
 import com.cloudcoding.utils.PaginationScrollListener
 import kotlinx.android.synthetic.main.comments_fragment.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class MyProfileCommentsFragment :
     Fragment() {
@@ -31,6 +28,15 @@ class MyProfileCommentsFragment :
         return inflater.inflate(R.layout.comments_fragment, parent, false)
     }
 
+    private var jobs: MutableList<Job> = mutableListOf()
+
+    override fun onDestroy() {
+        super.onDestroy()
+        jobs.forEach { job ->
+            job.cancel()
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         activity?.onBackPressedDispatcher?.addCallback(
             viewLifecycleOwner,
@@ -40,7 +46,7 @@ class MyProfileCommentsFragment :
                 }
             })
         var comments: CommentsResponse
-        GlobalScope.launch(Dispatchers.Default) {
+        jobs.add(GlobalScope.launch(Dispatchers.Default) {
             comments = CloudCodingNetworkManager.getCurrentUserComments(
                 GetCommentsRequest(
                     null,
@@ -73,7 +79,7 @@ class MyProfileCommentsFragment :
 
                 override fun loadMoreItems() {
                     loading = true
-                    GlobalScope.launch(Dispatchers.Default) {
+                    jobs.add(GlobalScope.launch(Dispatchers.Default) {
                         val commentsResponse = CloudCodingNetworkManager.getCurrentUserComments(
                             GetCommentsRequest(
                                 null,
@@ -92,7 +98,7 @@ class MyProfileCommentsFragment :
                             )
                             loading = false
                         }
-                    }
+                    })
                 }
 
 
@@ -104,7 +110,7 @@ class MyProfileCommentsFragment :
                     return 0
                 }
             })
-        }
+        })
 
     }
 }

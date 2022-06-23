@@ -13,10 +13,7 @@ import com.cloudcoding.R
 import com.cloudcoding.api.CloudCodingNetworkManager
 import com.cloudcoding.models.Project
 import com.cloudcoding.models.ProjectLanguage
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class ProjectAdapter(val projects: MutableList<Project>, private val action: Int) :
     RecyclerView.Adapter<ProjectItem>() {
@@ -25,6 +22,15 @@ class ProjectAdapter(val projects: MutableList<Project>, private val action: Int
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.project_item, parent, false)
         )
+    }
+
+    private var jobs: MutableList<Job> = mutableListOf()
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        jobs.forEach { job ->
+            job.cancel()
+        }
     }
 
     override fun onBindViewHolder(cell: ProjectItem, position: Int) {
@@ -48,13 +54,13 @@ class ProjectAdapter(val projects: MutableList<Project>, private val action: Int
         if (projects[position].creatorId == userId) {
             cell.itemView.setOnCreateContextMenuListener { menu: ContextMenu, _: View, _: ContextMenu.ContextMenuInfo? ->
                 menu.add("delete").setOnMenuItemClickListener {
-                    GlobalScope.launch(Dispatchers.Default) {
+                    jobs.add(GlobalScope.launch(Dispatchers.Default) {
                         CloudCodingNetworkManager.deleteProject(projects[position].id)
                         withContext(Dispatchers.Main) {
                             projects.removeAt(position)
                             notifyItemRemoved(position)
                         }
-                    }
+                    })
                     true
                 }
             }
