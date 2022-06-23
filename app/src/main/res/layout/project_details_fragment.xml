@@ -35,6 +35,63 @@
         app:layout_constraintStart_toEndOf="@id/language_thumbnail"
         app:layout_constraintTop_toBottomOf="@id/title" />
 
+    <TextView
+        android:id="@+id/comments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp"
+        android:text="Comments"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/status" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/comment_list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/separator"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/comments" />
+
+    <View
+        android:id="@+id/separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="5dp"
+        android:background="@android:color/system_neutral1_300"
+        app:layout_constraintBottom_toTopOf="@+id/comment_text" />
+
+    <EditText
+        android:id="@+id/comment_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/rounded_edit_text"
+        android:backgroundTint="@android:color/system_neutral1_200"
+        android:hint="Send a comment"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:maxLines="6"
+        android:padding="5dip"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/send"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/send"
+        android:layout_width="40dp"
+        android:layout_height="20dp"
+        android:background="@android:color/transparent"
+        android:clickable="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_send"
+        app:layout_constraintBottom_toBottomOf="@id/comment_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/comment_text"
+        app:tint="?attr/colorPrimary" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_start"
         android:layout_width="0dp"
@@ -48,5 +105,4 @@
         android:layout_height="0dp"
         android:orientation="vertical"
         app:layout_constraintGuide_end="10dp" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

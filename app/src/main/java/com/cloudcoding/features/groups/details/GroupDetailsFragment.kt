@@ -1,4 +1,4 @@
-package com.cloudcoding.features.groups.group
+package com.cloudcoding.features.groups.details
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,9 +8,14 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.cloudcoding.R
+import com.cloudcoding.api.CloudCodingNetworkManager
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.group_details_fragment.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class GroupDetailsFragment : Fragment() {
     override fun onCreateView(
@@ -29,13 +34,20 @@ class GroupDetailsFragment : Fragment() {
                     findNavController().popBackStack()
                 }
             })
-        viewpager.adapter = GroupDetailsAdapter(this)
-        TabLayoutMediator(tabLayout, viewpager) { tab: TabLayout.Tab, i: Int ->
-            println(i)
-            when (i) {
-                0 -> tab.text = "Projects"
-                else -> tab.text = "Members"
+        val groupId = requireArguments().getString("groupId")!!
+        GlobalScope.launch(Dispatchers.Default) {
+            val projects = CloudCodingNetworkManager.getGroupProjects(groupId)
+            val members = CloudCodingNetworkManager.getGroupMembers(groupId)
+            withContext(Dispatchers.Main) {
+                viewpager.adapter =
+                    GroupDetailsAdapter(projects, members, this@GroupDetailsFragment)
+                TabLayoutMediator(tabLayout, viewpager) { tab: TabLayout.Tab, i: Int ->
+                    when (i) {
+                        0 -> tab.text = "Projects"
+                        else -> tab.text = "Members"
+                    }
+                }.attach()
             }
-        }.attach()
+        }
     }
 }

@@ -80,7 +80,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
-        android:text="Followers"
+        android:text="Followings"
         android:textColor="#919191"
         android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@id/followings_count"

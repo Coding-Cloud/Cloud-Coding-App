@@ -10,4 +10,17 @@
     <string name="about">About</string>
     <string name="string_separator"> ⋅ </string>
     <string name="disconnect">Disconnect</string>
+    <string name="token">token</string>
+    <string name="me">me</string>
+    <string name="date_format">yyyy/MM/dd HH:mm</string>
+    <string name="copy">copy</string>
+    <string name="delete">delete</string>
+    <string name="name" translatable="false">%1$s %2$s</string>
+    <string name="username" translatable="false">\@%1$s</string>
+    <string name="create_project">Create project</string>
+    <string name="visibility">Visibility</string>
+    <string name="language">Language</string>
+    <string name="comment_html"><![CDATA[<p>%1$s</p>]]></string>
+    <string name="joined_groups">Joined Groups</string>
+    <string name="owned_groups">Owned Groups</string>
 </resources>

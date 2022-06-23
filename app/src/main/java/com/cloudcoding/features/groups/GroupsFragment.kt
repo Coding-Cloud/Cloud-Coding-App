@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.cloudcoding.R
 import kotlinx.android.synthetic.main.groups_fragment.*
 
-class GroupsFragment : Fragment() {
+class GroupsFragment(val groups: MutableList<Any>, val action: Int) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         parent: ViewGroup?,
@@ -31,8 +31,13 @@ class GroupsFragment : Fragment() {
             })
         group_list.run {
             layoutManager = LinearLayoutManager(this@GroupsFragment.context)
-            adapter = GroupAdapter()
-            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+            adapter = GroupAdapter(groups, action)
+            addItemDecoration(
+                DividerItemDecoration(
+                    context,
+                    DividerItemDecoration.VERTICAL
+                )
+            )
         }
     }
 }
