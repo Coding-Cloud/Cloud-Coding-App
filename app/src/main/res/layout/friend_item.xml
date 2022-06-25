@@ -39,11 +39,11 @@
 
     <Button
         android:id="@+id/remove_friend"
+        style="@style/DangerButtonTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12sp"
         android:text="Remove friend"
-        android:backgroundTint="@color/colorDanger"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"/>

@@ -44,8 +44,12 @@ class FollowerAdapter(val followers: MutableList<Follower>) : RecyclerView.Adapt
             isFollowed = !isFollowed
             if (isFollowed) {
                 cell.follow.text = "Unfollow"
+                cell.follow.setBackgroundColor(cell.itemView.context.getColor(R.color.colorDanger))
+                cell.follow.setTextColor(cell.itemView.context.getColor(R.color.colorOnDanger))
             } else {
                 cell.follow.text = "Follow"
+                cell.follow.setBackgroundColor(cell.itemView.context.getColor(R.color.colorAccent))
+                cell.follow.setTextColor(cell.itemView.context.getColor(R.color.colorOnAccent))
             }
             jobs.add(GlobalScope.launch(Dispatchers.Default) {
                 if (isFollowed) {
@@ -60,13 +64,21 @@ class FollowerAdapter(val followers: MutableList<Follower>) : RecyclerView.Adapt
             isFollowed = CloudCodingNetworkManager.isFollowing(userId)
             withContext(Dispatchers.Main) {
                 cell.name.text =
-                    cell.itemView.context.getString(R.string.user_name, user.firstname, user.lastname)
+                    cell.itemView.context.getString(
+                        R.string.user_name,
+                        user.firstname,
+                        user.lastname
+                    )
                 cell.username.text =
                     cell.itemView.context.getString(R.string.username, user.username)
                 if (isFollowed) {
                     cell.follow.text = "Unfollow"
+                    cell.follow.setBackgroundColor(cell.itemView.context.getColor(R.color.colorDanger))
+                    cell.follow.setTextColor(cell.itemView.context.getColor(R.color.colorOnDanger))
                 } else {
                     cell.follow.text = "Follow"
+                    cell.follow.setBackgroundColor(cell.itemView.context.getColor(R.color.colorAccent))
+                    cell.follow.setTextColor(cell.itemView.context.getColor(R.color.colorOnAccent))
                 }
             }
         })

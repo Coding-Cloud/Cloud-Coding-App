@@ -6,6 +6,7 @@
     <color name="colorOnSecondary">#9e9e9e</color>
     <color name="colorBackground">#303030</color>
     <color name="colorAccent">#039be5</color>
+    <color name="colorOnAccent">#FFFFFF</color>
     <color name="colorDanger">#dc3545</color>
     <color name="colorOnDanger">#FFFFFF</color>
     <color name="main_navigation_bg">#EBEBEB</color>
