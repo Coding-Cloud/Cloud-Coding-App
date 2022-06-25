@@ -84,10 +84,11 @@ class MainMenuFragment : Fragment() {
             val followers = CloudCodingNetworkManager.getFollowers(followerRequest)
             val followings = CloudCodingNetworkManager.getFollowings(followerRequest)
             withContext(Dispatchers.Main) {
-                nav.getHeaderView(0).findViewById<TextView>(R.id.followers_count).text =
-                    followers.totalResults.toString()
-                nav.getHeaderView(0).findViewById<TextView>(R.id.followings_count).text =
-                    followings.totalResults.toString()
+                nav.getHeaderView(0).findViewById<TextView>(R.id.followers)
+                    .setTextBold(getString(R.string.followers_count, followers.totalResults))
+                nav.getHeaderView(0).findViewById<TextView>(R.id.followings)
+                    .setTextBold(getString(R.string.followers_count, followings.totalResults))
+
                 nav.getHeaderView(0).findViewById<TextView>(R.id.name).text =
                     getString(R.string.user_name, user.firstname, user.lastname)
                 nav.getHeaderView(0).findViewById<TextView>(R.id.username).text =

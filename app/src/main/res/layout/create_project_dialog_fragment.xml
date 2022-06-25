@@ -24,6 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/name"
+        android:labelFor="@id/name_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title" />
 
@@ -33,7 +34,9 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@id/name"
         app:layout_constraintStart_toEndOf="@id/name"
-        app:layout_constraintTop_toTopOf="@id/name" />
+        app:layout_constraintTop_toTopOf="@id/name"
+        android:inputType="text"
+        android:autofillHints="project_name" />
 
     <TextView
         android:id="@+id/language"
