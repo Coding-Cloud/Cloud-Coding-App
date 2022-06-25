@@ -13,6 +13,7 @@ import com.cloudcoding.MainActivity
 import com.cloudcoding.R
 import com.cloudcoding.api.CloudCodingNetworkManager
 import com.cloudcoding.api.request.GetFollowersRequest
+import com.cloudcoding.setTextBold
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.profile_fragment.*
@@ -58,9 +59,9 @@ class ProfileFragment : Fragment() {
             follow_button.setOnClickListener {
                 isFollowed = !isFollowed
                 if (isFollowed) {
-                    follow_button.text = "Unfollow"
+                    follow_button.text = getString(R.string.unfollow)
                 } else {
-                    follow_button.text = "Follow"
+                    follow_button.text = getString(R.string.follow)
                 }
                 jobs.add(GlobalScope.launch(Dispatchers.Default) {
                     if (isFollowed) {
@@ -88,8 +89,8 @@ class ProfileFragment : Fragment() {
         jobs.add(GlobalScope.launch(Dispatchers.Default) {
             val user = CloudCodingNetworkManager.getUserById(userId)
             val followerRequest = GetFollowersRequest(user.id, null, null)
-            val followers = CloudCodingNetworkManager.getFollowers(followerRequest)
-            val followings = CloudCodingNetworkManager.getFollowings(followerRequest)
+            val followerList = CloudCodingNetworkManager.getFollowers(followerRequest)
+            val followingList = CloudCodingNetworkManager.getFollowings(followerRequest)
             val projects = CloudCodingNetworkManager.getUserProjects(userId)
             val groups = mutableListOf<Any>()
             val groupMemberships = CloudCodingNetworkManager.getUserGroups(userId)
@@ -98,17 +99,17 @@ class ProfileFragment : Fragment() {
             withContext(Dispatchers.Main) {
                 name.text = getString(R.string.user_name, user.firstname, user.lastname)
                 username.text = getString(R.string.username, user.username)
-                followers_count.text = followers.totalResults.toString()
-                followings_count.text = followings.totalResults.toString()
+                followers.setTextBold(getString(R.string.followers_count, followerList.totalResults))
+                followings.setTextBold(getString(R.string.followers_count, followingList.totalResults))
                 if (userId == currentUserId) {
                     viewpager.adapter = MyProfileAdapter(this@ProfileFragment)
                 } else {
                     viewpager.adapter =
                         ProfileAdapter(userId, projects, groups, this@ProfileFragment)
                     if (isFollowed) {
-                        follow_button.text = "Unfollow"
+                        follow_button.text = getString(R.string.unfollow)
                     } else {
-                        follow_button.text = "Follow"
+                        follow_button.text = getString(R.string.follow)
                     }
                 }
                 TabLayoutMediator(tabLayout, viewpager) { tab: TabLayout.Tab, i: Int ->

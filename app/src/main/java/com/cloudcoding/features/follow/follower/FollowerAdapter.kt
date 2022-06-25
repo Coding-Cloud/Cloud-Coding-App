@@ -9,6 +9,7 @@ import com.cloudcoding.R
 import com.cloudcoding.api.CloudCodingNetworkManager
 import com.cloudcoding.features.follow.FollowItem
 import com.cloudcoding.models.Follower
+import kotlinx.android.synthetic.main.profile_fragment.*
 import kotlinx.coroutines.*
 
 class FollowerAdapter(val followers: MutableList<Follower>) : RecyclerView.Adapter<FollowItem>() {
@@ -43,11 +44,11 @@ class FollowerAdapter(val followers: MutableList<Follower>) : RecyclerView.Adapt
         cell.follow.setOnClickListener {
             isFollowed = !isFollowed
             if (isFollowed) {
-                cell.follow.text = "Unfollow"
+                cell.follow.text = cell.itemView.context.getString(R.string.unfollow)
                 cell.follow.setBackgroundColor(cell.itemView.context.getColor(R.color.colorDanger))
                 cell.follow.setTextColor(cell.itemView.context.getColor(R.color.colorOnDanger))
             } else {
-                cell.follow.text = "Follow"
+                cell.follow.text = cell.itemView.context.getString(R.string.follow)
                 cell.follow.setBackgroundColor(cell.itemView.context.getColor(R.color.colorAccent))
                 cell.follow.setTextColor(cell.itemView.context.getColor(R.color.colorOnAccent))
             }
@@ -72,11 +73,11 @@ class FollowerAdapter(val followers: MutableList<Follower>) : RecyclerView.Adapt
                 cell.username.text =
                     cell.itemView.context.getString(R.string.username, user.username)
                 if (isFollowed) {
-                    cell.follow.text = "Unfollow"
+                    cell.follow.text = cell.itemView.context.getString(R.string.unfollow)
                     cell.follow.setBackgroundColor(cell.itemView.context.getColor(R.color.colorDanger))
                     cell.follow.setTextColor(cell.itemView.context.getColor(R.color.colorOnDanger))
                 } else {
-                    cell.follow.text = "Follow"
+                    cell.follow.text = cell.itemView.context.getString(R.string.follow)
                     cell.follow.setBackgroundColor(cell.itemView.context.getColor(R.color.colorAccent))
                     cell.follow.setTextColor(cell.itemView.context.getColor(R.color.colorOnAccent))
                 }

@@ -13,14 +13,14 @@
         android:src="@drawable/ic_angular"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/language" />
 
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:text="A project title"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/language_thumbnail"
         app:layout_constraintStart_toEndOf="@id/language_thumbnail"

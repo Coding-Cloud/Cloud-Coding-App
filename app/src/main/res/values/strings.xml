@@ -35,6 +35,7 @@
     <string name="followers">Followers</string>
     <string name="followings">Followings</string>
     <string name="follow">Follow</string>
+    <string name="unfollow">Unfollow</string>
     <string name="remove_friend">Remove friend</string>
     <string name="deny">Deny</string>
     <string name="received">Received</string>
@@ -42,4 +43,18 @@
     <string name="friend_requests">Friend requests</string>
     <string name="members_count">%1$d members</string>
     <string name="members">Members</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="signup">Signup</string>
+    <string name="username_str">Username</string>
+    <string name="error_login">Error can\'t log you in</string>
+    <string name="options">options</string>
+    <string name="add_friend">Add friend</string>
+    <string name="comments">Comments</string>
+    <string name="send_comment">Send a comment</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="birthday">Birthday</string>
+    <string name="email_address">Email address</string>
+    <string name="lastname">Lastname</string>
+    <string name="firstname">Firstname</string>
 </resources>
