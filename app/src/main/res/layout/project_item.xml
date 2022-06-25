@@ -12,7 +12,7 @@
         android:layout_height="50dp"
         android:src="@drawable/ic_angular"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -24,6 +24,20 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/language_thumbnail"
         app:layout_constraintStart_toEndOf="@id/language_thumbnail"
-        app:layout_constraintTop_toTopOf="@id/language_thumbnail" />
+        app:layout_constraintTop_toTopOf="@id/language_thumbnail"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_start"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="10dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_end"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="10dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
