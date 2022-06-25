@@ -96,7 +96,7 @@ class ProfileFragment : Fragment() {
             groups.addAll(groupMemberships.map { CloudCodingNetworkManager.getGroupById(it.groupId) })
             isFollowed = CloudCodingNetworkManager.isFollowing(userId)
             withContext(Dispatchers.Main) {
-                name.text = getString(R.string.name, user.firstname, user.lastname)
+                name.text = getString(R.string.user_name, user.firstname, user.lastname)
                 username.text = getString(R.string.username, user.username)
                 followers_count.text = followers.totalResults.toString()
                 followings_count.text = followings.totalResults.toString()

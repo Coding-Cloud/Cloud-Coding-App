@@ -89,7 +89,7 @@ class MainMenuFragment : Fragment() {
                 nav.getHeaderView(0).findViewById<TextView>(R.id.followings_count).text =
                     followings.totalResults.toString()
                 nav.getHeaderView(0).findViewById<TextView>(R.id.name).text =
-                    getString(R.string.name, user.firstname, user.lastname)
+                    getString(R.string.user_name, user.firstname, user.lastname)
                 nav.getHeaderView(0).findViewById<TextView>(R.id.username).text =
                     getString(R.string.username, user.username)
             }

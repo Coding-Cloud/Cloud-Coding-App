@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#424242</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
+    <color name="colorSecondary">#303030</color>
+    <color name="colorOnSecondary">#9e9e9e</color>
+    <color name="colorBackground">#303030</color>
+    <color name="colorAccent">#039be5</color>
+    <color name="colorDanger">#dc3545</color>
+    <color name="colorOnDanger">#FFFFFF</color>
+    <color name="main_navigation_bg">#EBEBEB</color>
+    <color name="bottom_bar_default">#212121</color>
+</resources>

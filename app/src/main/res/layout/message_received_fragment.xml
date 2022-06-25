@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Firstname Lastname"
-            android:textColor="@color/black"
+            android:textColor="@color/colorOnPrimary"
             android:textSize="15sp"
             android:textStyle="bold" />
 
@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Hello how are you zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz?"
-            android:textColor="@color/black" />
+            android:textColor="@color/colorOnPrimary" />
     </LinearLayout>
 
     <TextView

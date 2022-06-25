@@ -61,7 +61,7 @@ class FollowingAdapter(val followings: MutableList<Follower>) :
             isFollowed = CloudCodingNetworkManager.isFollowing(userId)
             withContext(Dispatchers.Main) {
                 cell.name.text =
-                    cell.itemView.context.getString(R.string.name, user.firstname, user.lastname)
+                    cell.itemView.context.getString(R.string.user_name, user.firstname, user.lastname)
                 cell.username.text =
                     cell.itemView.context.getString(R.string.username, user.username)
                 if (isFollowed) {
