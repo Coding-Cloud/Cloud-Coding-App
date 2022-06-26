@@ -29,7 +29,7 @@ object SocketManager {
         val token = preference.getString("token", "")!!
         val opts = IO.Options()
         opts.extraHeaders = hashMapOf<String, List<String>>("authorization" to listOf(token))
-        val socket = IO.socket("http://10.0.2.2:3000/social-network", opts)
+        val socket = IO.socket("https://api.dev.cloudcoding.fr/social-network", opts)
         socket.connect()
         return socket
     }
