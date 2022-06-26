@@ -13,13 +13,14 @@
         android:scaleType="fitCenter"
         android:src="@drawable/ic_user"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/profile_picture" />
 
     <Button
         android:id="@+id/follow_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Follow"
+        android:text="@string/follow"
         app:layout_constraintBottom_toTopOf="@+id/name"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
         app:layout_constraintTop_toBottomOf="@id/profile_picture" />
@@ -36,14 +37,14 @@
         app:layout_constraintBottom_toTopOf="@+id/name"
         app:layout_constraintEnd_toStartOf="@id/follow_button"
         app:layout_constraintTop_toBottomOf="@id/profile_picture"
-        app:tint="?attr/colorPrimary" />
+        app:tint="?attr/colorPrimary"
+        android:contentDescription="@string/add_friend" />
 
 
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Firstname Lastname"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -52,28 +53,19 @@
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="\@username"
         android:textColor="#919191"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintTop_toBottomOf="@id/name" />
 
     <TextView
-        android:id="@+id/followers_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="20"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@id/guideline_start"
-        app:layout_constraintTop_toBottomOf="@id/username" />
-    <TextView
         android:id="@+id/followers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="3dp"
-        android:text="Followers"
-        app:layout_constraintStart_toEndOf="@id/followers_count"
-        app:layout_constraintTop_toTopOf="@id/followers_count" />
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/username" />
+
     <TextView
         android:id="@+id/string_separator"
         android:layout_width="wrap_content"
@@ -84,26 +76,20 @@
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@id/followers"
         app:layout_constraintTop_toTopOf="@id/followers" />
-    <TextView
-        android:id="@+id/followings_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="20"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@id/string_separator"
-        app:layout_constraintTop_toBottomOf="@id/username" />
+
     <TextView
         android:id="@+id/followings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="3dp"
-        android:text="Followings"
-        app:layout_constraintStart_toEndOf="@id/followings_count"
-        app:layout_constraintTop_toTopOf="@id/followings_count" />
+        app:layout_constraintStart_toEndOf="@id/string_separator"
+        app:layout_constraintTop_toBottomOf="@id/username" />
 
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
+        style="@style/AppTabLayout"
+        app:tabTextAppearance="@style/AppTabTextAppearance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="0dp"
@@ -114,19 +100,19 @@
             android:id="@+id/comments_tab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Comments" />
+            android:text="@string/comments" />
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/projects_tab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Projects" />
+            android:text="@string/projects" />
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/groups_tab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Groups" />
+            android:text="@string/groups" />
 
     </com.google.android.material.tabs.TabLayout>
 

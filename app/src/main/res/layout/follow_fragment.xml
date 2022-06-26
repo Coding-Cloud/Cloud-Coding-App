@@ -8,6 +8,8 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
+        style="@style/AppTabLayout"
+        app:tabTextAppearance="@style/AppTabTextAppearance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="0dp"
@@ -17,13 +19,13 @@
             android:id="@+id/comments_tab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Followers" />
+            android:text="@string/followers" />
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/projects_tab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Followings" />
+            android:text="@string/followings" />
 
 
     </com.google.android.material.tabs.TabLayout>

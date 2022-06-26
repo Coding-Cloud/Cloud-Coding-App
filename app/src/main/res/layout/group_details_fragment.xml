@@ -11,38 +11,30 @@
         android:scaleType="fitCenter"
         android:src="@drawable/ic_users"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/profile_picture" />
 
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Group name"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintTop_toBottomOf="@id/profile_picture" />
 
     <TextView
-        android:id="@+id/members_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="20"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@id/guideline_start"
-        app:layout_constraintTop_toBottomOf="@id/name" />
-
-    <TextView
         android:id="@+id/members"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="3dp"
-        android:text="members"
-        app:layout_constraintStart_toEndOf="@id/members_count"
-        app:layout_constraintTop_toTopOf="@id/members_count" />
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/name" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
+        style="@style/AppTabLayout"
+        app:tabTextAppearance="@style/AppTabTextAppearance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="0dp"
@@ -52,13 +44,13 @@
             android:id="@+id/projects_tab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Projects" />
+            android:text="@string/projects" />
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/members_tab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Members" />
+            android:text="@string/members" />
 
     </com.google.android.material.tabs.TabLayout>
 

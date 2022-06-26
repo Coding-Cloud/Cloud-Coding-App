@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.cloudcoding.R
 import com.cloudcoding.api.CloudCodingNetworkManager
+import com.cloudcoding.setTextBold
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.group_details_fragment.*
@@ -43,10 +44,13 @@ class GroupDetailsFragment : Fragment() {
         val groupId = requireArguments().getString("groupId")!!
         jobs.add(GlobalScope.launch(Dispatchers.Default) {
             val projects = CloudCodingNetworkManager.getGroupProjects(groupId)
-            val members = CloudCodingNetworkManager.getGroupMembers(groupId)
+            val memberList = CloudCodingNetworkManager.getGroupMembers(groupId)
+            val group = CloudCodingNetworkManager.getGroupById(groupId)
             withContext(Dispatchers.Main) {
+                name.text = group.name
+                members.setTextBold(getString(R.string.members_count, memberList.size))
                 viewpager.adapter =
-                    GroupDetailsAdapter(projects, members, this@GroupDetailsFragment)
+                    GroupDetailsAdapter(projects, memberList, this@GroupDetailsFragment)
                 TabLayoutMediator(tabLayout, viewpager) { tab: TabLayout.Tab, i: Int ->
                     when (i) {
                         0 -> tab.text = "Projects"

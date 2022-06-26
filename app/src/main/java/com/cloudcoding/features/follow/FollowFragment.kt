@@ -24,8 +24,8 @@ class FollowFragment : Fragment() {
         viewpager.adapter = FollowAdapter(userId, this@FollowFragment)
         TabLayoutMediator(tabLayout, viewpager) { tab: TabLayout.Tab, i: Int ->
             when (i) {
-                0 -> tab.text = "Followers"
-                else -> tab.text = "Followings"
+                0 -> tab.text = view.context.getText(R.string.followers)
+                else -> tab.text = view.context.getText(R.string.followings)
             }
         }.attach()
     }

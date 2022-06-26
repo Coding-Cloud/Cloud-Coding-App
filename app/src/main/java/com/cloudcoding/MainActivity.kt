@@ -1,7 +1,11 @@
 package com.cloudcoding
 
 import android.content.Context
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.SpannableStringBuilder
+import android.text.style.StyleSpan
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.cloudcoding.databinding.ActivityMainBinding
 
@@ -22,4 +26,9 @@ class MainActivity : AppCompatActivity() {
             return mInstance.applicationContext
         }
     }
+}
+fun TextView.setTextBold(text: String, separator: String = " ") {
+    val builder = SpannableStringBuilder(text)
+    builder.setSpan(StyleSpan(Typeface.BOLD), 0, text.indexOf(separator) + 1, 0)
+    setText(builder)
 }

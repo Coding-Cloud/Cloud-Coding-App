@@ -67,7 +67,7 @@ class ReceivedFriendRequestAdapter(private val friendRequests: MutableList<Frien
                 cell.username.text =
                     cell.itemView.context.getString(R.string.username, user.username)
                 cell.name.text =
-                    cell.itemView.context.getString(R.string.name, user.firstname, user.lastname)
+                    cell.itemView.context.getString(R.string.user_name, user.firstname, user.lastname)
                 Glide.with(cell.profilePicture.context)
                     .load("https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg")
                     .centerCrop()

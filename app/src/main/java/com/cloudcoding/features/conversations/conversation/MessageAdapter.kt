@@ -78,7 +78,7 @@ class MessageAdapter(
             }!!
             withContext(Dispatchers.Main) {
                 holder.name.text =
-                    holder.itemView.context.getString(R.string.name, user.firstname, user.lastname)
+                    holder.itemView.context.getString(R.string.user_name, user.firstname, user.lastname)
             }
         })
     }
@@ -101,7 +101,7 @@ class MessageAdapter(
             }!!
             withContext(Dispatchers.Main) {
                 holder.name.text =
-                    holder.itemView.context.getString(R.string.name, user.firstname, user.lastname)
+                    holder.itemView.context.getString(R.string.user_name, user.firstname, user.lastname)
             }
         })
     }

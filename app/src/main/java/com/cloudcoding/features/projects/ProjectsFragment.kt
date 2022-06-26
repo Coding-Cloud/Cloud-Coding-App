@@ -19,7 +19,7 @@ class ProjectsFragment(val projects: MutableList<Project>, val action: Int) : Fr
         parent: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.my_projects_fragment, parent, false)
+        return inflater.inflate(R.layout.projects_fragment, parent, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

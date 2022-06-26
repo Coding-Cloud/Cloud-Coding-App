@@ -11,7 +11,7 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create Project"
+        android:text="@string/create_project"
         android:textSize="24sp"
         android:layout_marginTop="5dp"
         android:textStyle="bold"
@@ -23,7 +23,8 @@
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Name"
+        android:text="@string/name"
+        android:labelFor="@id/name_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title" />
 
@@ -33,14 +34,16 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@id/name"
         app:layout_constraintStart_toEndOf="@id/name"
-        app:layout_constraintTop_toTopOf="@id/name" />
+        app:layout_constraintTop_toTopOf="@id/name"
+        android:inputType="text"
+        android:autofillHints="project_name" />
 
     <TextView
         android:id="@+id/language"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="Language"
+        android:text="@string/language"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/name_text" />
 
@@ -58,7 +61,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="Visibility"
+        android:text="@string/visibility"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/language" />
 
@@ -75,7 +78,8 @@
         android:id="@+id/cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cancel"
+        style="@style/DangerButtonTheme"
+        android:text="@string/cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/create"
         app:layout_constraintStart_toStartOf="parent" />
@@ -84,7 +88,7 @@
         android:id="@+id/create"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create"
+        android:text="@string/create"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/cancel" />
