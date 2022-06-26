@@ -77,7 +77,7 @@ class ConversationAdapter(val conversations: List<Conversation>) :
                 )
         }
         Glide.with(cell.profilePicture.context)
-            .load("https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg")
+            .load("https://i.pravatar.cc/100")
             .centerCrop()
             .apply(RequestOptions.bitmapTransform(CircleCrop()))
             .placeholder(R.drawable.ic_user)

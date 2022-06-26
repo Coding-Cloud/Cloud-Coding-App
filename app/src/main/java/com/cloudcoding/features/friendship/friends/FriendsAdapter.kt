@@ -68,7 +68,7 @@ class FriendsAdapter(private val friendships: MutableList<Friendship>) :
                 cell.name.text =
                     cell.itemView.context.getString(R.string.user_name, user.firstname, user.lastname)
                 Glide.with(cell.profilePicture.context)
-                    .load("https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg")
+                    .load("https://i.pravatar.cc/100")
                     .centerCrop()
                     .apply(RequestOptions.bitmapTransform(CircleCrop()))
                     .placeholder(R.drawable.ic_user)

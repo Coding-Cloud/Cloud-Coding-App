@@ -7,6 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.request.RequestOptions
 import com.cloudcoding.MainActivity
 import com.cloudcoding.R
 import com.cloudcoding.api.CloudCodingNetworkManager
@@ -60,6 +63,12 @@ class CommentAdapter(val comments: MutableList<Comment>) :
                 }
             }
         }
+        Glide.with(cell.profilePicture.context)
+            .load("https://i.pravatar.cc/100")
+            .centerCrop()
+            .apply(RequestOptions.bitmapTransform(CircleCrop()))
+            .placeholder(R.drawable.ic_user)
+            .into(cell.profilePicture)
     }
 
     override fun getItemCount(): Int {
