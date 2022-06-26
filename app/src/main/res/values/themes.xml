@@ -21,6 +21,10 @@
         <item name="android:windowBackground">@color/colorBackground</item>
         <item name="tabIndicatorColor">@color/colorAccent</item>
         <item name="tabSelectedTextColor">@color/colorAccent</item>
+
+        <item name="android:windowSplashScreenBackground">@color/colorPrimary</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/colorAccent</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_splash_inset</item>
     </style>
 
     <style name="DefaultButtonTheme" parent="Widget.MaterialComponents.Button">

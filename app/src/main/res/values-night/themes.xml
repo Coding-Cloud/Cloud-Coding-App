@@ -21,6 +21,10 @@
         <item name="android:windowBackground">@color/colorBackground</item>
         <item name="tabIndicatorColor">@color/colorAccent</item>
         <item name="tabSelectedTextColor">@color/colorAccent</item>
+
+        <item name="android:windowSplashScreenBackground">@color/colorPrimary</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/colorAccent</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_splash_inset</item>
     </style>
 
     <style name="DefaultButtonTheme" parent="Widget.MaterialComponents.Button">
@@ -29,16 +33,16 @@
 
     <style name="DefaultButtonThemeButtonColor">
         <item name="colorPrimary">@color/colorAccent</item>
-        <item name="colorOnPrimary">@color/colorOnPrimary</item>
+        <item name="colorOnPrimary">@color/colorOnAccent</item>
     </style>
 
     <style name="DangerButtonTheme" parent="Widget.MaterialComponents.Button">
-        <item name="materialThemeOverlay">@style/DefaultButtonThemeButtonColor</item>
+        <item name="materialThemeOverlay">@style/DangerButtonThemeButtonColor</item>
     </style>
 
     <style name="DangerButtonThemeButtonColor">
-        <item name="colorPrimary">@color/colorAccent</item>
-        <item name="colorOnPrimary">@color/colorOnPrimary</item>
+        <item name="colorPrimary">@color/colorDanger</item>
+        <item name="colorOnPrimary">@color/colorOnDanger</item>
     </style>
 
     <!-- Tab layout style -->
