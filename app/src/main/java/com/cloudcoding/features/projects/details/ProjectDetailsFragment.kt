@@ -50,7 +50,7 @@ class ProjectDetailsFragment : Fragment() {
                 title.text = project.name
                 when (project.language) {
                     ProjectLanguage.ANGULAR -> language_thumbnail.setImageResource(R.drawable.ic_angular)
-                    ProjectLanguage.QUARKUS -> language_thumbnail.setImageResource(R.drawable.ic_java)
+                    ProjectLanguage.QUARKUS -> language_thumbnail.setImageResource(R.drawable.ic_quarkus)
                     else -> language_thumbnail.setImageResource(R.drawable.ic_react)
                 }
                 comment_list.run {
