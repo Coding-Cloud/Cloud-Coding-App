@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -63,8 +65,12 @@ class ProfileFragment : Fragment() {
                 isFollowed = !isFollowed
                 if (isFollowed) {
                     follow_button.text = getString(R.string.unfollow)
+                    follow_button.setBackgroundColor(requireContext().getColor(R.color.colorDanger))
+                    follow_button.setTextColor(requireContext().getColor(R.color.colorOnDanger))
                 } else {
                     follow_button.text = getString(R.string.follow)
+                    follow_button.setBackgroundColor(requireContext().getColor(R.color.colorAccent))
+                    follow_button.setTextColor(requireContext().getColor(R.color.colorOnAccent))
                 }
                 jobs.add(GlobalScope.launch(Dispatchers.Default) {
                     if (isFollowed) {
@@ -97,13 +103,88 @@ class ProfileFragment : Fragment() {
             val projects = CloudCodingNetworkManager.getUserProjects(userId)
             val groups = mutableListOf<Any>()
             val groupMemberships = CloudCodingNetworkManager.getUserGroups(userId)
+            val friendRequest = try {
+                CloudCodingNetworkManager.getUserFriendRequest(userId)
+            } catch (e: Exception) {
+                null
+            }
+            val friendship = try {
+                CloudCodingNetworkManager.getUserFriendship(userId)
+            } catch (e: Exception) {
+                null
+            }
             groups.addAll(groupMemberships.map { CloudCodingNetworkManager.getGroupById(it.groupId) })
             isFollowed = CloudCodingNetworkManager.isFollowing(userId)
             withContext(Dispatchers.Main) {
                 name.text = getString(R.string.user_name, user.firstname, user.lastname)
                 username.text = getString(R.string.username, user.username)
-                followers.setTextBold(getString(R.string.followers_count, followerList.totalResults))
-                followings.setTextBold(getString(R.string.followers_count, followingList.totalResults))
+                followers.setTextBold(
+                    getString(
+                        R.string.followers_count,
+                        followerList.totalResults
+                    )
+                )
+                followings.setTextBold(
+                    getString(
+                        R.string.followers_count,
+                        followingList.totalResults
+                    )
+                )
+                if (friendRequest != null) {
+                    friend_button.visibility = View.GONE
+                } else {
+                    friend_button.setOnClickListener {
+                        jobs.add(GlobalScope.launch(Dispatchers.Default) {
+                            if (friendship != null) {
+                                CloudCodingNetworkManager.removeFriend(userId)
+                                friend_button.setImageDrawable(
+                                    AppCompatResources.getDrawable(
+                                        requireContext(),
+                                        R.drawable.ic_user_plus
+                                    )
+                                )
+                                friend_button.setColorFilter(
+                                    ContextCompat.getColor(
+                                        requireContext(),
+                                        R.color.colorAccent
+                                    ), android.graphics.PorterDuff.Mode.SRC_IN
+                                )
+                            } else {
+                                CloudCodingNetworkManager.sendFriendRequest(userId)
+                                friend_button.visibility = View.GONE
+                            }
+                        })
+                    }
+                    if (friendship != null) {
+                        friend_button.setImageDrawable(
+                            AppCompatResources.getDrawable(
+                                requireContext(),
+                                R.drawable.ic_user_minus
+                            )
+                        )
+                        friend_button.setColorFilter(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.colorDanger
+                            ), android.graphics.PorterDuff.Mode.SRC_IN
+                        )
+
+                    } else {
+                        friend_button.setImageDrawable(
+                            AppCompatResources.getDrawable(
+                                requireContext(),
+                                R.drawable.ic_user_plus
+                            )
+                        )
+                        friend_button.setColorFilter(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.colorAccent
+                            ), android.graphics.PorterDuff.Mode.SRC_IN
+                        )
+                    }
+                }
+
                 if (userId == currentUserId) {
                     viewpager.adapter = MyProfileAdapter(this@ProfileFragment)
                 } else {

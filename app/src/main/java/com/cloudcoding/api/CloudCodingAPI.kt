@@ -122,11 +122,17 @@ interface CloudCodingAPI {
     @GET("/friendships")
     fun getUserFriends(): Deferred<MutableList<Friendship>>
 
+    @GET("/friendships/user/{userId}")
+    fun getUserFriendship(userId: String): Deferred<Friendship>
+
     @GET("/friend-requests/sent")
     fun getSentFriendRequests(): Deferred<MutableList<FriendRequest>>
 
     @GET("/friend-requests/received")
     fun getReceivedFriendRequests(): Deferred<MutableList<FriendRequest>>
+
+    @GET("/friend-requests/{userId}")
+    fun getUserFriendRequest(@Path("userId") userId: String): Deferred<FriendRequest>
 
     @DELETE("/friendships/{friendshipId}")
     fun removeFriend(@Path("friendshipId") friendshipId: String): Deferred<Response<Void>>
