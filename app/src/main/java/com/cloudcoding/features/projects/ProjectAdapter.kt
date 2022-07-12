@@ -49,6 +49,7 @@ class ProjectAdapter(val projects: MutableList<Project>, private val action: Int
         when (projects[position].language) {
             ProjectLanguage.ANGULAR -> cell.languageThumbnail.setImageResource(R.drawable.ic_angular)
             ProjectLanguage.QUARKUS -> cell.languageThumbnail.setImageResource(R.drawable.ic_quarkus)
+            ProjectLanguage.NESTJS -> cell.languageThumbnail.setImageResource(R.drawable.ic_nestjs)
             else -> cell.languageThumbnail.setImageResource(R.drawable.ic_react)
         }
         if (projects[position].creatorId == userId) {
