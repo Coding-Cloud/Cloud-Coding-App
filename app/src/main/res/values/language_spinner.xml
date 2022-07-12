@@ -4,5 +4,6 @@
         <item>ANGULAR</item>
         <item>REACT</item>
         <item>QUARKUS</item>
+        <item>NESTJS</item>
     </string-array>
 </resources>
