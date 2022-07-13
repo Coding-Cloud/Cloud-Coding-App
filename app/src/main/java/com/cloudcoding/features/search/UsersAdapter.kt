@@ -10,7 +10,6 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import com.cloudcoding.R
 import com.cloudcoding.api.CloudCodingNetworkManager
-import com.cloudcoding.models.GroupMembership
 import com.cloudcoding.models.User
 import kotlinx.coroutines.*
 

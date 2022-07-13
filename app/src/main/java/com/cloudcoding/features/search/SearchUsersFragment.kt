@@ -7,14 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cloudcoding.R
 import com.cloudcoding.api.CloudCodingNetworkManager
 import com.cloudcoding.api.response.UsersResponse
 import com.cloudcoding.utils.PaginationScrollListener
-import kotlinx.android.synthetic.main.followers_fragment.*
 import kotlinx.android.synthetic.main.users_fragment.*
 import kotlinx.coroutines.*
 
@@ -43,7 +41,7 @@ class SearchUsersFragment : Fragment() {
         val users = UsersResponse(mutableListOf(), 0)
         user_list.run {
             layoutManager = LinearLayoutManager(this@SearchUsersFragment.context)
-            adapter = UsersAdapter(users.users, 0)//TODO
+            adapter = UsersAdapter(users.users, R.id.action_nav_item_search_to_nav_item_profile)
             addItemDecoration(
                 DividerItemDecoration(
                     context,

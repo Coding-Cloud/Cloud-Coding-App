@@ -15,7 +15,6 @@ import com.cloudcoding.api.response.ProjectsResponse
 import com.cloudcoding.features.projects.ProjectAdapter
 import com.cloudcoding.utils.PaginationScrollListener
 import kotlinx.android.synthetic.main.projects_fragment.*
-import kotlinx.android.synthetic.main.users_fragment.*
 import kotlinx.coroutines.*
 
 class SearchProjectsFragment : Fragment() {
@@ -43,7 +42,7 @@ class SearchProjectsFragment : Fragment() {
         val projects = ProjectsResponse(mutableListOf(), 0)
         project_list.run {
             layoutManager = LinearLayoutManager(this@SearchProjectsFragment.context)
-            adapter = ProjectAdapter(projects.projects, 0)//TODO
+            adapter = ProjectAdapter(projects.projects, R.id.action_nav_item_search_to_projectDetailsFragment)
             addItemDecoration(
                 DividerItemDecoration(
                     context,
