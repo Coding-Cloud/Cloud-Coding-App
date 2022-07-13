@@ -5,9 +5,7 @@ import android.util.Log
 import com.cloudcoding.MainActivity
 import com.cloudcoding.R
 import com.cloudcoding.api.request.*
-import com.cloudcoding.api.response.CommentsResponse
-import com.cloudcoding.api.response.FollowersResponse
-import com.cloudcoding.api.response.TokenResponse
+import com.cloudcoding.api.response.*
 import com.cloudcoding.models.*
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
@@ -222,5 +220,13 @@ object CloudCodingNetworkManager {
 
     suspend fun rejectFriendRequest(userId: String): Response<Void> {
         return retrofit.rejectFriendRequest(userId).await()
+    }
+
+    suspend fun getUsers(search: String?, limit: Number?, offset: Number?): UsersResponse {
+        return retrofit.getUsers(search, limit, offset).await()
+    }
+
+    suspend fun getProjects(search: String?, limit: Number?, offset: Number?): ProjectsResponse {
+        return retrofit.getProjects(search, limit, offset).await()
     }
 }

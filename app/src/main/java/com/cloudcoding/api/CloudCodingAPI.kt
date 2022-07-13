@@ -4,9 +4,7 @@ import com.cloudcoding.api.request.CreateCommentRequest
 import com.cloudcoding.api.request.CreateProjectRequest
 import com.cloudcoding.api.request.LoginRequest
 import com.cloudcoding.api.request.SignupRequest
-import com.cloudcoding.api.response.CommentsResponse
-import com.cloudcoding.api.response.FollowersResponse
-import com.cloudcoding.api.response.TokenResponse
+import com.cloudcoding.api.response.*
 import com.cloudcoding.models.*
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
@@ -148,4 +146,22 @@ interface CloudCodingAPI {
 
     @DELETE("/friend-requests/reject/{userId}")
     fun rejectFriendRequest(@Path("userId") userId: String): Deferred<Response<Void>>
+
+    @GET("/users")
+    fun getUsers(
+        @Query("search")
+        search: String?,
+        @Query("limit")
+        limit: Number?,
+        @Query("offset")
+        offset: Number?): Deferred<UsersResponse>
+
+    @GET("/projects")
+    fun getProjects(
+        @Query("search")
+        search: String?,
+        @Query("limit")
+        limit: Number?,
+        @Query("offset")
+        offset: Number?): Deferred<ProjectsResponse>
 }

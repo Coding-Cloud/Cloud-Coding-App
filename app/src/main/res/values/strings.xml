@@ -57,4 +57,5 @@
     <string name="email_address">Email address</string>
     <string name="lastname">Lastname</string>
     <string name="firstname">Firstname</string>
+    <string name="users">Users</string>
 </resources>
