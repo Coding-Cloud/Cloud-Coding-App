@@ -14,6 +14,7 @@ import com.google.gson.reflect.TypeToken
 import io.socket.client.IO
 import io.socket.client.Socket
 import org.json.JSONObject
+import java.lang.Exception
 import java.lang.reflect.Type
 
 
@@ -28,6 +29,7 @@ object SocketManager {
         )!!
         val token = preference.getString("token", "")!!
         val opts = IO.Options()
+        opts.transports = arrayOf("websocket")
         opts.extraHeaders = hashMapOf<String, List<String>>("authorization" to listOf(token))
         val socket = IO.socket("https://api.dev.cloudcoding.fr/social-network", opts)
         socket.connect()
