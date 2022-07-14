@@ -10,6 +10,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
@@ -18,6 +19,9 @@ import com.cloudcoding.MainActivity
 import com.cloudcoding.R
 import com.cloudcoding.api.CloudCodingNetworkManager
 import com.cloudcoding.api.request.GetFollowersRequest
+import com.cloudcoding.features.comments.ProfileCommentsModel
+import com.cloudcoding.features.groups.GroupsModel
+import com.cloudcoding.features.projects.ProjectsModel
 import com.cloudcoding.setTextBold
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -25,6 +29,9 @@ import kotlinx.android.synthetic.main.profile_fragment.*
 import kotlinx.coroutines.*
 
 class ProfileFragment : Fragment() {
+    private val groupsModel: GroupsModel by activityViewModels()
+    private val projectsModel: ProjectsModel by activityViewModels()
+    private val commentsModel: ProfileCommentsModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
         parent: ViewGroup?,
@@ -188,8 +195,13 @@ class ProfileFragment : Fragment() {
                 if (userId == currentUserId) {
                     viewpager.adapter = MyProfileAdapter(this@ProfileFragment)
                 } else {
+                    commentsModel.selectUserId(userId)
+                    projectsModel.selectProjects(projects)
+                    projectsModel.selectAction(R.id.action_nav_item_profile_to_projectDetailsFragment)
+                    groupsModel.selectGroups(groups)
+                    groupsModel.selectAction(R.id.action_nav_item_profile_to_groupDetailsFragment)
                     viewpager.adapter =
-                        ProfileAdapter(userId, projects, groups, this@ProfileFragment)
+                        ProfileAdapter(this@ProfileFragment)
                     if (isFollowed) {
                         follow_button.text = getString(R.string.unfollow)
                     } else {

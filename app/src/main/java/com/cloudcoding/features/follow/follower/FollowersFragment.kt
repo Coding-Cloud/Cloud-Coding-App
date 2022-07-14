@@ -5,17 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cloudcoding.R
 import com.cloudcoding.api.CloudCodingNetworkManager
 import com.cloudcoding.api.request.GetFollowersRequest
 import com.cloudcoding.api.response.FollowersResponse
+import com.cloudcoding.features.follow.FollowModel
 import com.cloudcoding.utils.PaginationScrollListener
 import kotlinx.android.synthetic.main.followers_fragment.*
 import kotlinx.coroutines.*
 
-class FollowersFragment(val userId: String) : Fragment() {
+class FollowersFragment : Fragment() {
+    private val model: FollowModel by activityViewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         parent: ViewGroup?,
@@ -58,6 +62,7 @@ class FollowersFragment(val userId: String) : Fragment() {
             }
 
             override fun loadMoreItems() {
+                val userId = model.getSelected().value!!
                 loading = true
                 jobs.add(GlobalScope.launch(Dispatchers.Default) {
                     val size = followers.followers.size
@@ -89,6 +94,7 @@ class FollowersFragment(val userId: String) : Fragment() {
             }
         })
         jobs.add(GlobalScope.launch(Dispatchers.Default) {
+            val userId = model.getSelected().value!!
             val followersResponse =
                 CloudCodingNetworkManager.getFollowers(GetFollowersRequest(userId, 25, 0))
             followers.followers.addAll(followersResponse.followers)
