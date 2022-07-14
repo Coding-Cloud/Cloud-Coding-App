@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cloudcoding.R
 import com.cloudcoding.api.CloudCodingNetworkManager
 import com.cloudcoding.api.SocketManager
+import com.cloudcoding.features.comments.MyImageGetter
 import com.cloudcoding.models.Message
 import com.cloudcoding.models.User
 import kotlinx.coroutines.*
@@ -62,13 +63,14 @@ class MessageAdapter(
             }
         }
         val content = JSONObject(messages[position].content).getString("html")
-        holder.content.text = Html.fromHtml(content, Html.FROM_HTML_MODE_COMPACT)
+        val imageGetter = MyImageGetter(holder.itemView.context, holder.content,100,100)
         val date = SimpleDateFormat(
             holder.itemView.context.getString(R.string.date_format),
             Locale.FRANCE
         ).format(messages[position].createdAt)
         holder.date.text = date
         jobs.add(GlobalScope.launch(Dispatchers.Default) {
+            holder.content.text = Html.fromHtml(content, Html.FROM_HTML_MODE_COMPACT, imageGetter, null)
             val user = if (users.containsKey(messages[position].userId)) {
                 users[messages[position].userId]
             } else {
@@ -85,13 +87,14 @@ class MessageAdapter(
 
     private fun bindMessageReceived(holder: MessageReceivedItem, position: Int) {
         val content = JSONObject(messages[position].content).getString("html")
-        holder.content.text = Html.fromHtml(content, Html.FROM_HTML_MODE_COMPACT)
+        val imageGetter = MyImageGetter(holder.itemView.context, holder.content,100,100)
         val date = SimpleDateFormat(
             holder.itemView.context.getString(R.string.date_format),
             Locale.FRANCE
         ).format(messages[position].createdAt)
         holder.date.text = date
         jobs.add(GlobalScope.launch(Dispatchers.Default) {
+            holder.content.text = Html.fromHtml(content, Html.FROM_HTML_MODE_COMPACT, imageGetter, null)
             val user = if (users.containsKey(messages[position].userId)) {
                 users[messages[position].userId]
             } else {
