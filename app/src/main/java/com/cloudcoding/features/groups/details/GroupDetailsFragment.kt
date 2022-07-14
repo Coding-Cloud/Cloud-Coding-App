@@ -6,12 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import com.cloudcoding.R
 import com.cloudcoding.api.CloudCodingNetworkManager
+import com.cloudcoding.features.members.MembersModel
+import com.cloudcoding.features.projects.ProjectsModel
 import com.cloudcoding.setTextBold
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -19,6 +22,8 @@ import kotlinx.android.synthetic.main.group_details_fragment.*
 import kotlinx.coroutines.*
 
 class GroupDetailsFragment : Fragment() {
+    private val membersModel: MembersModel by activityViewModels()
+    private val projectsModel: ProjectsModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
         parent: ViewGroup?,
@@ -52,8 +57,12 @@ class GroupDetailsFragment : Fragment() {
             withContext(Dispatchers.Main) {
                 name.text = group.name
                 members.setTextBold(getString(R.string.members_count, memberList.size))
+
+                projectsModel.selectProjects(projects)
+                projectsModel.selectAction(R.id.action_groupDetailsFragment_to_projectDetailsFragment)
+                membersModel.selectMembers(memberList)
                 viewpager.adapter =
-                    GroupDetailsAdapter(projects, memberList, this@GroupDetailsFragment)
+                    GroupDetailsAdapter(this@GroupDetailsFragment)
                 TabLayoutMediator(tabLayout, viewpager) { tab: TabLayout.Tab, i: Int ->
                     when (i) {
                         0 -> tab.text = "Projects"

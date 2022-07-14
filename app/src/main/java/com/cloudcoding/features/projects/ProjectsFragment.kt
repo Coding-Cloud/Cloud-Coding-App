@@ -6,6 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,7 +16,8 @@ import com.cloudcoding.R
 import com.cloudcoding.models.Project
 import kotlinx.android.synthetic.main.projects_fragment.*
 
-class ProjectsFragment(val projects: MutableList<Project>, val action: Int) : Fragment() {
+class ProjectsFragment : Fragment() {
+    private val projectsModel: ProjectsModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
         parent: ViewGroup?,
@@ -30,6 +34,8 @@ class ProjectsFragment(val projects: MutableList<Project>, val action: Int) : Fr
                     findNavController().popBackStack()
                 }
             })
+        val projects = projectsModel.getProjects().value!!
+        val action = projectsModel.getAction().value!!
         project_list.run {
             layoutManager = LinearLayoutManager(this@ProjectsFragment.context)
             adapter = ProjectAdapter(
@@ -43,5 +49,25 @@ class ProjectsFragment(val projects: MutableList<Project>, val action: Int) : Fr
                 )
             )
         }
+    }
+}
+
+class ProjectsModel : ViewModel() {
+    private val selectProjects = MutableLiveData<MutableList<Project>>()
+    private val selectAction = MutableLiveData<Int>()
+    fun selectProjects(projects: MutableList<Project>) {
+        selectProjects.value = projects
+    }
+
+    fun getProjects(): MutableLiveData<MutableList<Project>> {
+        return selectProjects
+    }
+
+    fun selectAction(action: Int) {
+        selectAction.value = action
+    }
+
+    fun getAction(): MutableLiveData<Int> {
+        return selectAction
     }
 }

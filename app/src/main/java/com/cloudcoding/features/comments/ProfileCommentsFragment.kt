@@ -6,6 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,8 +20,8 @@ import com.cloudcoding.utils.PaginationScrollListener
 import kotlinx.android.synthetic.main.comments_fragment.*
 import kotlinx.coroutines.*
 
-class ProfileCommentsFragment(val userId: String) :
-    Fragment() {
+class ProfileCommentsFragment :Fragment() {
+    private val commentsModel: ProfileCommentsModel by activityViewModels()
     private var loading = false
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,6 +50,7 @@ class ProfileCommentsFragment(val userId: String) :
             })
         var comments: CommentsResponse
         jobs.add(GlobalScope.launch(Dispatchers.Default) {
+            val userId = commentsModel.getUserId().value!!
             comments = CloudCodingNetworkManager.getUserComments(
                 GetCommentsRequest(
                     userId,
@@ -112,5 +116,16 @@ class ProfileCommentsFragment(val userId: String) :
             })
         })
 
+    }
+}
+
+class ProfileCommentsModel : ViewModel() {
+    private val selectUserId = MutableLiveData<String>()
+    fun selectUserId(userId: String) {
+        selectUserId.value = userId
+    }
+
+    fun getUserId(): MutableLiveData<String> {
+        return selectUserId
     }
 }
