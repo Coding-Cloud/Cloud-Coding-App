@@ -5,6 +5,9 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.request.RequestOptions
 import com.cloudcoding.R
 import com.cloudcoding.api.CloudCodingNetworkManager
 import com.cloudcoding.features.follow.FollowItem
@@ -60,6 +63,12 @@ class FollowerAdapter(val followers: MutableList<Follower>) : RecyclerView.Adapt
                 }
             })
         }
+        Glide.with(cell.profilePicture.context)
+            .load("https://i.pravatar.cc/100")
+            .centerCrop()
+            .apply(RequestOptions.bitmapTransform(CircleCrop()))
+            .placeholder(R.drawable.ic_user)
+            .into(cell.profilePicture)
         jobs.add(GlobalScope.launch(Dispatchers.Default) {
             val user = CloudCodingNetworkManager.getUserById(userId)
             isFollowed = CloudCodingNetworkManager.isFollowing(userId)

@@ -31,7 +31,7 @@ object SocketManager {
         val opts = IO.Options()
         opts.transports = arrayOf("websocket")
         opts.extraHeaders = hashMapOf<String, List<String>>("authorization" to listOf(token))
-        val socket = IO.socket("https://api.dev.cloudcoding.fr/social-network", opts)
+        val socket = IO.socket("https://api.cloudcoding.fr/social-network", opts)
         socket.connect()
         return socket
     }
@@ -60,6 +60,7 @@ object SocketManager {
         connection.on("conversations") { args ->
             val listType: Type = object : TypeToken<List<Conversation>?>() {}.type
             val conversations: List<Conversation> = gson.fromJson(args[0].toString(), listType)
+            println(conversations)
             a(conversations)
         }
     }
@@ -77,6 +78,7 @@ object SocketManager {
     }
 
     fun getConversations(getConversationsRequest: GetConversationsRequest) {
+        println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
         connection.emit("getConversations", JSONObject(gson.toJson(getConversationsRequest)))
     }
 
