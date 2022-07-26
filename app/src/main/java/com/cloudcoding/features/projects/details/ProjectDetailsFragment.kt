@@ -52,6 +52,7 @@ class ProjectDetailsFragment : Fragment() {
                     ProjectLanguage.ANGULAR -> language_thumbnail.setImageResource(R.drawable.ic_angular)
                     ProjectLanguage.QUARKUS -> language_thumbnail.setImageResource(R.drawable.ic_quarkus)
                     ProjectLanguage.NESTJS -> language_thumbnail.setImageResource(R.drawable.ic_nestjs)
+                    ProjectLanguage.FLASK -> language_thumbnail.setImageResource(R.drawable.ic_flask)
                     else -> language_thumbnail.setImageResource(R.drawable.ic_react)
                 }
                 comment_list.run {
