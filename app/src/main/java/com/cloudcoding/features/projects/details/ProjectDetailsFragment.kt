@@ -66,12 +66,15 @@ class ProjectDetailsFragment : Fragment() {
                     )
                 }
                 send.setOnClickListener {
+                    val comment = comment_text.text.toString().trim()
+                    if (comment.isBlank()) {
+                        return@setOnClickListener
+                    }
                     GlobalScope.launch(Dispatchers.Default) {
-
                         val json = JSONObject()
                         json.put(
                             "html",
-                            getString(R.string.comment_html, comment_text.text.toString())
+                            getString(R.string.comment_html, comment)
                         )
                         val commentId = CloudCodingNetworkManager.createComment(
                             CreateCommentRequest(

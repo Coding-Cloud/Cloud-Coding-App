@@ -116,8 +116,12 @@ class ConversationFragment : Fragment() {
         }
 
         send.setOnClickListener {
+            val message = message_text.text.toString().trim()
+            if(message.isBlank()){
+                return@setOnClickListener
+            }
             val json = JSONObject()
-            json.put("html", getString(R.string.comment_html, message_text.text.toString()))
+            json.put("html", getString(R.string.comment_html, message))
             SocketManager.createMessage(
                 MessageRequest(
                     conversationId,
