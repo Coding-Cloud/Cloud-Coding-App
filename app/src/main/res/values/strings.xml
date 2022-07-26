@@ -41,9 +41,11 @@
     <string name="friend_requests">Friend requests</string>
     <string name="members_count">%1$d members</string>
     <string name="members">Members</string>
+    <string name="login_continue">Login to continue</string>
     <string name="login">Login</string>
     <string name="password">Password</string>
     <string name="signup">Signup</string>
+    <string name="create_account">Create an account</string>
     <string name="username_str">Username</string>
     <string name="error_login">Error can\'t log you in</string>
     <string name="options">options</string>
@@ -56,4 +58,6 @@
     <string name="lastname">Lastname</string>
     <string name="firstname">Firstname</string>
     <string name="users">Users</string>
+    <string name="have_no_account">Don\'t have an account?</string>
+    <string name="have_an_account">Already have an account?</string>
 </resources>
