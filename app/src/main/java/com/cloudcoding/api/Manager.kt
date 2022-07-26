@@ -47,7 +47,7 @@ object CloudCodingNetworkManager {
             response
         }.build()
         return Retrofit.Builder()
-            .baseUrl("https://api.dev.cloudcoding.fr/")
+            .baseUrl("https://api.cloudcoding.fr/")
             .client(httpClient)
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
