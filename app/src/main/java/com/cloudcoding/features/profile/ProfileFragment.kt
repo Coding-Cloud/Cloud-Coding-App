@@ -68,6 +68,7 @@ class ProfileFragment : Fragment() {
             follow_button.visibility = View.GONE
             friend_button.visibility = View.GONE
         } else {
+            friendDisplay(userId)
             follow_button.setOnClickListener {
                 isFollowed = !isFollowed
                 if (isFollowed) {
@@ -110,16 +111,7 @@ class ProfileFragment : Fragment() {
             val projects = CloudCodingNetworkManager.getUserProjects(userId)
             val groups = mutableListOf<Any>()
             val groupMemberships = CloudCodingNetworkManager.getUserGroups(userId)
-            val friendRequest = try {
-                CloudCodingNetworkManager.getUserFriendRequest(userId)
-            } catch (e: Exception) {
-                null
-            }
-            val friendship = try {
-                CloudCodingNetworkManager.getUserFriendship(userId)
-            } catch (e: Exception) {
-                null
-            }
+
             groups.addAll(groupMemberships.map { CloudCodingNetworkManager.getGroupById(it.groupId) })
             isFollowed = CloudCodingNetworkManager.isFollowing(userId)
             withContext(Dispatchers.Main) {
@@ -137,60 +129,6 @@ class ProfileFragment : Fragment() {
                         followingList.totalResults
                     )
                 )
-                if (friendRequest != null) {
-                    friend_button.visibility = View.GONE
-                } else {
-                    friend_button.setOnClickListener {
-                        jobs.add(GlobalScope.launch(Dispatchers.Default) {
-                            if (friendship != null) {
-                                CloudCodingNetworkManager.removeFriend(userId)
-                                friend_button.setImageDrawable(
-                                    AppCompatResources.getDrawable(
-                                        requireContext(),
-                                        R.drawable.ic_user_plus
-                                    )
-                                )
-                                friend_button.setColorFilter(
-                                    ContextCompat.getColor(
-                                        requireContext(),
-                                        R.color.colorAccent
-                                    ), android.graphics.PorterDuff.Mode.SRC_IN
-                                )
-                            } else {
-                                CloudCodingNetworkManager.sendFriendRequest(userId)
-                                friend_button.visibility = View.GONE
-                            }
-                        })
-                    }
-                    if (friendship != null) {
-                        friend_button.setImageDrawable(
-                            AppCompatResources.getDrawable(
-                                requireContext(),
-                                R.drawable.ic_user_minus
-                            )
-                        )
-                        friend_button.setColorFilter(
-                            ContextCompat.getColor(
-                                requireContext(),
-                                R.color.colorDanger
-                            ), android.graphics.PorterDuff.Mode.SRC_IN
-                        )
-
-                    } else {
-                        friend_button.setImageDrawable(
-                            AppCompatResources.getDrawable(
-                                requireContext(),
-                                R.drawable.ic_user_plus
-                            )
-                        )
-                        friend_button.setColorFilter(
-                            ContextCompat.getColor(
-                                requireContext(),
-                                R.color.colorAccent
-                            ), android.graphics.PorterDuff.Mode.SRC_IN
-                        )
-                    }
-                }
 
                 if (userId == currentUserId) {
                     viewpager.adapter = MyProfileAdapter(this@ProfileFragment)
@@ -223,5 +161,82 @@ class ProfileFragment : Fragment() {
             .apply(RequestOptions.bitmapTransform(CircleCrop()))
             .placeholder(R.drawable.ic_user)
             .into(profile_picture)
+    }
+
+    private fun friendDisplay(userId: String) {
+        jobs.add(GlobalScope.launch(Dispatchers.Default) {
+            val friendRequest = try {
+                CloudCodingNetworkManager.getUserFriendRequest(userId)
+            } catch (e: Exception) {
+                null
+            }
+            var friendship = try {
+                CloudCodingNetworkManager.getUserFriendship(userId)
+            } catch (e: Exception) {
+                null
+            }
+            withContext(Dispatchers.Main) {
+                friend_button.setOnClickListener {
+                    jobs.add(GlobalScope.launch(Dispatchers.Default) {
+                        if (friendship != null) {
+                            CloudCodingNetworkManager.removeFriend(friendship!!.id)
+                        } else {
+                            CloudCodingNetworkManager.sendFriendRequest(userId)
+                        }
+                        withContext(Dispatchers.Main) {
+                            if (friendship != null) {
+                                friend_button.setImageDrawable(
+                                    AppCompatResources.getDrawable(
+                                        requireContext(),
+                                        R.drawable.ic_user_plus
+                                    )
+                                )
+                                friend_button.setColorFilter(
+                                    ContextCompat.getColor(
+                                        requireContext(),
+                                        R.color.colorAccent
+                                    ), android.graphics.PorterDuff.Mode.SRC_IN
+                                )
+                                friendship = null
+                            } else {
+                                friend_button.visibility = View.GONE
+                            }
+                        }
+                    })
+                }
+                if (friendship != null) {
+                    friend_button.setImageDrawable(
+                        AppCompatResources.getDrawable(
+                            requireContext(),
+                            R.drawable.ic_user_minus
+                        )
+                    )
+                    friend_button.setColorFilter(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.colorDanger
+                        ), android.graphics.PorterDuff.Mode.SRC_IN
+                    )
+
+                } else {
+                    if (friendRequest != null) {
+                        friend_button.visibility = View.GONE
+                    } else {
+                        friend_button.setImageDrawable(
+                            AppCompatResources.getDrawable(
+                                requireContext(),
+                                R.drawable.ic_user_plus
+                            )
+                        )
+                        friend_button.setColorFilter(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.colorAccent
+                            ), android.graphics.PorterDuff.Mode.SRC_IN
+                        )
+                    }
+                }
+            }
+        })
     }
 }
