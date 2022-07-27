@@ -48,6 +48,7 @@ class ProjectAdapter(val projects: MutableList<Project>, private val action: Int
         cell.name.text = projects[position].name
         when (projects[position].language) {
             ProjectLanguage.ANGULAR -> cell.languageThumbnail.setImageResource(R.drawable.ic_angular)
+            ProjectLanguage.CC -> cell.languageThumbnail.setImageResource(R.drawable.ic_angular)
             ProjectLanguage.QUARKUS -> cell.languageThumbnail.setImageResource(R.drawable.ic_quarkus)
             ProjectLanguage.NESTJS -> cell.languageThumbnail.setImageResource(R.drawable.ic_nestjs)
             ProjectLanguage.FLASK -> cell.languageThumbnail.setImageResource(R.drawable.ic_flask)

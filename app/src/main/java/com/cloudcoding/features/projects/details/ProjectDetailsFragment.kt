@@ -50,6 +50,7 @@ class ProjectDetailsFragment : Fragment() {
                 title.text = project.name
                 when (project.language) {
                     ProjectLanguage.ANGULAR -> language_thumbnail.setImageResource(R.drawable.ic_angular)
+                    ProjectLanguage.CC -> language_thumbnail.setImageResource(R.drawable.ic_angular)
                     ProjectLanguage.QUARKUS -> language_thumbnail.setImageResource(R.drawable.ic_quarkus)
                     ProjectLanguage.NESTJS -> language_thumbnail.setImageResource(R.drawable.ic_nestjs)
                     ProjectLanguage.FLASK -> language_thumbnail.setImageResource(R.drawable.ic_flask)

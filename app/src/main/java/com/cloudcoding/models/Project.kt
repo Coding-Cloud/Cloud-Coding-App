@@ -16,7 +16,7 @@ data class Project(
 )
 
 enum class ProjectLanguage {
-    ANGULAR, REACT, QUARKUS, NESTJS, FLASK
+    ANGULAR, REACT, QUARKUS, NESTJS, FLASK, CC
 }
 
 enum class ProjectStatus {
