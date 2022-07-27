@@ -88,8 +88,6 @@ class MyImageGetter(val context : Context, val textView : TextView, val height :
 
         drawable.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
 
-        textView.text = textView.text
-
         return drawable
     }
 }
