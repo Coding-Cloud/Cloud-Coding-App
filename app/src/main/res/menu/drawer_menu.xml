@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group>
+        <item
+            android:id="@+id/nav_item_profile"
+            android:title="@string/profile" />
+        <item
+            android:id="@+id/nav_item_friends"
+            android:title="@string/friends" />
+        <item
+            android:id="@+id/nav_item_groups"
+            android:title="@string/groups" />
+    </group>
+
+    <group android:id="@+id/group_menu">
+        <item
+            android:id="@+id/nav_item_disconnect"
+            android:onClick="onOptionsItemSelected"
+            android:title="@string/disconnect" />
+    </group>
+</menu>
